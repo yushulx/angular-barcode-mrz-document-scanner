@@ -1,5 +1,5 @@
 {
-  "name": "my-app",
+  "name": "barcode-qrcode-app",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
