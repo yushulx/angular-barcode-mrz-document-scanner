@@ -81,23 +81,22 @@ export class BarcodeReaderComponent implements OnInit {
   }
 
   onChange(event: Event) {
-    var globalObject = this;
     const element = event.currentTarget as HTMLInputElement;
     let fileList: FileList | null = element.files;
     if (fileList) {
       let file = fileList.item(0) as any;
       if (file) {
         let fr = new FileReader();
-        fr.onload = function (event: any) {
+        fr.onload = (event: any) => {
           let image = document.getElementById('image') as HTMLImageElement;
           if (image) {
             image.src = event.target.result;
             const img = new Image();
 
             img.onload = (event: any) => {
-              globalObject.updateOverlay(img.width, img.height);
-              if (globalObject.reader) {
-                globalObject.reader.decode(file).then(function (results: any) {
+              this.updateOverlay(img.width, img.height);
+              if (this.reader) {
+                this.reader.decode(file).then((results: any) => {
                   console.log(results);
                   let txts: any = [];
                   let elem = document.getElementById('result');
@@ -107,7 +106,7 @@ export class BarcodeReaderComponent implements OnInit {
                       for (var i = 0; i < results.length; ++i) {
                         txts.push(results[i].barcodeText);
                         localization = results[i].localizationResult;
-                        globalObject.drawOverlay(
+                        this.drawOverlay(
                           localization,
                           results[i].barcodeText
                         );
