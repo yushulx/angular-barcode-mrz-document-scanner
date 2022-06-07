@@ -30,6 +30,11 @@ typescript                      4.6.4
 
 ```
 
+## Online Demo
+[https://yushulx.me/angular-barcode-qr-code-scanner/barcode-scanner](https://yushulx.me/angular-barcode-qr-code-scanner/barcode-scanner)
+
+## Online Coding
+[https://stackblitz.com/edit/angular-9f1xyn](https://stackblitz.com/edit/angular-9f1xyn)
 
 ## Usage
 1. Apply for a [30-day free trial license](https://www.dynamsoft.com/customer/license/trialLicense?product=dbr) of Dynamsoft Barcode SDK.
