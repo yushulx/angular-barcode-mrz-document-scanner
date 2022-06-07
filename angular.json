@@ -24,7 +24,12 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/dynamsoft-javascript-barcode/dist",
+                "output": "assets/dynamsoft-javascript-barcode"
+              }
             ],
             "styles": [
               "src/styles.css"
@@ -91,7 +96,12 @@
             "karmaConfig": "karma.conf.js",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/dynamsoft-javascript-barcode/dist",
+                "output": "assets/dynamsoft-javascript-barcode"
+              }
             ],
             "styles": [
               "src/styles.css"

@@ -1,1 +1,14 @@
-<p>barcode-reader works!</p>
+<span id="loading-status" style="font-size:x-large" [hidden]="isLoaded"
+  >Loading Library...</span
+>
+<br />
+
+<input type="file" id="file" accept="image/*" (change)="onChange($event)" />
+<div>
+  <a id="result"></a>
+</div>
+
+<div id="imageview">
+  <img id="image" />
+  <canvas id="overlay"></canvas>
+</div>

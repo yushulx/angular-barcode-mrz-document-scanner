@@ -1,0 +1,28 @@
+<h2>Examples</h2>
+
+<div *ngFor="let product of products">
+  <h3>
+    <div *ngIf="product.id === 'reader'; else elseBlock">
+      <a [title]="product.name + ' details'" [routerLink]="['/barcode-reader']"
+        >>
+        {{ product.name }}
+      </a>
+    </div>
+    <ng-template #elseBlock
+      ><a
+        [title]="product.name + ' details'"
+        [routerLink]="['/barcode-scanner']"
+        >>
+        {{ product.name }}
+      </a></ng-template
+    >
+  </h3>
+
+  <p *ngIf="product.description">Description: {{ product.description }}</p>
+</div>
+
+<!-- 
+Copyright Google LLC. All Rights Reserved.
+Use of this source code is governed by an MIT-style license that
+can be found in the LICENSE file at https://angular.io/license
+-->
