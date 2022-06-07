@@ -54,6 +54,8 @@ typescript                      4.6.4
     ```bash
     ng serve --ssl
     ```
+    
+    ![Angular Barcode and QR Code scanner](https://www.dynamsoft.com/codepool/img/2022/06/angular-barcode-qrcode-scanner.png)
 
 ## Build
 
