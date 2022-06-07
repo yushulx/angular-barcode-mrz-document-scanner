@@ -5,6 +5,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BarcodeReaderComponent } from './barcode-reader/barcode-reader.component';
 import { BarcodeScannerComponent } from './barcode-scanner/barcode-scanner.component';
+import { ProductListComponent } from './product-list/product-list.component';
+import { TopBarComponent } from './top-bar/top-bar.component';
 
 // import {NgxBarcodeQrcodeModule} from 'ngx-barcode-qrcode';
 
@@ -13,11 +15,13 @@ import { BarcodeScannerComponent } from './barcode-scanner/barcode-scanner.compo
     AppComponent,
     BarcodeReaderComponent,
     BarcodeScannerComponent,
+    ProductListComponent,
+    TopBarComponent,
     
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
