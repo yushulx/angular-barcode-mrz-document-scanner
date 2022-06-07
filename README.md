@@ -44,10 +44,10 @@ typescript                      4.6.4
     npm install
     ```
 
-4. Run the Angular application:
+4. `HTTPS` is required for web camera access. Run the Angular application as follows:
     
     ```bash
-    ng serve
+    ng serve --ssl
     ```
 
 ## Build
