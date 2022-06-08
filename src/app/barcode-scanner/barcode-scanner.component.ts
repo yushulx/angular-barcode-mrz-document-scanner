@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BarcodeScanner } from 'dynamsoft-javascript-barcode';
+import { OverlayManager } from '../overlay';
 
 @Component({
   selector: 'app-barcode-scanner',
@@ -13,12 +14,15 @@ export class BarcodeScannerComponent implements OnInit {
   scanner: BarcodeScanner | undefined;
   cameraInfo: any = {};
   videoSelect: HTMLSelectElement | undefined;
+  overlayManager: OverlayManager;
 
-  constructor() { }
+  constructor() { 
+    this.overlayManager = new OverlayManager();
+  }
 
   ngOnInit(): void {
     this.videoSelect = document.querySelector('select#videoSource') as HTMLSelectElement;
-    this.initOverlay();
+    this.overlayManager.initOverlay(document.getElementById('overlay') as HTMLCanvasElement);
     (async () => {
       await this.initBarcodeScanner();
     })();
@@ -27,7 +31,7 @@ export class BarcodeScannerComponent implements OnInit {
   updateResolution(): void {
     if (this.scanner) {
       let resolution = this.scanner.getResolution();
-      this.updateOverlay(resolution[0], resolution[1]);
+      this.overlayManager.updateOverlay(resolution[0], resolution[1]);
     }
   }
 
@@ -42,7 +46,7 @@ export class BarcodeScannerComponent implements OnInit {
       this.listCameras(cameras);
       await this.openCamera();
       this.scanner.onFrameRead = results => {
-        this.clearOverlay();
+        this.overlayManager.clearOverlay();
 
         let txts = [];
         let resultElement = document.getElementById('result');
@@ -52,7 +56,7 @@ export class BarcodeScannerComponent implements OnInit {
             for (var i = 0; i < results.length; ++i) {
               txts.push(results[i].barcodeText);
               localization = results[i].localizationResult;
-              this.drawOverlay(localization, results[i].barcodeText);
+              this.overlayManager.drawOverlay(localization, results[i].barcodeText);
             }
             if (resultElement) {
               resultElement.innerHTML = txts.join(', ');
@@ -76,7 +80,7 @@ export class BarcodeScannerComponent implements OnInit {
   }
 
   async openCamera(): Promise<void> {
-    this.clearOverlay();
+    this.overlayManager.clearOverlay();
     if (this.videoSelect) {
       let deviceId = this.videoSelect.value;
       if (this.scanner) {
@@ -94,64 +98,6 @@ export class BarcodeScannerComponent implements OnInit {
       option.text = deviceInfo.label;
       this.cameraInfo[deviceInfo.deviceId] = deviceInfo;
       if (this.videoSelect) this.videoSelect.appendChild(option);
-    }
-  }
-
-  initOverlay(): void {
-    this.overlay = document.getElementById('overlay') as HTMLCanvasElement;
-    this.context = this.overlay.getContext('2d') as CanvasRenderingContext2D;
-  }
-
-  updateOverlay(width: number, height: number): void {
-    if (this.overlay) {
-      this.overlay.width = width;
-      this.overlay.height = height;
-      this.clearOverlay();
-    }
-  }
-
-  clearOverlay(): void {
-    if (this.context && this.overlay) {
-      this.context.clearRect(0, 0, this.overlay.width, this.overlay.height);
-      this.context.strokeStyle = '#ff0000';
-      this.context.lineWidth = 5;
-    }
-  }
-
-  drawOverlay(localization: any, text: any): void {
-    if (this.context) {
-      this.context.beginPath();
-      this.context.moveTo(localization.x1, localization.y1);
-      this.context.lineTo(localization.x2, localization.y2);
-      this.context.lineTo(localization.x3, localization.y3);
-      this.context.lineTo(localization.x4, localization.y4);
-      this.context.lineTo(localization.x1, localization.y1);
-      this.context.stroke();
-
-      this.context.font = '18px Verdana';
-      this.context.fillStyle = '#ff0000';
-      let x = [
-        localization.x1,
-        localization.x2,
-        localization.x3,
-        localization.x4,
-      ];
-      let y = [
-        localization.y1,
-        localization.y2,
-        localization.y3,
-        localization.y4,
-      ];
-      x.sort(function (a, b) {
-        return a - b;
-      });
-      y.sort(function (a, b) {
-        return b - a;
-      });
-      let left = x[0];
-      let top = y[0];
-
-      this.context.fillText(text, left, top + 50);
     }
   }
 }
