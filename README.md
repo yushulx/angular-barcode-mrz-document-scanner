@@ -61,3 +61,6 @@ typescript                      4.6.4
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
+
+## Blog
+[How to Build Angular Barcode and QR Code Scanner Apps from Scratch](https://www.dynamsoft.com/codepool/angular-barcode-qr-code-scanner.html)
