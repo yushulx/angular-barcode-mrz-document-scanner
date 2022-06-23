@@ -7,8 +7,7 @@ import { BarcodeReaderComponent } from './barcode-reader/barcode-reader.componen
 import { BarcodeScannerComponent } from './barcode-scanner/barcode-scanner.component';
 import { ProductListComponent } from './product-list/product-list.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
-import {NgxBarcodeQrcodeSdkModule} from 'ngx-barcode-qrcode-sdk';
-// import {NgxBarcodeQrcodeModule} from 'ngx-barcode-qrcode';
+import { NgxBarcodeQrcodeSdkModule } from 'ngx-barcode-qrcode-sdk';
 
 @NgModule({
   declarations: [
@@ -21,7 +20,7 @@ import {NgxBarcodeQrcodeSdkModule} from 'ngx-barcode-qrcode-sdk';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgxBarcodeQrcodeSdkModule,
+    NgxBarcodeQrcodeSdkModule.forRoot({ licenseKey: "DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTE2NDk4Mjk3OTI2MzUiLCJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSIsInNlc3Npb25QYXNzd29yZCI6IndTcGR6Vm05WDJrcEQ5YUoifQ==", resourcePath: "assets/dynamsoft-javascript-barcode/" }),
   ],
   providers: [],
   bootstrap: [AppComponent]

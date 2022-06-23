@@ -1,1 +1,7 @@
-<ngx-barcode-reader></ngx-barcode-reader>
+<div>
+  <a>Barcode decoding results: {{barcodeResult}}</a>
+</div>
+
+<ngx-barcode-reader
+(result)="onResultReady($event)"
+></ngx-barcode-reader>

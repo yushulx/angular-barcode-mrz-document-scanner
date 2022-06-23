@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { BarcodeReader } from 'dynamsoft-javascript-barcode';
 import { OverlayManager } from '../overlay';
 
@@ -13,6 +13,8 @@ export class NgxBarcodeReaderComponent implements OnInit {
   context: CanvasRenderingContext2D | undefined;
   reader: BarcodeReader | undefined;
   overlayManager: OverlayManager;
+
+  @Output() result = new EventEmitter<string>();
 
   constructor() {
     this.overlayManager = new OverlayManager();
@@ -45,7 +47,6 @@ export class NgxBarcodeReaderComponent implements OnInit {
                 this.reader.decode(file).then((results: any) => {
                   console.log(results);
                   let txts: any = [];
-                  let elem = document.getElementById('result');
                   try {
                     let localization;
                     if (results.length > 0) {
@@ -58,13 +59,9 @@ export class NgxBarcodeReaderComponent implements OnInit {
                         );
                       }
 
-                      if (elem) {
-                        elem.innerHTML = txts.join(', ');
-                      }
+                      this.result.emit(txts.join(', '));
                     } else {
-                      if (elem) {
-                        elem.innerHTML = txts.join(', ');
-                      }
+                      this.result.emit(txts.join(', '));
                     }
                   } catch (e) {
                     alert(e);
