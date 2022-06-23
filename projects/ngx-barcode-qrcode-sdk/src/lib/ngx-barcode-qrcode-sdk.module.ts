@@ -1,7 +1,7 @@
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { NgxBarcodeReaderComponent } from './ngx-barcode-reader/ngx-barcode-reader.component';
 import { NgxBarcodeScannerComponent } from './ngx-barcode-scanner/ngx-barcode-scanner.component';
-import { NgxBarcodeQrcodeSdkService } from './ngx-barcode-qrcode-sdk.service';
+import { BarcodeQrcodeSdkServiceConfig } from './ngx-barcode-qrcode-sdk.service';
 
 @NgModule({
   declarations: [
@@ -23,11 +23,11 @@ export class NgxBarcodeQrcodeSdkModule {
     }
   }
 
-  public static forRoot(config: NgxBarcodeQrcodeSdkService): ModuleWithProviders<NgxBarcodeQrcodeSdkModule> {
+  static forRoot(config: BarcodeQrcodeSdkServiceConfig): ModuleWithProviders<NgxBarcodeQrcodeSdkModule> {
     return {
       ngModule: NgxBarcodeQrcodeSdkModule,
       providers: [
-        { provide: NgxBarcodeQrcodeSdkService, useValue: config }
+        { provide: BarcodeQrcodeSdkServiceConfig, useValue: config }
       ]
     };
   }

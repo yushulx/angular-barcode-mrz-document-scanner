@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgxBarcodeQrcodeSdkService } from 'ngx-barcode-qrcode-sdk';
 
 @Component({
   selector: 'app-barcode-scanner',
@@ -6,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BarcodeScannerComponent implements OnInit {
 
-  constructor() { 
+  constructor(private barcodeQrCodeSdkService: NgxBarcodeQrcodeSdkService) {
   }
 
   ngOnInit(): void {
