@@ -110,6 +110,37 @@
           }
         }
       }
+    },
+    "ngx-barcode-qrcode-sdk": {
+      "projectType": "library",
+      "root": "projects/ngx-barcode-qrcode-sdk",
+      "sourceRoot": "projects/ngx-barcode-qrcode-sdk/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/ngx-barcode-qrcode-sdk/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ngx-barcode-qrcode-sdk/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/ngx-barcode-qrcode-sdk/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ngx-barcode-qrcode-sdk/src/test.ts",
+            "tsConfig": "projects/ngx-barcode-qrcode-sdk/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-barcode-qrcode-sdk/karma.conf.js"
+          }
+        }
+      }
     }
   },
   "defaultProject": "angular-barcode-qr-code-scanner"

@@ -11,6 +11,12 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
+    "paths": {
+      "ngx-barcode-qrcode-sdk": [
+        "dist/ngx-barcode-qrcode-sdk/ngx-barcode-qrcode-sdk",
+        "dist/ngx-barcode-qrcode-sdk"
+      ]
+    },
     "declaration": false,
     "downlevelIteration": true,
     "experimentalDecorators": true,
