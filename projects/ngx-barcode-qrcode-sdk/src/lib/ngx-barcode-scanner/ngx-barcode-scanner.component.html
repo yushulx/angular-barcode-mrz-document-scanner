@@ -1,14 +1,16 @@
-<span id="loading-status" style="font-size:x-large" [hidden]="isLoaded"
-  >Loading Library...</span
->
-<br />
+<div id="barcode-scanner">
+  <span id="loading-status" style="font-size:x-large" [hidden]="isLoaded"
+    >Loading Library...</span
+  >
+  <br />
 
-<div class="select">
-  <label for="videoSource">Video source: </label>
-  <select id="videoSource" (change)="openCamera()"></select>
-</div>
+  <div>
+    <label for="videoSource">Video Source</label>
+    <select id="videoSource" (change)="openCamera()"></select>
+  </div>
 
-<div id="videoview">
-  <div class="dce-video-container" id="videoContainer"></div>
-  <canvas id="overlay"></canvas>
+  <div id="videoview">
+    <div class="dce-video-container" id="videoContainer"></div>
+    <canvas id="overlay"></canvas>
+  </div>
 </div>

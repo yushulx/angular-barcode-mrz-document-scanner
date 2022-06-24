@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { BarcodeScanner } from 'dynamsoft-javascript-barcode';
 import { OverlayManager } from '../overlay';
 
@@ -15,6 +15,8 @@ export class NgxBarcodeScannerComponent implements OnInit {
   cameraInfo: any = {};
   videoSelect: HTMLSelectElement | undefined;
   overlayManager: OverlayManager;
+
+  @Output() result = new EventEmitter<string>();
 
   constructor() { 
     this.overlayManager = new OverlayManager();
