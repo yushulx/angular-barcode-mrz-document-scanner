@@ -1,11 +1,32 @@
 {
   "name": "ngx-barcode-qrcode-sdk",
-  "version": "0.0.1",
+  "version": "1.0.0",
+  "description": "Angular Barcode and QR Code scanning library based on Dynamsoft JavaScript Barcode SDK.",
+  "author": "yushulx",
+  "homepage": "https://github.com/yushulx/angular-barcode-qr-code-scanner",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yushulx/angular-barcode-qr-code-scanner.git"},
+  "license": "MIT",
   "peerDependencies": {
     "@angular/common": "^13.3.0",
     "@angular/core": "^13.3.0",
     "dynamsoft-javascript-barcode": "^9.0.2"
   },
+  "keywords": [
+    "angular",
+    "ngx",
+    "barcode",
+    "qrcode",
+    "ean",
+    "code128",
+    "code39",
+    "codabar",
+    "datamatrix",
+    "pdf417",
+    "upc",
+    "aztec"
+  ],
   "dependencies": {
     "tslib": "^2.3.0"
   }

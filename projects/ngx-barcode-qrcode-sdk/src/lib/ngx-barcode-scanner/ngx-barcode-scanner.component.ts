@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { BarcodeScanner } from 'dynamsoft-javascript-barcode';
 import { OverlayManager } from '../overlay';
 
@@ -50,8 +50,7 @@ export class NgxBarcodeScannerComponent implements OnInit {
       this.scanner.onFrameRead = results => {
         this.overlayManager.clearOverlay();
 
-        let txts = [];
-        let resultElement = document.getElementById('result');
+        let txts: any = [];
         try {
           let localization;
           if (results.length > 0) {
@@ -60,14 +59,10 @@ export class NgxBarcodeScannerComponent implements OnInit {
               localization = results[i].localizationResult;
               this.overlayManager.drawOverlay(localization, results[i].barcodeText);
             }
-            if (resultElement) {
-              resultElement.innerHTML = txts.join(', ');
-            }
+            this.result.emit(txts.join(', '));
           }
           else {
-            if (resultElement) {
-              resultElement.innerHTML = "No barcode found";
-            }
+            this.result.emit(txts.join(', '));
           }
 
         } catch (e) {

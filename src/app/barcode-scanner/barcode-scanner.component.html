@@ -1,1 +1,7 @@
-<ngx-barcode-scanner></ngx-barcode-scanner>
+<div>
+  <a>Barcode QR code decoding results: {{barcodeResult}}</a>
+</div>
+
+<ngx-barcode-scanner
+(result)="onResultReady($event)"
+></ngx-barcode-scanner>
