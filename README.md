@@ -1,6 +1,6 @@
-# Angular Barcode and QR Code Scanner
+# Angular Barcode and QR Code SDK
 
-This project demonstrates how to build an Angular barcode and QR code scanner with [Dynamsoft JavaScript Barcode SDK](https://www.dynamsoft.com/barcode-reader/sdk-javascript/).
+This project demonstrates how to build an Angular barcode QR code library with [Dynamsoft JavaScript Barcode SDK](https://www.dynamsoft.com/barcode-reader/sdk-javascript/).
 
 ## Development Environment
 
@@ -33,23 +33,25 @@ typescript                      4.6.4
 ## Online Demo
 [https://yushulx.me/angular-barcode-qr-code-scanner/barcode-scanner](https://yushulx.me/angular-barcode-qr-code-scanner/barcode-scanner)
 
-## Online Coding
-[https://stackblitz.com/edit/angular-9f1xyn](https://stackblitz.com/edit/angular-9f1xyn)
 
-## Usage
-1. Apply for a [30-day free trial license](https://www.dynamsoft.com/customer/license/trialLicense?product=dbr) of Dynamsoft Barcode SDK.
-2. Update the license key in `products.ts` file:
+## Debug the Angular Library Project
+1. The `ngx-barcode-qrcode-sdk` is located in `projects/ngx-barcode-qrcode-sdk`. Add the `--watch` flag to run incremental build as a background process:
+
+    ```bash
+    ng build ngx-barcode-qrcode-sdk --watch
+    ```
+
+2. Apply for a [30-day free trial license](https://www.dynamsoft.com/customer/license/trialLicense?product=dbr) of Dynamsoft Barcode SDK and update the license key in `app.module.ts` file:
     
     ```typescript
-    BarcodeReader.license = 'DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTE2NDk4Mjk3OTI2MzUiLCJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSIsInNlc3Npb25QYXNzd29yZCI6IndTcGR6Vm05WDJrcEQ5YUoifQ==';
+    NgxBarcodeQrcodeSdkModule.forRoot({ licenseKey: "DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTE2NDk4Mjk3OTI2MzUiLCJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSIsInNlc3Npb25QYXNzd29yZCI6IndTcGR6Vm05WDJrcEQ5YUoifQ==", resourcePath: "assets/dynamsoft-javascript-barcode/" }),
     ```
 3. Install the dependencies:
     
     ```bash
     npm install
     ```
-
-4. `HTTPS` is required for web camera access. Run the Angular application as follows:
+4 `HTTPS` is required for web camera access. Run the Angular application as follows:
     
     ```bash
     ng serve --ssl
@@ -57,10 +59,12 @@ typescript                      4.6.4
     
     ![Angular Barcode and QR Code scanner](https://www.dynamsoft.com/codepool/img/2022/06/angular-barcode-qrcode-scanner.png)
 
-## Build
+## Publish the Angular Library Project
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+```bash
+ng build ngx-barcode-qrcode-sdk
+cd dist/ngx-barcode-qrcode-sdk
+npm publish
+```
 
 
-## Blog
-[How to Build Angular Barcode and QR Code Scanner Apps from Scratch](https://www.dynamsoft.com/codepool/angular-barcode-qr-code-scanner.html)
