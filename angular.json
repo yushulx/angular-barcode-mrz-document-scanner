@@ -27,8 +27,38 @@
               "src/assets",
               {
                 "glob": "**/*",
-                "input": "./node_modules/dynamsoft-javascript-barcode/dist",
-                "output": "assets/dynamsoft-javascript-barcode"
+                "input": "./node_modules/dynamsoft-capture-vision-std/dist",
+                "output": "assets/dynamsoft-capture-vision-std"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/dynamsoft-image-processing/dist",
+                "output": "assets/dynamsoft-image-processing"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/dynamsoft-core/dist",
+                "output": "assets/dynamsoft-core"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/dynamsoft-license/dist",
+                "output": "assets/dynamsoft-license"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/dynamsoft-capture-vision-router/dist",
+                "output": "assets/dynamsoft-capture-vision-router"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/dynamsoft-barcode-reader/dist",
+                "output": "assets/dynamsoft-barcode-reader"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/dynamsoft-camera-enhancer/dist",
+                "output": "assets/dynamsoft-camera-enhancer"
               }
             ],
             "styles": [

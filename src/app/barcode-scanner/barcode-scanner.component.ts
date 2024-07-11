@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { BarcodeScanner } from 'dynamsoft-javascript-barcode';
 import { OverlayManager } from '../overlay';
+import { BarcodeResultItem, CameraEnhancer, CameraView, CapturedResult, CaptureVisionRouter, EnumCapturedResultItemType, MultiFrameResultCrossFilter, Resolution } from 'dynamsoft-barcode-reader-bundle';
+
+const componentDestroyedErrorMsg = 'VideoCapture Component Destroyed';
 
 @Component({
   selector: 'app-barcode-scanner',
@@ -11,12 +13,14 @@ export class BarcodeScannerComponent implements OnInit {
   isLoaded = false;
   overlay: HTMLCanvasElement | undefined;
   context: CanvasRenderingContext2D | undefined;
-  scanner: BarcodeScanner | undefined;
   cameraInfo: any = {};
   videoSelect: HTMLSelectElement | undefined;
   overlayManager: OverlayManager;
+  cvr?: CaptureVisionRouter;
+  cameraEnhancer?: CameraEnhancer;
+  isDestroyed = false;
 
-  constructor() { 
+  constructor() {
     this.overlayManager = new OverlayManager();
   }
 
@@ -28,54 +32,106 @@ export class BarcodeScannerComponent implements OnInit {
     })();
   }
 
+  ngOnDestroy(): void {
+    this.isDestroyed = true;
+    try {
+      this.cvr?.dispose();
+      this.cameraEnhancer?.dispose();
+    } catch (_) { }
+  }
+
   updateResolution(): void {
-    if (this.scanner) {
-      let resolution = this.scanner.getResolution();
-      this.overlayManager.updateOverlay(resolution[0], resolution[1]);
+    if (this.cameraEnhancer && this.overlayManager) {
+      let resolution: Resolution = this.cameraEnhancer.getResolution();
+      this.overlayManager.updateOverlay(resolution.width, resolution.height);
     }
   }
 
   async initBarcodeScanner(): Promise<void> {
-    this.scanner = await BarcodeScanner.createInstance();
+    const cameraView: CameraView = await CameraView.createInstance();
+
+    this.cameraEnhancer = await CameraEnhancer.createInstance(cameraView);
+
     this.isLoaded = true;
-    await this.scanner.updateRuntimeSettings("speed");
     let uiElement = document.getElementById('videoContainer');
     if (uiElement) {
-      await this.scanner.setUIElement(uiElement);
-      let cameras = await this.scanner.getAllCameras();
+      uiElement.append(cameraView.getUIElement());
+
+      cameraView.getUIElement().shadowRoot?.querySelector('.dce-sel-camera')?.setAttribute('style', 'display: none');
+      cameraView.getUIElement().shadowRoot?.querySelector('.dce-sel-resolution')?.setAttribute('style', 'display: none');
+
+      let cameras = await this.cameraEnhancer.getAllCameras();
       this.listCameras(cameras);
-      await this.openCamera();
-      this.scanner.onFrameRead = results => {
-        this.overlayManager.clearOverlay();
 
-        let txts = [];
-        let resultElement = document.getElementById('result');
-        try {
-          let localization;
-          if (results.length > 0) {
-            for (var i = 0; i < results.length; ++i) {
-              txts.push(results[i].barcodeText);
-              localization = results[i].localizationResult;
-              this.overlayManager.drawOverlay(localization, results[i].barcodeText);
-            }
-            if (resultElement) {
-              resultElement.innerHTML = txts.join(', ');
-            }
-          }
-          else {
-            if (resultElement) {
-              resultElement.innerHTML = "No barcode found";
-            }
-          }
 
-        } catch (e) {
-          alert(e);
-        }
-      };
-      this.scanner.onPlayed = () => {
-        this.updateResolution();
+      this.cvr = await CaptureVisionRouter.createInstance();
+      if (this.isDestroyed) {
+        throw Error(componentDestroyedErrorMsg);
       }
-      await this.scanner.show();
+      this.cvr.setInput(this.cameraEnhancer);
+
+      // Define a callback for results.
+      this.cvr.addResultReceiver({
+        onCapturedResultReceived: (result: CapturedResult) => {
+          this.overlayManager.clearOverlay();
+          let txts: any = [];
+          let resultElement = document.getElementById('result');
+          try {
+            let localization;
+            let items = result.items
+            if (items.length > 0) {
+              for (var i = 0; i < items.length; ++i) {
+
+                if (items[i].type !== EnumCapturedResultItemType.CRIT_BARCODE) {
+                  continue; // check if captured result item is a barcode
+                }
+
+                let item = items[i] as BarcodeResultItem;
+
+                txts.push(item.text);
+                localization = item.location;
+                console.log(localization);
+                this.overlayManager.drawOverlay(
+                  localization,
+                  item.text
+                );
+              }
+
+              if (resultElement) {
+                resultElement.innerHTML = txts.join(', ');
+              }
+            } else {
+
+              if (resultElement) {
+                resultElement.innerHTML = txts.join(', ');
+              }
+            }
+
+          } catch (e) {
+            alert(e);
+          }
+        },
+      });
+
+      this.cvr.addResultReceiver({
+        onDecodedBarcodesReceived: (result) => {
+          if (!result.barcodeResultItems.length) return;
+
+          console.log(result);
+        },
+      });
+
+      this.cameraEnhancer.on('played', () => {
+        this.updateResolution();
+      });
+      await this.openCamera();
+      if (this.isDestroyed) {
+        throw Error(componentDestroyedErrorMsg);
+      }
+      await this.cvr.startCapturing('ReadSingleBarcode');
+      if (this.isDestroyed) {
+        throw Error(componentDestroyedErrorMsg);
+      }
     }
   }
 
@@ -83,8 +139,9 @@ export class BarcodeScannerComponent implements OnInit {
     this.overlayManager.clearOverlay();
     if (this.videoSelect) {
       let deviceId = this.videoSelect.value;
-      if (this.scanner) {
-        await this.scanner.setCurrentCamera(this.cameraInfo[deviceId]);
+      if (this.cameraEnhancer) {
+        await this.cameraEnhancer.selectCamera(deviceId);
+        await this.cameraEnhancer.open();
       }
     }
 

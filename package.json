@@ -18,7 +18,10 @@
     "@angular/platform-browser": "~13.3.0",
     "@angular/platform-browser-dynamic": "~13.3.0",
     "@angular/router": "~13.3.0",
-    "dynamsoft-javascript-barcode": "^9.0.2",
+    "dynamsoft-barcode-reader-bundle": "10.2.1000",
+    "dynamsoft-camera-enhancer": "^4.0.2",
+    "dynamsoft-capture-vision-std": "^1.2.10",
+    "dynamsoft-image-processing": "^2.2.30",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

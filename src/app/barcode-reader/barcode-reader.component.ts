@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { BarcodeReader } from 'dynamsoft-javascript-barcode';
 import { OverlayManager } from '../overlay';
+import { CapturedResult, CaptureVisionRouter, BarcodeResultItem, EnumCapturedResultItemType } from 'dynamsoft-barcode-reader-bundle';
 
 @Component({
   selector: 'app-barcode-reader',
@@ -11,8 +11,8 @@ export class BarcodeReaderComponent implements OnInit {
   isLoaded = false;
   overlay: HTMLCanvasElement | undefined;
   context: CanvasRenderingContext2D | undefined;
-  reader: BarcodeReader | undefined;
   overlayManager: OverlayManager;
+  cvr: CaptureVisionRouter | undefined;
 
   constructor() {
     this.overlayManager = new OverlayManager();
@@ -21,7 +21,7 @@ export class BarcodeReaderComponent implements OnInit {
   ngOnInit(): void {
     this.overlayManager.initOverlay(document.getElementById('overlay') as HTMLCanvasElement);
     (async () => {
-      this.reader = await BarcodeReader.createInstance();
+      this.cvr = await CaptureVisionRouter.createInstance();
       this.isLoaded = true;
     })();
   }
@@ -41,20 +41,30 @@ export class BarcodeReaderComponent implements OnInit {
 
             img.onload = (event: any) => {
               this.overlayManager.updateOverlay(img.width, img.height);
-              if (this.reader) {
-                this.reader.decode(file).then((results: any) => {
-                  console.log(results);
+              if (this.cvr) {
+
+                this.cvr.capture(file, 'ReadBarcodes_Balance').then((result: CapturedResult) => {
+                  console.log(result);
                   let txts: any = [];
                   let elem = document.getElementById('result');
                   try {
                     let localization;
-                    if (results.length > 0) {
-                      for (var i = 0; i < results.length; ++i) {
-                        txts.push(results[i].barcodeText);
-                        localization = results[i].localizationResult;
+                    let items = result.items
+                    if (items.length > 0) {
+                      for (var i = 0; i < items.length; ++i) {
+
+                        if (items[i].type !== EnumCapturedResultItemType.CRIT_BARCODE) {
+                          continue; // check if captured result item is a barcode
+                        }
+
+                        let item = items[i] as BarcodeResultItem;
+
+                        txts.push(item.text);
+                        localization = item.location;
+                        console.log(localization);
                         this.overlayManager.drawOverlay(
                           localization,
-                          results[i].barcodeText
+                          item.text
                         );
                       }
 
