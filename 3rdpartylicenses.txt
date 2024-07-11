@@ -10,10 +10,26 @@ MIT
 @angular/router
 MIT
 
-dynamsoft-camera-enhancer
+dynamsoft-barcode-reader
+SEE LICENSE IN LICENSE
 
-dynamsoft-javascript-barcode
-SEE LICENSE IN LICENSE.txt
+dynamsoft-barcode-reader-bundle
+SEE LICENSE IN LICENSE
+
+dynamsoft-camera-enhancer
+SEE LICENSE IN LICENSE
+
+dynamsoft-capture-vision-router
+SEE LICENSE IN LICENSE
+
+dynamsoft-core
+SEE LICENSE IN LICENSE
+
+dynamsoft-license
+SEE LICENSE IN LICENSE
+
+dynamsoft-utility
+SEE LICENSE IN LICENSE
 
 rxjs
 Apache-2.0
