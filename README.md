@@ -12,7 +12,7 @@ This project demonstrates how to build an Angular barcode and QR code scanner us
 - [Dynamsoft Barcode Reader Trial License](https://www.dynamsoft.com/customer/license/trialLicense?product=dbr)
 
 ## Online Demo
-[Try the Demo](https://yushulx.me/angular-barcode-qr-code-scanner/barcode-scanner)
+[Try the Demo](https://yushulx.me/angular-barcode-qr-code-scanner/)
 
 
 ## Usage
