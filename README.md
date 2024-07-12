@@ -1,6 +1,8 @@
 # Angular Barcode and QR Code Scanner
 This project demonstrates how to build an Angular barcode and QR code scanner using the [Dynamsoft JavaScript Barcode SDK](https://www.dynamsoft.com/barcode-reader/sdk-javascript/).
 
+https://github.com/user-attachments/assets/98de98b3-ac28-49a6-a520-11202e48e7ca
+
 ## Prerequisites
 - [Node.js](https://nodejs.org/en/download/)
 - Angular CLI 
