@@ -28,6 +28,9 @@ SEE LICENSE IN LICENSE
 dynamsoft-core
 SEE LICENSE IN LICENSE
 
+dynamsoft-document-normalizer
+SEE LICENSE IN LICENSE
+
 dynamsoft-license
 SEE LICENSE IN LICENSE
 
