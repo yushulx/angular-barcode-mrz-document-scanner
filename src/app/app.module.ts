@@ -8,6 +8,8 @@ import { BarcodeReaderComponent } from './barcode-reader/barcode-reader.componen
 import { BarcodeScannerComponent } from './barcode-scanner/barcode-scanner.component';
 import { ProductListComponent } from './product-list/product-list.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
+import { FileDetectionComponent } from './file-detection/file-detection.component';
+import { CameraDetectionComponent } from './camera-detection/camera-detection.component';
 
 // import {NgxBarcodeQrcodeModule} from 'ngx-barcode-qrcode';
 
@@ -18,6 +20,8 @@ import { TopBarComponent } from './top-bar/top-bar.component';
     BarcodeScannerComponent,
     ProductListComponent,
     TopBarComponent,
+    FileDetectionComponent,
+    CameraDetectionComponent,
 
   ],
   imports: [

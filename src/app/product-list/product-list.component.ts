@@ -6,6 +6,8 @@ import { CoreModule, LicenseManager } from 'dynamsoft-barcode-reader-bundle';
 
 import { SharedService } from '../shared.service';
 
+import 'dynamsoft-document-normalizer';
+
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
@@ -30,6 +32,7 @@ export class ProductListComponent {
       cvr: 'assets/dynamsoft-capture-vision-router/',
       dbr: 'assets/dynamsoft-barcode-reader/',
       dce: 'assets/dynamsoft-camera-enhancer/',
+      ddn: 'assets/dynamsoft-document-normalizer/',
     };
 
     try {
@@ -39,7 +42,7 @@ export class ProductListComponent {
 
 
       // Preload "BarcodeReader" module for saving the time of loading it when needed.
-      CoreModule.loadWasm(['DBR']);
+      await CoreModule.loadWasm(['DBR', 'DDN']);
 
       this.toggleDivVisibility();
     } catch (error) {

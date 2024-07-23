@@ -59,6 +59,11 @@
                 "glob": "**/*",
                 "input": "./node_modules/dynamsoft-camera-enhancer/dist",
                 "output": "assets/dynamsoft-camera-enhancer"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/dynamsoft-document-normalizer/dist",
+                "output": "assets/dynamsoft-document-normalizer"
               }
             ],
             "styles": [

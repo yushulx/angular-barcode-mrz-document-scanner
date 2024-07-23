@@ -1,0 +1,29 @@
+<span id="loading-status" style="font-size:x-large" [hidden]="isLoaded">Loading Library...</span>
+<br />
+
+<div class="row">
+
+    <label for="binary"> <input type="radio" name="templates" value="binary" (change)="onRadioChange($event)" />Black &
+        White </label>
+
+
+    <label for="grayscale"><input type="radio" name="templates" value="grayscale" (change)="onRadioChange($event)" />
+        Grayscale </label>
+
+    <label for="color"><input type="radio" name="templates" value="color" [checked]="true"
+            (change)="onRadioChange($event)" /> Color </label>
+</div>
+
+<input type="file" title="file" id="file" accept="image/*" (change)="onChange($event)" />
+
+<div class="container">
+    <div id="imageview">
+        <img id="image" alt="" />
+        <canvas id="overlay"></canvas>
+    </div>
+
+    <div id="resultview">
+        <canvas id="normalizedImage"></canvas>
+    </div>
+
+</div>

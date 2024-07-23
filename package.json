@@ -21,6 +21,7 @@
     "dynamsoft-barcode-reader-bundle": "10.2.1000",
     "dynamsoft-camera-enhancer": "^4.0.2",
     "dynamsoft-capture-vision-std": "^1.2.10",
+    "dynamsoft-document-normalizer": "^2.2.10",
     "dynamsoft-image-processing": "^2.2.30",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
