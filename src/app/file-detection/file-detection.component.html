@@ -15,15 +15,16 @@
 </div>
 
 <input type="file" title="file" id="file" accept="image/*" (change)="onChange($event)" />
-
+<button (click)="rectify()">Rectify</button>
+<button (click)="save()">Save</button>
 <div class="container">
     <div id="imageview">
         <img id="image" alt="" />
-        <canvas id="overlay"></canvas>
+        <canvas id="overlay" class="overlay"></canvas>
     </div>
 
-    <div id="resultview">
-        <canvas id="normalizedImage"></canvas>
+    <div id="resultview" class="imageview">
+        <img id="normalizedImage" alt="" />
     </div>
 
 </div>

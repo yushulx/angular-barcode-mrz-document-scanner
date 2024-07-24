@@ -69,11 +69,8 @@ export class FileDetectionComponent implements OnInit {
       this.cvr.capture(file, 'NormalizeDocument_Default').then((normalizedImagesResult: CapturedResult) => {
         if (normalizedImagesResult.items.length === 0) { return; }
         let result = normalizedImagesResult.items[0] as NormalizedImageResultItem;
-        let image = document.getElementById('normalizedImage') as HTMLCanvasElement;
-        image.width = result.imageData.width;
-        image.height = result.imageData.height;
-        const destinationContext = image.getContext('2d');
-        destinationContext?.drawImage(result.toCanvas(), 0, 0);
+        let image = document.getElementById('normalizedImage') as HTMLImageElement;
+        image.src = result.toImage("image/jpeg").src;
       });
     }
   }
@@ -99,11 +96,7 @@ export class FileDetectionComponent implements OnInit {
                 if (capturedResult.items.length > 0) {
                   let result = capturedResult.items[0] as DetectedQuadResultItem;
                   this.points = result.location.points;
-                  this.overlayManager.drawOverlay(
-                    result.location,
-                    ''
-                  );
-                  this.normalize(file, this.points);
+                  this.overlayManager.setPoints(this.points);
                 }
               }
             };
@@ -115,4 +108,20 @@ export class FileDetectionComponent implements OnInit {
     }
   }
 
+  async rectify() {
+    await this.normalize(this.currentFile!, this.points);
+  }
+
+  async save() {
+    let image = document.getElementById('normalizedImage') as HTMLImageElement;
+
+    let imageUrl = image.src;
+
+    const a = document.createElement('a');
+    a.href = imageUrl;
+    a.download = Date.now() + '';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
 }

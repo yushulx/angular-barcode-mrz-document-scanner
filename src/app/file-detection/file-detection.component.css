@@ -20,9 +20,9 @@
 
 .container {
     align-items: center;
-    border: 3px solid orange;
+    border: 3px solid rgb(255, 255, 255);
 }
 
-/* #normalizedImage {
-    width: 20vw;
-} */
+button {
+    margin: 4px;
+}
