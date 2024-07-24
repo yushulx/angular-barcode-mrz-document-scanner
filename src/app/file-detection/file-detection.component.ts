@@ -16,15 +16,15 @@ export class FileDetectionComponent implements OnInit {
   overlayManager: OverlayManager;
   points: any[] = [];
   currentFile: File | undefined;
-  NormalizeDocument_Color: string = "NormalizeDocument_Color";
-  NormalizeDocument_Binary: string = "NormalizeDocument_Binary";
-  NormalizeDocument_Gray: string = "NormalizeDocument_Gray";
 
   constructor() {
     this.overlayManager = new OverlayManager();
   }
 
   ngOnDestroy() {
+    try {
+      this.cvr?.dispose();
+    } catch (_) { }
   }
 
   ngOnInit(): void {
