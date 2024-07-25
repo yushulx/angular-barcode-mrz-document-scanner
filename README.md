@@ -47,7 +47,7 @@ https://github.com/user-attachments/assets/17cf6449-f1b6-4644-89fc-d3f5f05009f9
     ng serve --ssl
     ```
     
-    ![Angular Barcode and QR Code scanner](https://www.dynamsoft.com/codepool/img/2022/06/angular-barcode-qrcode-scanner.png)
+    ![Angular Barcode and QR Code scanner](https://www.dynamsoft.com/codepool/img/2024/07/angular-barcode-scanner.png)
 
 ## Build
 
