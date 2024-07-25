@@ -1,15 +1,14 @@
-# Angular Barcode and QR Code Scanner
-This project demonstrates how to build an Angular barcode and QR code scanner using the [Dynamsoft JavaScript Barcode SDK](https://www.dynamsoft.com/barcode-reader/sdk-javascript/).
+# Angular Capture Vision Sample
+This project demonstrates how to utilize the Dynamsoft Capture Vision SDK for detecting barcodes, documents, MRZ, and more in Angular applications.
 
-**Barcode Scanner**
+## Features
+- **Barcode Scanner**
 
-https://github.com/user-attachments/assets/98de98b3-ac28-49a6-a520-11202e48e7ca
+    https://github.com/user-attachments/assets/98de98b3-ac28-49a6-a520-11202e48e7ca
 
-**Document Scanner**
+- **Document Scanner**
 
-https://github.com/user-attachments/assets/17cf6449-f1b6-4644-89fc-d3f5f05009f9
-
-
+    https://github.com/user-attachments/assets/17cf6449-f1b6-4644-89fc-d3f5f05009f9
 
 
 ## Prerequisites
@@ -29,7 +28,7 @@ https://github.com/user-attachments/assets/17cf6449-f1b6-4644-89fc-d3f5f05009f9
 
 
 ## Usage
-1. Set the license key in `products.ts` file.
+1. **Set the License Key**: Update the `products.ts` file with your license key.
     
     ```typescript
     LicenseManager.initLicense('LICENSE-KEY', true);
@@ -46,8 +45,6 @@ https://github.com/user-attachments/assets/17cf6449-f1b6-4644-89fc-d3f5f05009f9
     ```bash
     ng serve --ssl
     ```
-    
-    ![Angular Barcode and QR Code scanner](https://www.dynamsoft.com/codepool/img/2024/07/angular-barcode-scanner.png)
 
 ## Build
 
@@ -55,4 +52,4 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 
 ## Blog
-[How to Build Angular Barcode and QR Code Scanner Apps from Scratch](https://www.dynamsoft.com/codepool/angular-barcode-qr-code-scanner.html)
+- [How to Build Angular Barcode and QR Code Scanner Apps from Scratch](https://www.dynamsoft.com/codepool/angular-barcode-qr-code-scanner.html)
