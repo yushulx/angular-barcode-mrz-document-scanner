@@ -1,7 +1,16 @@
 # Angular Barcode and QR Code Scanner
 This project demonstrates how to build an Angular barcode and QR code scanner using the [Dynamsoft JavaScript Barcode SDK](https://www.dynamsoft.com/barcode-reader/sdk-javascript/).
 
+**Barcode Scanner**
+
 https://github.com/user-attachments/assets/98de98b3-ac28-49a6-a520-11202e48e7ca
+
+**Document Scanner**
+
+https://github.com/user-attachments/assets/17cf6449-f1b6-4644-89fc-d3f5f05009f9
+
+
+
 
 ## Prerequisites
 - [Node.js](https://nodejs.org/en/download/)
@@ -11,7 +20,9 @@ https://github.com/user-attachments/assets/98de98b3-ac28-49a6-a520-11202e48e7ca
     npm install -g @angular/cli
     ng --version
     ```
-- [Dynamsoft Barcode Reader Trial License](https://www.dynamsoft.com/customer/license/trialLicense?product=dbr)
+- [Dynamsoft Capture Vision Trial License](https://www.dynamsoft.com/customer/license/trialLicense)
+
+  ![Dynamsoft Capture Vision Trial License](https://www.dynamsoft.com/codepool/img/2024/07/capture-vision-suite-license.png)
 
 ## Online Demo
 [Try the Demo](https://yushulx.me/angular-barcode-qr-code-scanner/)
