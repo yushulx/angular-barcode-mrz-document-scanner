@@ -41,7 +41,7 @@ export class ProductListComponent {
       await LicenseManager.initLicense(licenseKey, true);
 
 
-      // Preload "BarcodeReader" module for saving the time of loading it when needed.
+      // Preload wasm files for saving the time of loading it when needed.
       await CoreModule.loadWasm(['DBR', 'DDN']);
 
       this.toggleDivVisibility();
