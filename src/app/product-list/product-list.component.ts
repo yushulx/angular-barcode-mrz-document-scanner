@@ -36,7 +36,7 @@ export class ProductListComponent {
     };
 
     try {
-      // Visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr to get a trial license.
+      // Visit https://www.dynamsoft.com/customer/license/trialLicense to get a trial license for capture vision suite.
       let licenseKey: string = this.inputText === '' ? this.placeholderText : this.inputText;
       await LicenseManager.initLicense(licenseKey, true);
 

@@ -29,7 +29,7 @@ https://github.com/user-attachments/assets/17cf6449-f1b6-4644-89fc-d3f5f05009f9
 
 
 ## Usage
-1. **Obtain a License**: Get a [30-day free trial license](https://www.dynamsoft.com/customer/license/trialLicense?product=dbr) for Dynamsoft Barcode SDK and update the license key in `products.ts` file.
+1. Set the license key in `products.ts` file.
     
     ```typescript
     LicenseManager.initLicense('LICENSE-KEY', true);
