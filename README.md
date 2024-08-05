@@ -27,20 +27,14 @@ This project demonstrates how to utilize the Dynamsoft Capture Vision SDK for de
 [Try the Demo](https://yushulx.me/angular-barcode-qr-code-scanner/)
 
 
-## Usage
-1. **Set the License Key**: Update the `products.ts` file with your license key.
-    
-    ```typescript
-    LicenseManager.initLicense('LICENSE-KEY', true);
-    ```
-    
-2. **Install dependencies**:
+## Usage    
+1. **Install dependencies**:
     
     ```bash
     npm install
     ```
 
-3. **Run the Application**:
+2. **Run the Application**:
     
     ```bash
     ng serve --ssl
