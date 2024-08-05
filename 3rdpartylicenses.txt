@@ -25,10 +25,16 @@ SEE LICENSE IN LICENSE
 dynamsoft-capture-vision-router
 SEE LICENSE IN LICENSE
 
+dynamsoft-code-parser
+SEE LICENSE IN LICENSE.txt
+
 dynamsoft-core
 SEE LICENSE IN LICENSE
 
 dynamsoft-document-normalizer
+SEE LICENSE IN LICENSE
+
+dynamsoft-label-recognizer
 SEE LICENSE IN LICENSE
 
 dynamsoft-license
