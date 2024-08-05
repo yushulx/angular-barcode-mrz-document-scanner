@@ -20,25 +20,33 @@ export class ProductListComponent {
   inputText: string = '';
   processedText: string = '';
   placeholderText: string = 'DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTE2NDk4Mjk3OTI2MzUiLCJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSIsInNlc3Npb25QYXNzd29yZCI6IndTcGR6Vm05WDJrcEQ5YUoifQ==';
+  private baseUrl: string;
 
-  constructor(private sharedService: SharedService) { }
+  constructor(private sharedService: SharedService) {
+    this.baseUrl = `${window.location.protocol}//${window.location.host}`;
+  }
+
+  getFullUrl(endpoint: string): string {
+    return `${this.baseUrl}/${endpoint}`;
+  }
 
   async activate(): Promise<void> {
+
     this.processedText = this.inputText.toUpperCase();
     // Configure the paths where the .wasm files and other necessary resources for modules are located.
     CoreModule.engineResourcePaths = {
-      std: 'assets/dynamsoft-capture-vision-std/',
-      dip: 'assets/dynamsoft-image-processing/',
-      core: 'assets/dynamsoft-core/',
-      license: 'assets/dynamsoft-license/',
-      cvr: 'assets/dynamsoft-capture-vision-router/',
-      dbr: 'assets/dynamsoft-barcode-reader/',
-      dce: 'assets/dynamsoft-camera-enhancer/',
-      ddn: 'assets/dynamsoft-document-normalizer/',
-      dlr: 'https://cdn.jsdelivr.net/npm/dynamsoft-label-recognizer@3.2.30/dist/',
-      dcp: 'https://cdn.jsdelivr.net/npm/dynamsoft-code-parser@2.2.10/dist/',
-      dnn: 'assets/dynamsoft-capture-vision-dnn/',
-      dlrData: 'assets/dynamsoft-label-recognizer-data',
+      std: this.getFullUrl('assets/dynamsoft-capture-vision-std/'),
+      dip: this.getFullUrl('assets/dynamsoft-image-processing/'),
+      core: this.getFullUrl('assets/dynamsoft-core/'),
+      license: this.getFullUrl('assets/dynamsoft-license/'),
+      cvr: this.getFullUrl('assets/dynamsoft-capture-vision-router/'),
+      dbr: this.getFullUrl('assets/dynamsoft-barcode-reader/'),
+      dce: this.getFullUrl('assets/dynamsoft-camera-enhancer/'),
+      ddn: this.getFullUrl('assets/dynamsoft-document-normalizer/'),
+      dlr: this.getFullUrl('assets/dynamsoft-label-recognizer/'),
+      dcp: this.getFullUrl('assets/dynamsoft-code-parser/'),
+      dnn: this.getFullUrl('assets/dynamsoft-capture-vision-dnn/'),
+      dlrData: this.getFullUrl('assets/dynamsoft-label-recognizer-data/'),
     };
 
     try {
