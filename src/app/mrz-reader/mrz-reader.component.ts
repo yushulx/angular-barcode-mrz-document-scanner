@@ -37,7 +37,7 @@ export class MrzReaderComponent implements OnInit {
         await LabelRecognizerModule.loadRecognitionData("MRZ");
         this.cvr = await CaptureVisionRouter.createInstance();
         this.parser = await CodeParser.createInstance();
-        let ret = await this.cvr.initSettings('/assets/template.json');
+        let ret = await this.cvr.initSettings('assets/template.json');
         console.log(ret);
       }
       catch (ex) {
