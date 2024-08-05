@@ -23,11 +23,11 @@ export class ProductListComponent {
   private baseUrl: string;
 
   constructor(private sharedService: SharedService) {
-    this.baseUrl = `${window.location.protocol}//${window.location.host}`;
+    this.baseUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
   }
 
   getFullUrl(endpoint: string): string {
-    return `${this.baseUrl}/${endpoint}`;
+    return `${this.baseUrl}${endpoint}`;
   }
 
   async activate(): Promise<void> {
