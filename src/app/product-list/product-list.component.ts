@@ -27,18 +27,18 @@ export class ProductListComponent {
     this.processedText = this.inputText.toUpperCase();
     // Configure the paths where the .wasm files and other necessary resources for modules are located.
     CoreModule.engineResourcePaths = {
-      std: '/assets/dynamsoft-capture-vision-std/',
-      dip: '/assets/dynamsoft-image-processing/',
-      core: '/assets/dynamsoft-core/',
-      license: '/assets/dynamsoft-license/',
-      cvr: '/assets/dynamsoft-capture-vision-router/',
-      dbr: '/assets/dynamsoft-barcode-reader/',
-      dce: '/assets/dynamsoft-camera-enhancer/',
-      ddn: '/assets/dynamsoft-document-normalizer/',
-      dlr: '/assets/dynamsoft-label-recognizer/',
-      dcp: '/assets/dynamsoft-code-parser/',
-      dnn: '/assets/dynamsoft-capture-vision-dnn/',
-      dlrData: '/assets/dynamsoft-label-recognizer-data',
+      std: 'assets/dynamsoft-capture-vision-std/',
+      dip: 'assets/dynamsoft-image-processing/',
+      core: 'assets/dynamsoft-core/',
+      license: 'assets/dynamsoft-license/',
+      cvr: 'assets/dynamsoft-capture-vision-router/',
+      dbr: 'assets/dynamsoft-barcode-reader/',
+      dce: 'assets/dynamsoft-camera-enhancer/',
+      ddn: 'assets/dynamsoft-document-normalizer/',
+      dlr: 'https://cdn.jsdelivr.net/npm/dynamsoft-label-recognizer@3.2.30/dist/',
+      dcp: 'https://cdn.jsdelivr.net/npm/dynamsoft-code-parser@2.2.10/dist/',
+      dnn: 'assets/dynamsoft-capture-vision-dnn/',
+      dlrData: 'assets/dynamsoft-label-recognizer-data',
     };
 
     try {

@@ -26,18 +26,24 @@ export class MrzReaderComponent implements OnInit {
     this.overlayManager.initOverlay(document.getElementById('overlay') as HTMLCanvasElement);
 
     (async () => {
-      await CodeParserModule.loadSpec("MRTD_TD1_ID");
-      await CodeParserModule.loadSpec("MRTD_TD2_FRENCH_ID");
-      await CodeParserModule.loadSpec("MRTD_TD2_ID");
-      await CodeParserModule.loadSpec("MRTD_TD2_VISA");
-      await CodeParserModule.loadSpec("MRTD_TD3_PASSPORT");
-      await CodeParserModule.loadSpec("MRTD_TD3_VISA");
+      try {
+        await CodeParserModule.loadSpec("MRTD_TD1_ID");
+        await CodeParserModule.loadSpec("MRTD_TD2_FRENCH_ID");
+        await CodeParserModule.loadSpec("MRTD_TD2_ID");
+        await CodeParserModule.loadSpec("MRTD_TD2_VISA");
+        await CodeParserModule.loadSpec("MRTD_TD3_PASSPORT");
+        await CodeParserModule.loadSpec("MRTD_TD3_VISA");
 
-      await LabelRecognizerModule.loadRecognitionData("MRZ");
-      this.cvr = await CaptureVisionRouter.createInstance();
-      this.parser = await CodeParser.createInstance();
-      let ret = await this.cvr.initSettings('/assets/template.json');
-      console.log(ret);
+        await LabelRecognizerModule.loadRecognitionData("MRZ");
+        this.cvr = await CaptureVisionRouter.createInstance();
+        this.parser = await CodeParser.createInstance();
+        let ret = await this.cvr.initSettings('/assets/template.json');
+        console.log(ret);
+      }
+      catch (ex) {
+        alert(ex);
+        // console.error(ex);
+      }
       this.isLoaded = true;
     })();
   }
