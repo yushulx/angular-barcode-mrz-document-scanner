@@ -1,1 +1,21 @@
-<p>mrz-scanner works!</p>
+<div id="loading-indicator" class="loading-indicator" *ngIf="!isLoaded">
+    <div class="spinner"></div>
+</div>
+
+<div class="select">
+    <label for="videoSource">Video source: </label>
+    <select id="videoSource" (change)="openCamera()"></select>
+</div>
+
+<div class="container">
+    <div id="videoview">
+        <div class="dce-video-container" id="videoContainer"></div>
+        <canvas id="overlay"></canvas>
+    </div>
+
+</div>
+
+
+<div>
+    <textarea id="result"></textarea>
+</div>

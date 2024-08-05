@@ -79,7 +79,6 @@ export class MrzReaderComponent implements OnInit {
 
                         let item = items[i] as TextLineResultItem;
                         let localization = item.location;
-                        console.log(localization);
                         this.overlayManager.drawOverlay(
                           localization,
                           ''

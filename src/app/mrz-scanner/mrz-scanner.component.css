@@ -1,4 +1,4 @@
-.imageview {
+#videoview {
     max-width: 720px;
     max-height: 720px;
     width: 720px;
@@ -7,20 +7,21 @@
     position: relative;
 }
 
-.imageview img {
-    display: block;
+#videoContainer {
+    position: absolute;
     width: 100%;
     height: 100%;
-    object-fit: contain
+    z-index: 1;
 }
 
-.overlay {
+#overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: contain
+    z-index: 2;
+    object-fit: contain;
 }
 
 textarea {

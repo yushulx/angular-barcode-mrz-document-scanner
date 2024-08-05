@@ -100,11 +100,6 @@ export class BarcodeScannerComponent implements OnInit {
               if (resultElement) {
                 resultElement.innerHTML = txts.join(', ');
               }
-            } else {
-
-              if (resultElement) {
-                resultElement.innerHTML = txts.join(', ');
-              }
             }
 
           } catch (e) {
