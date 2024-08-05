@@ -7,6 +7,8 @@ import { CoreModule, LicenseManager } from 'dynamsoft-barcode-reader-bundle';
 import { SharedService } from '../shared.service';
 
 import 'dynamsoft-document-normalizer';
+import 'dynamsoft-label-recognizer';
+import 'dynamsoft-code-parser';
 
 @Component({
   selector: 'app-product-list',
@@ -25,14 +27,18 @@ export class ProductListComponent {
     this.processedText = this.inputText.toUpperCase();
     // Configure the paths where the .wasm files and other necessary resources for modules are located.
     CoreModule.engineResourcePaths = {
-      std: 'assets/dynamsoft-capture-vision-std/',
-      dip: 'assets/dynamsoft-image-processing/',
-      core: 'assets/dynamsoft-core/',
-      license: 'assets/dynamsoft-license/',
-      cvr: 'assets/dynamsoft-capture-vision-router/',
-      dbr: 'assets/dynamsoft-barcode-reader/',
-      dce: 'assets/dynamsoft-camera-enhancer/',
-      ddn: 'assets/dynamsoft-document-normalizer/',
+      std: '/assets/dynamsoft-capture-vision-std/',
+      dip: '/assets/dynamsoft-image-processing/',
+      core: '/assets/dynamsoft-core/',
+      license: '/assets/dynamsoft-license/',
+      cvr: '/assets/dynamsoft-capture-vision-router/',
+      dbr: '/assets/dynamsoft-barcode-reader/',
+      dce: '/assets/dynamsoft-camera-enhancer/',
+      ddn: '/assets/dynamsoft-document-normalizer/',
+      dlr: '/assets/dynamsoft-label-recognizer/',
+      dcp: '/assets/dynamsoft-code-parser/',
+      dnn: '/assets/dynamsoft-capture-vision-dnn/',
+      dlrData: '/assets/dynamsoft-label-recognizer-data',
     };
 
     try {
@@ -42,11 +48,11 @@ export class ProductListComponent {
 
 
       // Preload wasm files for saving the time of loading it when needed.
-      await CoreModule.loadWasm(['DBR', 'DDN']);
+      // await CoreModule.loadWasm(['DBR', 'DDN']);
 
       this.toggleDivVisibility();
     } catch (error) {
-      alert(error);
+      throw (error);
     }
 
   }

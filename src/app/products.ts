@@ -26,5 +26,15 @@ export const products = [
     name: 'Document Scanner (Camera)',
     description: 'Detect document from camera stream',
   },
+  {
+    id: 'mrz-reader',
+    name: 'MRZ Reader',
+    description: 'Scan MRZ from image files',
+  },
+  {
+    id: 'mrz-scanner',
+    name: 'MRZ Scanner',
+    description: 'Scan MRZ from camera stream',
+  },
 ];
 

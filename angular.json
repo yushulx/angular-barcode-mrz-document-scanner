@@ -64,6 +64,26 @@
                 "glob": "**/*",
                 "input": "./node_modules/dynamsoft-document-normalizer/dist",
                 "output": "assets/dynamsoft-document-normalizer"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/dynamsoft-label-recognizer/dist",
+                "output": "assets/dynamsoft-label-recognizer"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/dynamsoft-code-parser/dist",
+                "output": "assets/dynamsoft-code-parser"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/dynamsoft-capture-vision-dnn/dist",
+                "output": "assets/dynamsoft-capture-vision-dnn"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/dynamsoft-label-recognizer-data/dist",
+                "output": "assets/dynamsoft-label-recognizer-data"
               }
             ],
             "styles": [

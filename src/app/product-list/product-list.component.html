@@ -42,6 +42,22 @@
         </ng-template>
       </div>
 
+      <div>
+        <ng-template [ngIf]="product.id === 'mrz-reader'">
+          <a [title]="product.name + ' details'" [routerLink]="['/mrz-reader']">>
+            {{ product.name }}
+          </a>
+        </ng-template>
+      </div>
+
+      <div>
+        <ng-template [ngIf]="product.id === 'mrz-scanner'">
+          <a [title]="product.name + ' details'" [routerLink]="['/mrz-scanner']">>
+            {{ product.name }}
+          </a>
+        </ng-template>
+      </div>
+
     </h3>
 
     <p *ngIf="product.description">Description: {{ product.description }}</p>

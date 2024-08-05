@@ -26,6 +26,12 @@ export class BarcodeReaderComponent implements OnInit {
     })();
   }
 
+  ngOnDestroy() {
+    try {
+      this.cvr?.dispose();
+    } catch (_) { }
+  }
+
   onChange(event: Event) {
     const element = event.currentTarget as HTMLInputElement;
     let fileList: FileList | null = element.files;

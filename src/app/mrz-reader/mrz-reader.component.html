@@ -1,0 +1,26 @@
+<div id="loading-indicator" class="loading-indicator" *ngIf="!isLoaded">
+    <div class="spinner"></div>
+</div>
+
+<div>
+    <input type="file" title="file" id="file" accept="image/*" (change)="onChange($event)" />
+</div>
+
+<div class="container" id="file_container">
+
+
+    <div class="row">
+        <div id="imageview" class="imageview">
+            <img id="image" alt="" />
+            <canvas id="overlay" class="overlay"></canvas>
+
+        </div>
+    </div>
+
+
+
+</div>
+
+<div>
+    <textarea id="detection_result"></textarea>
+</div>

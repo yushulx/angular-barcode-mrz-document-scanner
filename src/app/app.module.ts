@@ -10,6 +10,8 @@ import { ProductListComponent } from './product-list/product-list.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
 import { FileDetectionComponent } from './file-detection/file-detection.component';
 import { CameraDetectionComponent } from './camera-detection/camera-detection.component';
+import { MrzReaderComponent } from './mrz-reader/mrz-reader.component';
+import { MrzScannerComponent } from './mrz-scanner/mrz-scanner.component';
 
 // import {NgxBarcodeQrcodeModule} from 'ngx-barcode-qrcode';
 
@@ -22,6 +24,8 @@ import { CameraDetectionComponent } from './camera-detection/camera-detection.co
     TopBarComponent,
     FileDetectionComponent,
     CameraDetectionComponent,
+    MrzReaderComponent,
+    MrzScannerComponent,
 
   ],
   imports: [
