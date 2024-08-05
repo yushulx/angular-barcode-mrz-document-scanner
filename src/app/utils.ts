@@ -42,3 +42,8 @@ export function handleMrzParseResult(result: ParsedResultItem): any {
     parseResultInfo["Date of Expiry (YYYY-MM-DD)"] = expiryYear + "-" + expiryMonth + "-" + expiryDay;
     return parseResultInfo;
 }
+
+export function getFullUrl(endpoint: string): string {
+    let baseUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
+    return `${baseUrl}${endpoint}`;
+}
