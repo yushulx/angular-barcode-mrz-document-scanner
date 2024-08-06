@@ -10,7 +10,12 @@ This project demonstrates how to utilize the Dynamsoft Capture Vision SDK for de
 
     https://github.com/user-attachments/assets/17cf6449-f1b6-4644-89fc-d3f5f05009f9
 
+- **MRZ Scanner**
 
+    https://github.com/user-attachments/assets/8fb428fb-7846-4cfc-b659-ddfe36aaa34d
+
+
+   
 ## Prerequisites
 - [Node.js](https://nodejs.org/en/download/)
 - Angular CLI 
