@@ -53,3 +53,4 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 ## Blog
 - [How to Build an Angular Barcode & QR Code Detection App: A Step-by-Step Guide](https://www.dynamsoft.com/codepool/angular-barcode-qr-code-scanner.html)
 - [How to Detect and Rectify Documents in Angular Web Applications](https://www.dynamsoft.com/codepool/angular-document-edge-detection-rectification.html)
+- [Steps to Develop an Angular Passport MRZ Reader & Scanner](https://www.dynamsoft.com/codepool/angular-mrz-reader-scanner.html)
