@@ -55,7 +55,7 @@ export class ProductListComponent {
 
       this.toggleDivVisibility();
     } catch (error) {
-      throw (error);
+      alert(error);
     }
 
   }
