@@ -36,5 +36,11 @@ export const products = [
     name: 'MRZ Scanner',
     description: 'Scan MRZ from camera stream',
   },
+  {
+    id: 'document-viewer',
+    name: 'Document Viewer',
+    description: 'View, edit and save documents',
+  },
+
 ];
 

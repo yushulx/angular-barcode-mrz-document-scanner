@@ -84,6 +84,11 @@
                 "glob": "**/*",
                 "input": "./node_modules/dynamsoft-label-recognizer-data/dist",
                 "output": "assets/dynamsoft-label-recognizer-data"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/dynamsoft-document-viewer/dist",
+                "output": "assets/dynamsoft-document-viewer"
               }
             ],
             "styles": [

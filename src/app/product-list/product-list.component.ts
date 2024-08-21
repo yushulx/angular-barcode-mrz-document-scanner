@@ -10,6 +10,8 @@ import 'dynamsoft-document-normalizer';
 import 'dynamsoft-label-recognizer';
 import 'dynamsoft-code-parser';
 import { getFullUrl } from '../utils';
+import { DDV } from 'dynamsoft-document-viewer';
+
 
 @Component({
   selector: 'app-product-list',
@@ -49,7 +51,10 @@ export class ProductListComponent {
       let licenseKey: string = this.inputText === '' ? this.placeholderText : this.inputText;
       await LicenseManager.initLicense(licenseKey, true);
 
-
+      // DDV.Core.license = licenseKey;
+      DDV.Core.engineResourcePath = getFullUrl('assets/dynamsoft-document-viewer/engine/');
+      await DDV.Core.init();
+      DDV.setProcessingHandler("imageFilter", new DDV.ImageFilter());
       // Preload wasm files for saving the time of loading it when needed.
       // await CoreModule.loadWasm(['DBR', 'DDN']);
 

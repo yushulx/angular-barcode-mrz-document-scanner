@@ -12,8 +12,7 @@ import { FileDetectionComponent } from './file-detection/file-detection.componen
 import { CameraDetectionComponent } from './camera-detection/camera-detection.component';
 import { MrzReaderComponent } from './mrz-reader/mrz-reader.component';
 import { MrzScannerComponent } from './mrz-scanner/mrz-scanner.component';
-
-// import {NgxBarcodeQrcodeModule} from 'ngx-barcode-qrcode';
+import { DocumentViewerComponent } from './document-viewer/document-viewer.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +25,7 @@ import { MrzScannerComponent } from './mrz-scanner/mrz-scanner.component';
     CameraDetectionComponent,
     MrzReaderComponent,
     MrzScannerComponent,
-
+    DocumentViewerComponent,
   ],
   imports: [
     BrowserModule,

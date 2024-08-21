@@ -58,6 +58,14 @@
         </ng-template>
       </div>
 
+      <div>
+        <ng-template [ngIf]="product.id === 'document-viewer'">
+          <a [title]="product.name + ' details'" [routerLink]="['/document-viewer']">>
+            {{ product.name }}
+          </a>
+        </ng-template>
+      </div>
+
     </h3>
 
     <p *ngIf="product.description">Description: {{ product.description }}</p>

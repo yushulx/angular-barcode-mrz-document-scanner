@@ -24,6 +24,7 @@
     "dynamsoft-capture-vision-std": "^1.2.10",
     "dynamsoft-code-parser": "^2.2.10",
     "dynamsoft-document-normalizer": "^2.2.10",
+    "dynamsoft-document-viewer": "^2.0.0",
     "dynamsoft-image-processing": "^2.2.30",
     "dynamsoft-label-recognizer": "^3.2.30",
     "dynamsoft-label-recognizer-data": "^1.0.11",
