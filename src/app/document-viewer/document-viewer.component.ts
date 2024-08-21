@@ -14,11 +14,17 @@ export class DocumentViewerComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const mytooltips = DDV.Elements.getTooltip();
+    mytooltips.DisplayMode = "Display Mode";
+    mytooltips.AnnotationSet = "Add Annotation";
+    DDV.Elements.setTooltip(mytooltips);
+
     let config = DDV.getDefaultUiConfig("editViewer", { includeAnnotationSet: true });
     this.editViewer = new DDV.EditViewer({
       container: "document_container",
       uiConfig: config!,
     });
+
   }
 
 }
