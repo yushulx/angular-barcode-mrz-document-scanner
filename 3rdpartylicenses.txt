@@ -34,6 +34,9 @@ SEE LICENSE IN LICENSE
 dynamsoft-document-normalizer
 SEE LICENSE IN LICENSE
 
+dynamsoft-document-viewer
+SEE LICENSE IN LICENSE.txt
+
 dynamsoft-label-recognizer
 SEE LICENSE IN LICENSE
 
