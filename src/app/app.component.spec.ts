@@ -20,16 +20,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'angular-barcode-qr-code-scanner'`, () => {
+  it(`should have as title 'angular-barcode-mrz-document-scanner'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('angular-barcode-qr-code-scanner');
+    expect(app.title).toEqual('angular-barcode-mrz-document-scanner');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('angular-barcode-qr-code-scanner app is running!');
+    expect(compiled.querySelector('.content span')?.textContent).toContain('angular-barcode-mrz-document-scanner app is running!');
   });
 });

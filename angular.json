@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "angular-barcode-qr-code-scanner": {
+    "angular-barcode-mrz-document-scanner": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:application": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/angular-barcode-qr-code-scanner",
+            "outputPath": "dist/angular-barcode-mrz-document-scanner",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -128,10 +128,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "angular-barcode-qr-code-scanner:build:production"
+              "browserTarget": "angular-barcode-mrz-document-scanner:build:production"
             },
             "development": {
-              "browserTarget": "angular-barcode-qr-code-scanner:build:development"
+              "browserTarget": "angular-barcode-mrz-document-scanner:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -139,7 +139,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "angular-barcode-qr-code-scanner:build"
+            "browserTarget": "angular-barcode-mrz-document-scanner:build"
           }
         },
         "test": {
@@ -167,5 +167,5 @@
       }
     }
   },
-  "defaultProject": "angular-barcode-qr-code-scanner"
+  "defaultProject": "angular-barcode-mrz-document-scanner"
 }

@@ -29,7 +29,7 @@ This project demonstrates how to utilize the Dynamsoft Capture Vision SDK for de
   ![Dynamsoft Capture Vision Trial License](https://www.dynamsoft.com/codepool/img/2024/07/capture-vision-suite-license.png)
 
 ## Online Demo
-[Try the Demo](https://yushulx.me/angular-barcode-qr-code-scanner/)
+[Try the Demo](https://yushulx.me/angular-barcode-mrz-document-scanner/)
 
 
 ## Usage    
