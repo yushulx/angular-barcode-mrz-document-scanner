@@ -14,6 +14,10 @@ This project demonstrates how to utilize the Dynamsoft Capture Vision SDK for de
 
     https://github.com/user-attachments/assets/8fb428fb-7846-4cfc-b659-ddfe36aaa34d
 
+- **Document PDF Viewer**
+
+    https://github.com/user-attachments/assets/d1e0c7ef-2e33-4f96-85e6-f48ceef438c2
+
 
    
 ## Prerequisites
