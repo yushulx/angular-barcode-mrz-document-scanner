@@ -1,4 +1,4 @@
-# Angular Capture Vision Sample
+# Angular Capture Vision Samples
 This project demonstrates how to utilize the Dynamsoft Capture Vision SDK for detecting **1D/2D barcodes**, **documents**, **MRZ (Machine Readable Zone)**, and more in Angular applications.
 
 ## Features
