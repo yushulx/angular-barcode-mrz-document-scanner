@@ -13,6 +13,9 @@ MIT
 @angular/router
 MIT
 
+dwt
+SEE LICENSE IN LICENSE.txt
+
 dynamsoft-barcode-reader
 SEE LICENSE IN LICENSE
 
