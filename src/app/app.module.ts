@@ -13,6 +13,8 @@ import { CameraDetectionComponent } from './camera-detection/camera-detection.co
 import { MrzReaderComponent } from './mrz-reader/mrz-reader.component';
 import { MrzScannerComponent } from './mrz-scanner/mrz-scanner.component';
 import { DocumentViewerComponent } from './document-viewer/document-viewer.component';
+import { AcquireImageComponent } from './acquire-image/acquire-image.component';
+import { ImageEditorComponent } from './image-editor/image-editor.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,8 @@ import { DocumentViewerComponent } from './document-viewer/document-viewer.compo
     MrzReaderComponent,
     MrzScannerComponent,
     DocumentViewerComponent,
+    AcquireImageComponent,
+    ImageEditorComponent,
   ],
   imports: [
     BrowserModule,

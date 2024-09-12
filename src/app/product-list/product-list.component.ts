@@ -11,7 +11,7 @@ import 'dynamsoft-label-recognizer';
 import 'dynamsoft-code-parser';
 import { getFullUrl } from '../utils';
 import { DDV } from 'dynamsoft-document-viewer';
-
+import Dynamsoft from 'dwt';
 
 @Component({
   selector: 'app-product-list',
@@ -59,6 +59,11 @@ export class ProductListComponent {
       // await CoreModule.loadWasm(['DBR', 'DDN']);
 
       this.toggleDivVisibility();
+
+      // DWT
+      Dynamsoft.DWT.ProductKey = licenseKey;
+      Dynamsoft.DWT.ResourcesPath = "assets/dynamic-web-twain";
+      Dynamsoft.DWT.UseLocalService = true;
     } catch (error) {
       alert(error);
     }

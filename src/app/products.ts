@@ -42,5 +42,15 @@ export const products = [
     description: 'View, edit and save documents',
   },
 
+  {
+    id: 'acquire-image',
+    name: 'Acquire Image',
+    description: 'The basic document scanning functionality',
+  },
+  {
+    id: 'image-editor',
+    name: 'Image Editor',
+    description: 'Image editing: rotate, mirror, flip and more',
+  },
 ];
 

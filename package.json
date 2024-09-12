@@ -19,6 +19,7 @@
     "@angular/platform-browser-dynamic": "~13.3.0",
     "@angular/router": "~13.3.0",
     "angular-barcode-mrz-document-scanner": "file:",
+    "dwt": "^18.5.0-patch-20240517",
     "dynamsoft-barcode-reader-bundle": "^10.2.1000",
     "dynamsoft-capture-vision-dnn": "^1.0.20",
     "dynamsoft-capture-vision-std": "^1.2.10",

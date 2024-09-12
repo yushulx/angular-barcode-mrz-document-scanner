@@ -89,6 +89,11 @@
                 "glob": "**/*",
                 "input": "./node_modules/dynamsoft-document-viewer/dist",
                 "output": "assets/dynamsoft-document-viewer"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/dwt/dist",
+                "output": "assets/dynamic-web-twain"
               }
             ],
             "styles": [
