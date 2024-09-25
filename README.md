@@ -28,7 +28,7 @@ This project demonstrates how to utilize the Dynamsoft Capture Vision SDK for de
     npm install -g @angular/cli
     ng --version
     ```
-- [Dynamsoft Capture Vision Trial License](https://www.dynamsoft.com/customer/license/trialLicense)
+- [Dynamsoft Capture Vision Trial License](https://www.dynamsoft.com/customer/license/trialLicense/?product=dcv&package=cross-platform)
 
   ![Dynamsoft Capture Vision Trial License](https://www.dynamsoft.com/codepool/img/2024/07/capture-vision-suite-license.png)
 
