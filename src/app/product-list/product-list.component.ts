@@ -47,7 +47,7 @@ export class ProductListComponent {
     };
 
     try {
-      // Visit https://www.dynamsoft.com/customer/license/trialLicense to get a trial license for capture vision suite.
+      // Visit https://www.dynamsoft.com/customer/license/trialLicense/?product=dcv&package=cross-platform to get a trial license for capture vision suite.
       let licenseKey: string = this.inputText === '' ? this.placeholderText : this.inputText;
       await LicenseManager.initLicense(licenseKey, true);
 
