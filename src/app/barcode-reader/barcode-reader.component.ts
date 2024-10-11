@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OverlayManager } from '../overlay';
-import { CapturedResult, CaptureVisionRouter, BarcodeResultItem, EnumCapturedResultItemType } from 'dynamsoft-barcode-reader-bundle';
+import { CapturedResult, CaptureVisionRouter, BarcodeResultItem, EnumCapturedResultItemType } from 'dynamsoft-capture-vision-bundle';
 
 @Component({
   selector: 'app-barcode-reader',

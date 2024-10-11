@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OverlayManager } from '../overlay';
-import { BarcodeResultItem, CameraEnhancer, CameraView, CapturedResult, CaptureVisionRouter, EnumCapturedResultItemType, MultiFrameResultCrossFilter, Resolution } from 'dynamsoft-barcode-reader-bundle';
+import { BarcodeResultItem, CameraEnhancer, CameraView, CapturedResult, CaptureVisionRouter, EnumCapturedResultItemType, MultiFrameResultCrossFilter, Resolution } from 'dynamsoft-capture-vision-bundle';
 
 const componentDestroyedErrorMsg = 'VideoCapture Component Destroyed';
 

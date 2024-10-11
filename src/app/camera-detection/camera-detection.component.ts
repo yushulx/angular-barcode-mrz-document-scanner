@@ -1,6 +1,6 @@
 import { Template } from '@angular/compiler/src/render3/r3_ast';
 import { Component, OnInit } from '@angular/core';
-import { BarcodeResultItem, CameraEnhancer, CameraView, CapturedResult, CaptureVisionRouter, DSImageData, EnumCapturedResultItemType, OriginalImageResultItem, Resolution, SimplifiedCaptureVisionSettings } from 'dynamsoft-barcode-reader-bundle';
+import { BarcodeResultItem, CameraEnhancer, CameraView, CapturedResult, CaptureVisionRouter, DSImageData, EnumCapturedResultItemType, OriginalImageResultItem, Resolution, SimplifiedCaptureVisionSettings } from 'dynamsoft-capture-vision-bundle';
 import { OverlayManager } from '../overlay';
 import { DetectedQuadResultItem, DetectedQuadsResult, EnumImageColourMode, NormalizedImageResultItem } from 'dynamsoft-document-normalizer';
 

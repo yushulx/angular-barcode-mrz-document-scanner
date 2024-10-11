@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 import { products } from '../products';
 
-import { CoreModule, LicenseManager } from 'dynamsoft-barcode-reader-bundle';
+import { CoreModule, LicenseManager } from 'dynamsoft-capture-vision-bundle';
 
 import { SharedService } from '../shared.service';
 
@@ -50,7 +50,7 @@ export class ProductListComponent {
     try {
       // Visit https://www.dynamsoft.com/customer/license/trialLicense/?product=dcv&package=cross-platform to get a trial license for capture vision suite.
       let licenseKey: string = this.inputText === '' ? this.placeholderText : this.inputText;
-      await LicenseManager.initLicense(licenseKey, true);
+      LicenseManager.initLicense(licenseKey);
 
       // DDV.Core.license = licenseKey;
       DDV.Core.engineResourcePath = getFullUrl('assets/dynamsoft-document-viewer/engine/');
@@ -59,7 +59,7 @@ export class ProductListComponent {
       // Preload wasm files for saving the time of loading it when needed.
       // await CoreModule.loadWasm(['DBR', 'DDN']);
 
-      this.toggleDivVisibility();
+      this.sharedService.setShowDiv(true);
 
       // DWT
       Dynamsoft.DWT.ProductKey = licenseKey;
@@ -70,10 +70,6 @@ export class ProductListComponent {
     }
 
     this.isLoading = false;
-  }
-
-  toggleDivVisibility(): void {
-    this.sharedService.toggleShowDiv();
   }
 
   get showDiv(): boolean {

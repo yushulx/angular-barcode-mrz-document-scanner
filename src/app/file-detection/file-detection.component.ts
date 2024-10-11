@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OverlayManager } from '../overlay';
-import { CapturedResult, CaptureVisionRouter, SimplifiedCaptureVisionSettings } from 'dynamsoft-barcode-reader-bundle';
+import { CapturedResult, CaptureVisionRouter, SimplifiedCaptureVisionSettings } from 'dynamsoft-capture-vision-bundle';
 import { DetectedQuadResultItem, EnumImageColourMode, NormalizedImageResultItem } from 'dynamsoft-document-normalizer';
 
 @Component({

@@ -1,4 +1,4 @@
-import { Point, Quadrilateral } from "dynamsoft-barcode-reader-bundle";
+import { Point, Quadrilateral } from "dynamsoft-capture-vision-bundle";
 
 export class OverlayManager {
     overlay: HTMLCanvasElement | undefined;

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OverlayManager } from '../overlay';
-import { CapturedResult, CaptureVisionRouter, EnumCapturedResultItemType } from 'dynamsoft-barcode-reader-bundle';
+import { CapturedResult, CaptureVisionRouter, EnumCapturedResultItemType } from 'dynamsoft-capture-vision-bundle';
 import { LabelRecognizerModule, TextLineResultItem } from 'dynamsoft-label-recognizer';
 import { CodeParser, CodeParserModule, ParsedResultItem } from 'dynamsoft-code-parser';
 import { handleMrzParseResult } from '../utils';
