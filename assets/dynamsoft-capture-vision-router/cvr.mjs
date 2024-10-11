@@ -4,8 +4,2155 @@
  * @website http://www.dynamsoft.com
  * @copyright Copyright 2024, Dynamsoft Corporation
  * @author Dynamsoft
- * @version "2.2.30"
+ * @version "2.4.20"
  * @fileoverview Dynamsoft JavaScript Library for Capture Vision
  * More info on cvr JS: https://www.dynamsoft.com/capture-vision/docs/web/programming/javascript/api-reference/capture-vision-router/capture-vision-router-module.html
  */
-import{getNextTaskID as e,mapTaskCallBack as t,worker as s,engineResourcePaths as i,workerAutoResources as a,mapPackageRegister as r,compareVersion as n,innerVersions as o,EnumCapturedResultItemType as c,CoreModule as d,loadWasm as l,EnumImagePixelFormat as u,EnumColourChannelUsageType as _,_isDSImageData as m,requestResource as h,bSupportBigInt as g,EnumIntermediateResultUnitType as R}from"dynamsoft-core";const I=e=>e&&"object"==typeof e&&"function"==typeof e.then;class p extends Promise{constructor(e){let t,s;super(((e,i)=>{t=e,s=i})),this._s="pending",this.resolve=e=>{this.isPending&&(I(e)?this.task=e:(this._s="fulfilled",t(e)))},this.reject=e=>{this.isPending&&(this._s="rejected",s(e))},this.task=e}get status(){return this._s}get isPending(){return"pending"===this._s}get isFulfilled(){return"fulfilled"===this._s}get isRejected(){return"rejected"===this._s}get task(){return this._task}set task(e){let t;this._task=e,I(e)?t=e:"function"==typeof e&&(t=new Promise(e)),t&&(async()=>{try{const s=await t;e===this._task&&this.resolve(s)}catch(t){e===this._task&&this.reject(t)}})()}get isEmpty(){return null==this._task}}class v{constructor(e){this._cvr=e}async getMaxBufferedItems(){return await new Promise(((i,a)=>{let r=e();t[r]=async e=>{if(e.success)return i(e.count);{let t=new Error(e.message);return t.stack=e.stack+"\n"+t.stack,a(t)}},s.postMessage({type:"cvr_getMaxBufferedItems",id:r,instanceID:this._cvr._instanceID})}))}async setMaxBufferedItems(i){return await new Promise(((a,r)=>{let n=e();t[n]=async e=>{if(e.success)return a();{let t=new Error(e.message);return t.stack=e.stack+"\n"+t.stack,r(t)}},s.postMessage({type:"cvr_setMaxBufferedItems",id:n,instanceID:this._cvr._instanceID,body:{count:i}})}))}async getBufferedCharacterItemSet(){return await new Promise(((i,a)=>{let r=e();t[r]=async e=>{if(e.success)return i(e.itemSet);{let t=new Error(e.message);return t.stack=e.stack+"\n"+t.stack,a(t)}},s.postMessage({type:"cvr_getBufferedCharacterItemSet",id:r,instanceID:this._cvr._instanceID})}))}}var f={onTaskResultsReceived:!1,onTaskResultsReceivedForDce:!1,onPredetectedRegionsReceived:!1,onLocalizedBarcodesReceived:!1,onDecodedBarcodesReceived:!1,onLocalizedTextLinesReceived:!1,onRecognizedTextLinesReceived:!1,onDetectedQuadsReceived:!1,onNormalizedImagesReceived:!1,onColourImageUnitReceived:!1,onScaledDownColourImageUnitReceived:!1,onGrayscaleImageUnitReceived:!1,onTransformedGrayscaleImageUnitReceived:!1,onEnhancedGrayscaleImageUnitReceived:!1,onBinaryImageUnitReceived:!1,onTextureDetectionResultUnitReceived:!1,onTextureRemovedGrayscaleImageUnitReceived:!1,onTextureRemovedBinaryImageUnitReceived:!1,onContoursUnitReceived:!1,onLineSegmentsUnitReceived:!1,onTextZonesUnitReceived:!1,onTextRemovedBinaryImageUnitReceived:!1,onLongLinesUnitReceived:!1,onCornersUnitReceived:!1,onCandidateQuadEdgesUnitReceived:!1,onCandidateBarcodeZonesUnitReceived:!1,onScaledUpBarcodeImageUnitReceived:!1,onDeformationResistedBarcodeImageUnitReceived:!1,onComplementedBarcodeImageUnitReceived:!1,onShortLinesUnitReceived:!1};const T=(e,t)=>{for(let e in t._irrRegistryState)t._irrRegistryState[e]=!1;for(let s of e._intermediateResultReceiverSet)if(s.isDce)t._irrRegistryState.onTaskResultsReceivedForDce=!0;else for(let e in s)t._irrRegistryState[e]||(t._irrRegistryState[e]=!!s[e])};class E{constructor(e){this._irrRegistryState=f,this._cvr=e}async addResultReceiver(i){if("object"!=typeof i)throw new Error("Invalid receiver.");this._cvr._intermediateResultReceiverSet.add(i),T(this._cvr,this);let a=-1,r={};if(!i.isDce){if(!i._observedResultUnitTypes||!i._observedTaskMap)throw new Error("Invalid Intermediate Result Receiver.");a=i._observedResultUnitTypes,i._observedTaskMap.forEach(((e,t)=>{r[t]=e})),i._observedTaskMap.clear()}return await new Promise(((i,n)=>{let o=e();t[o]=async e=>{if(e.success)return i();{let t=new Error(e.message);return t.stack=e.stack+"\n"+t.stack,n(t)}},s.postMessage({type:"cvr_setIrrRegistry",id:o,instanceID:this._cvr._instanceID,body:{receiverObj:this._irrRegistryState,observedResultUnitTypes:String(a),observedTaskMap:r}})}))}async removeResultReceiver(i){return this._cvr._intermediateResultReceiverSet.delete(i),T(this._cvr,this),await new Promise(((i,a)=>{let r=e();t[r]=async e=>{if(e.success)return i();{let t=new Error(e.message);return t.stack=e.stack+"\n"+t.stack,a(t)}},s.postMessage({type:"cvr_setIrrRegistry",id:r,instanceID:this._cvr._instanceID,body:{receiverObj:this._irrRegistryState}})}))}getOriginalImage(){return this._cvr._dsImage}}const y="undefined"==typeof self,S=(()=>{if(!y&&document.currentScript){let e=document.currentScript.src,t=e.indexOf("?");if(-1!=t)e=e.substring(0,t);else{let t=e.indexOf("#");-1!=t&&(e=e.substring(0,t))}return e.substring(0,e.lastIndexOf("/")+1)}return"./"})(),D=e=>{if(null==e&&(e="./"),y);else{let t=document.createElement("a");t.href=e,e=t.href}return e.endsWith("/")||(e+="/"),e};var b;null==i.cvr&&(i.cvr=S),a.cvr={js:!0,wasm:!0,deps:["license","dip"]},r.cvr={};const w="1.2.10";"string"!=typeof i.std&&n(i.std.version,w)<0&&(i.std={version:w,path:D(S+`../../dynamsoft-capture-vision-std@${w}/dist/`)});const C="2.2.30";(!i.dip||"string"!=typeof i.dip&&n(i.dip.version,C)<0)&&(i.dip={version:C,path:D(S+`../../dynamsoft-image-processing@${C}/dist/`)});class O{static getVersion(){return this._version}}var L,U;function k(e,t){if(e&&e.location){const s=e.location.points;for(let e of s)e.x=e.x/t,e.y=e.y/t;k(e.referencedItem,t)}}O._version=`2.2.30(Worker: ${null===(b=o.cvr)||void 0===b?void 0:b.worker}, Wasm: loading...`,function(e){e[e.ISS_BUFFER_EMPTY=0]="ISS_BUFFER_EMPTY",e[e.ISS_EXHAUSTED=1]="ISS_EXHAUSTED"}(L||(L={})),function(e){e[e.IRUT_NULL=0]="IRUT_NULL",e[e.IRUT_COLOUR_IMAGE=1]="IRUT_COLOUR_IMAGE",e[e.IRUT_SCALED_DOWN_COLOUR_IMAGE=2]="IRUT_SCALED_DOWN_COLOUR_IMAGE",e[e.IRUT_GRAYSCALE_IMAGE=4]="IRUT_GRAYSCALE_IMAGE",e[e.IRUT_TRANSOFORMED_GRAYSCALE_IMAGE=8]="IRUT_TRANSOFORMED_GRAYSCALE_IMAGE",e[e.IRUT_ENHANCED_GRAYSCALE_IMAGE=16]="IRUT_ENHANCED_GRAYSCALE_IMAGE",e[e.IRUT_PREDETECTED_REGIONS=32]="IRUT_PREDETECTED_REGIONS",e[e.IRUT_BINARY_IMAGE=64]="IRUT_BINARY_IMAGE",e[e.IRUT_TEXTURE_DETECTION_RESULT=128]="IRUT_TEXTURE_DETECTION_RESULT",e[e.IRUT_TEXTURE_REMOVED_GRAYSCALE_IMAGE=256]="IRUT_TEXTURE_REMOVED_GRAYSCALE_IMAGE",e[e.IRUT_TEXTURE_REMOVED_BINARY_IMAGE=512]="IRUT_TEXTURE_REMOVED_BINARY_IMAGE",e[e.IRUT_CONTOURS=1024]="IRUT_CONTOURS",e[e.IRUT_LINE_SEGMENTS=2048]="IRUT_LINE_SEGMENTS",e[e.IRUT_TEXT_ZONES=4096]="IRUT_TEXT_ZONES",e[e.IRUT_TEXT_REMOVED_BINARY_IMAGE=8192]="IRUT_TEXT_REMOVED_BINARY_IMAGE",e[e.IRUT_CANDIDATE_BARCODE_ZONES=16384]="IRUT_CANDIDATE_BARCODE_ZONES",e[e.IRUT_LOCALIZED_BARCODES=32768]="IRUT_LOCALIZED_BARCODES",e[e.IRUT_SCALED_UP_BARCODE_IMAGE=65536]="IRUT_SCALED_UP_BARCODE_IMAGE",e[e.IRUT_DEFORMATION_RESISTED_BARCODE_IMAGE=131072]="IRUT_DEFORMATION_RESISTED_BARCODE_IMAGE",e[e.IRUT_COMPLEMENTED_BARCODE_IMAGE=262144]="IRUT_COMPLEMENTED_BARCODE_IMAGE",e[e.IRUT_DECODED_BARCODES=524288]="IRUT_DECODED_BARCODES",e[e.IRUT_LONG_LINES=1048576]="IRUT_LONG_LINES",e[e.IRUT_CORNERS=2097152]="IRUT_CORNERS",e[e.IRUT_CANDIDATE_QUAD_EDGES=4194304]="IRUT_CANDIDATE_QUAD_EDGES",e[e.IRUT_DETECTED_QUADS=8388608]="IRUT_DETECTED_QUADS",e[e.IRUT_LOCALIZED_TEXT_LINES=16777216]="IRUT_LOCALIZED_TEXT_LINES",e[e.IRUT_RECOGNIZED_TEXT_LINES=33554432]="IRUT_RECOGNIZED_TEXT_LINES",e[e.IRUT_NORMALIZED_IMAGES=67108864]="IRUT_NORMALIZED_IMAGES",e[e.IRUT_SHORT_LINES=134217728]="IRUT_SHORT_LINES",e[e.IRUT_ALL=134217727]="IRUT_ALL"}(U||(U={}));class A{constructor(){this.maxCvsSideLength=["iPhone","Android","HarmonyOS"].includes(d.browserInfo.OS)?2048:4096,this._isa=null,this._dsImage=null,this._instanceID=void 0,this._bPauseScan=!0,this._bNeedOutputOriginalImage=!1,this._canvas=null,this._resultReceiverSet=new Set,this._isaStateListenerSet=new Set,this._resultFilterSet=new Set,this._intermediateResultReceiverSet=new Set,this._intermediateResultManager=null,this._bufferdItemsManager=null,this._bOpenDetectVerify=!1,this._bOpenNormalizeVerify=!1,this._bOpenBarcodeVerify=!1,this._bOpenLabelVerify=!1,this._minImageCaptureInterval=0,this._averageProcessintTimeArray=[],this._averageFetchImageTimeArray=[],this._currentSettings=null,this._averageTime=999,this._compressRate=0,this._dynamsoft=!1,this.captureInParallel=!0,this.bDestroyed=!1,this._singleFrameModeCallbackBind=this._singleFrameModeCallback.bind(this),this._promiseStartScan=null}get disposed(){return this.bDestroyed}static async createInstance(){if(!r.license)throw Error("Module `license` is not existed.");await r.license.dynamsoft(),await l(["cvr"]);const i=new A,a=new p;let n=e();return t[n]=async e=>{var t;if(e.success)i._instanceID=e.instanceID,i._currentSettings=JSON.parse(e.outputSettings),O._version=`2.2.30(Worker: ${null===(t=o.cvr)||void 0===t?void 0:t.worker}, Wasm: ${e.version})`,0===d.bSupportDce4Module&&(i._intermediateResultManager=i.getIntermediateResultManager(!0)),a.resolve(i);else{const t=Error(e.message);e.stack&&(t.stack=e.stack),a.reject(t)}},s.postMessage({type:"cvr_createInstance",id:n}),a}async _singleFrameModeCallback(e){this._isa.getCameraView().setScanLaserVisible(!0);for(let t of this._resultReceiverSet)this._bNeedOutputOriginalImage&&t.onOriginalImageResultReceived&&t.onOriginalImageResultReceived({imageData:e});const t={bytes:new Uint8Array(e.bytes),width:e.width,height:e.height,stride:e.stride,format:e.format,tag:e.tag};this._templateName||(this._templateName=this._currentSettings.CaptureVisionTemplates[0].Name);const s=await this.capture(t,this._templateName);s.originalImageTag=e.tag;for(let e of this._resultReceiverSet)e.isDce&&e.onCapturedResultReceived(s,{isDetectVerifyOpen:!1,isNormalizeVerifyOpen:!1,isBarcodeVerifyOpen:!1,isLabelVerifyOpen:!1});const i={originalImageHashId:s.originalImageHashId,originalImageTag:s.originalImageTag,errorCode:s.errorCode,errorString:s.errorString};for(let t of this._resultReceiverSet)if(t.onDecodedBarcodesReceived&&s.barcodeResultItems&&t.onDecodedBarcodesReceived(Object.assign(Object.assign({},i),{barcodeResultItems:s.barcodeResultItems})),t.onRecognizedTextLinesReceived&&s.textLineResultItems&&t.onRecognizedTextLinesReceived(Object.assign(Object.assign({},i),{textLineResultItems:s.textLineResultItems})),t.onDetectedQuadsReceived&&s.detectedQuadResultItems&&t.onDetectedQuadsReceived(Object.assign(Object.assign({},i),{detectedQuadResultItems:s.detectedQuadResultItems})),t.onNormalizedImagesReceived&&s.normalizedImageResultItems&&t.onNormalizedImagesReceived(Object.assign(Object.assign({},i),{normalizedImageResultItems:s.normalizedImageResultItems})),t.onParsedResultsReceived&&s.parsedResultItems&&t.onParsedResultsReceived(Object.assign(Object.assign({},i),{parsedResultItems:s.parsedResultItems})),t.onCapturedResultReceived&&!t.isDce){if(this._bNeedOutputOriginalImage){const t=s.items.findIndex((e=>1===e.type));-1!==t&&(s.items[t].imageData=e)}t.onCapturedResultReceived(s)}}setInput(e){if(this._checkIsDisposed(),e){if(this._isa=e,e.isCameraEnhancer){this._intermediateResultManager&&(this._isa._intermediateResultReceiver.isDce=!0,this._intermediateResultManager.addResultReceiver(this._isa._intermediateResultReceiver));const e=this._isa.getCameraView();if(e){const t=e._capturedResultReceiver;t.isDce=!0,this._resultReceiverSet.add(t)}}}else this._isa=null}getInput(){return this._isa}addImageSourceStateListener(e){if(this._checkIsDisposed(),"object"!=typeof e)return console.warn("Invalid ISA state listener.");e&&Object.keys(e)&&this._isaStateListenerSet.add(e)}removeImageSourceStateListener(e){return this._checkIsDisposed(),this._isaStateListenerSet.delete(e)}addResultReceiver(e){if(this._checkIsDisposed(),"object"!=typeof e)throw new Error("Invalid receiver.");e&&Object.keys(e).length&&(this._resultReceiverSet.add(e),this._setCrrRegistry())}removeResultReceiver(e){this._checkIsDisposed(),this._resultReceiverSet.delete(e),this._setCrrRegistry()}async _setCrrRegistry(){const i={onCapturedResultReceived:!1,onDecodedBarcodesReceived:!1,onRecognizedTextLinesReceived:!1,onDetectedQuadsReceived:!1,onNormalizedImagesReceived:!1,onParsedResultsReceived:!1};for(let e of this._resultReceiverSet)e.isDce||(i.onCapturedResultReceived=!!e.onCapturedResultReceived,i.onDecodedBarcodesReceived=!!e.onDecodedBarcodesReceived,i.onRecognizedTextLinesReceived=!!e.onRecognizedTextLinesReceived,i.onDetectedQuadsReceived=!!e.onDetectedQuadsReceived,i.onNormalizedImagesReceived=!!e.onNormalizedImagesReceived,i.onParsedResultsReceived=!!e.onParsedResultsReceived);const a=new p;let r=e();return t[r]=async e=>{if(e.success)a.resolve();else{let t=new Error(e.message);t.stack=e.stack+"\n"+t.stack,a.reject()}},s.postMessage({type:"cvr_setCrrRegistry",id:r,instanceID:this._instanceID,body:{receiver:JSON.stringify(i)}}),a}async addResultFilter(e){if(this._checkIsDisposed(),"object"!=typeof e)return console.warn("Invalid filter.");if(e&&Object.keys(e)){this._resultFilterSet.add(e),this._handleFilterSwitch();for(let e of this._resultFilterSet)await this._enableResultCrossVerification(e.verificationEnabled),await this._enableResultDeduplication(e.duplicateFilterEnabled),await this._setDuplicateForgetTime(e.duplicateForgetTime)}}async removeResultFilter(e){this._checkIsDisposed(),this._resultFilterSet.delete(e),this._handleFilterSwitch();for(let e of this._resultFilterSet)await this._enableResultCrossVerification(e.verificationEnabled),await this._enableResultDeduplication(e.duplicateFilterEnabled),await this._setDuplicateForgetTime(e.duplicateForgetTime)}_handleFilterSwitch(){this._bOpenBarcodeVerify=!1,this._bOpenLabelVerify=!1,this._bOpenDetectVerify=!1,this._bOpenNormalizeVerify=!1;for(let e of this._resultFilterSet)e.isResultCrossVerificationEnabled(c.CRIT_BARCODE)&&(this._bOpenBarcodeVerify=!0),e.isResultCrossVerificationEnabled(c.CRIT_TEXT_LINE)&&(this._bOpenLabelVerify=!0),e.isResultCrossVerificationEnabled(c.CRIT_DETECTED_QUAD)&&(this._bOpenDetectVerify=!0),e.isResultCrossVerificationEnabled(c.CRIT_NORMALIZED_IMAGE)&&(this._bOpenNormalizeVerify=!0)}async startCapturing(a){var n,o;if(this._checkIsDisposed(),!this._bPauseScan)return;if(!this._isa)throw new Error("'ImageSourceAdapter' is not set. call 'setInput' before 'startCapturing'");a||(a=this._currentSettings.CaptureVisionTemplates[0].Name);const c=await this.containsTask(a);if(await l(c),c.includes("dlr")&&!(null===(n=r.dlr)||void 0===n?void 0:n.bLoadConfusableCharsData)&&await(null===(o=r.dlr)||void 0===o?void 0:o.loadRecognitionData("ConfusableChars",i.dlr)),this._isa.isCameraEnhancer&&(c.includes("ddn")?this._isa.setPixelFormat(u.IPF_ABGR_8888):this._isa.setPixelFormat(u.IPF_GRAYSCALED)),void 0!==this._isa.singleFrameMode&&"disabled"!==this._isa.singleFrameMode)return this._templateName=a,void this._isa.on("singleFrameAcquired",this._singleFrameModeCallbackBind);return this._isa.getColourChannelUsageType()===_.CCUT_AUTO&&this._isa.setColourChannelUsageType(c.includes("ddn")?_.CCUT_FULL_CHANNEL:_.CCUT_Y_CHANNEL_ONLY),this._promiseStartScan&&this._promiseStartScan.isPending?this._promiseStartScan:(this._promiseStartScan=new p(((i,r)=>{if(this.disposed)return;let n=e();t[n]=async e=>{if(this._promiseStartScan&&!this._promiseStartScan.isFulfilled){if(!e.success){let t=new Error(e.message);return t.stack=e.stack+"\n"+t.stack,r(t)}for(let e of this._resultFilterSet)await this.addResultFilter(e);this._bPauseScan=!1,this._bNeedOutputOriginalImage=e.bNeedOutputOriginalImage,this._loopReadVideoTimeoutId&&clearTimeout(this._loopReadVideoTimeoutId),this._loopReadVideoTimeoutId=setTimeout((async()=>{-1!==this._minImageCaptureInterval&&this._isa.startFetching(),this._loopReadVideo(a),i()}),0),this._isa.isCameraEnhancer&&this._isa.getCameraView().setScanLaserVisible(!0)}},s.postMessage({type:"cvr_startCapturing",id:n,instanceID:this._instanceID,body:{templateName:a}})})),await this._promiseStartScan)}stopCapturing(){this._checkIsDisposed(),this._isa&&(this._isa.isCameraEnhancer&&(this._isa.getCameraView().setScanLaserVisible(!1),void 0!==this._isa.singleFrameMode&&"disabled"!==this._isa.singleFrameMode)?this._isa.off("singleFrameAcquired",this._singleFrameModeCallbackBind):(this._isa.stopFetching(),this._clearVerifyList(),this._averageProcessintTimeArray=[],this._averageTime=999,this._bPauseScan=!0,this._promiseStartScan=null,this._isa.setColourChannelUsageType(_.CCUT_AUTO)))}async _clearVerifyList(){let i=e();const a=new p;return t[i]=async e=>{if(e.success)return a.resolve();{let t=new Error(e.message);return t.stack=e.stack+"\n"+t.stack,a.reject(t)}},s.postMessage({type:"cvr_clearVerifyList",id:i,instanceID:this._instanceID}),a}async _getIntermediateResult(){this._checkIsDisposed();let i=e();const a=new p;return t[i]=async e=>{if(e.success)a.resolve(e.result);else{let t=new Error(e.message);t.stack=e.stack+"\n"+t.stack,a.reject(t)}},s.postMessage({type:"cvr_getIntermediateResult",id:i,instanceID:this._instanceID}),a}async containsTask(i){return this._checkIsDisposed(),await new Promise(((a,r)=>{let n=e();t[n]=async e=>{if(e.success)return a(JSON.parse(e.tasks));{let t=new Error(e.message);return t.stack=e.stack+"\n"+t.stack,r(t)}},s.postMessage({type:"cvr_containsTask",id:n,instanceID:this._instanceID,body:{templateName:i}})}))}async _loopReadVideo(e){if(this._dynamsoft=!0,this.disposed||this._bPauseScan)return;if(this._isa.isBufferEmpty())if(this._isa.hasNextImageToFetch())for(let e of this._isaStateListenerSet)e.onImageSourceStateReceived&&e.onImageSourceStateReceived(L.ISS_BUFFER_EMPTY);else if(!this._isa.hasNextImageToFetch())for(let e of this._isaStateListenerSet)e.onImageSourceStateReceived&&e.onImageSourceStateReceived(L.ISS_EXHAUSTED);if(-1===this._minImageCaptureInterval||this._isa.isBufferEmpty())try{this._isa.isBufferEmpty()&&A._onLog&&A._onLog("buffer is empty so fetch image"),A._onLog&&A._onLog(`DCE: start fetching a frame: ${Date.now()}`),this._dsImage=this._isa.fetchImage(),A._onLog&&A._onLog(`DCE: finish fetching a frame: ${Date.now()}`),this._isa.setImageFetchInterval(this._averageTime)}catch(t){return void this._reRunCurrnetFunc(e)}else if(this._isa.setImageFetchInterval(this._averageTime-(this._dsImage&&this._dsImage.tag?this._dsImage.tag.timeSpent:0)),this._dsImage=this._isa.getImage(),this._dsImage.tag&&Date.now()-this._dsImage.tag.timeStamp>200)return void this._reRunCurrnetFunc(e);if(!this._dsImage)return void this._reRunCurrnetFunc(e);for(let e of this._resultReceiverSet)this._bNeedOutputOriginalImage&&e.onOriginalImageResultReceived&&e.onOriginalImageResultReceived({imageData:this._dsImage});const t=Date.now();this._captureDsimage(this._dsImage,e).then((async s=>{if(A._onLog&&A._onLog("no js handle time: "+(Date.now()-t)),this._bPauseScan)return void this._reRunCurrnetFunc(e);s.originalImageTag=this._dsImage.tag?this._dsImage.tag:null;for(let e of this._resultReceiverSet)if(e.isDce){const t=Date.now();if(e.onCapturedResultReceived(s,{isDetectVerifyOpen:this._bOpenDetectVerify,isNormalizeVerifyOpen:this._bOpenNormalizeVerify,isBarcodeVerifyOpen:this._bOpenBarcodeVerify,isLabelVerifyOpen:this._bOpenLabelVerify}),A._onLog){const e=Date.now()-t;e>10&&A._onLog(`draw result time: ${e}`)}}const i={originalImageHashId:s.originalImageHashId,originalImageTag:s.originalImageTag,errorCode:s.errorCode,errorString:s.errorString};for(let e of this._resultReceiverSet)e.onDecodedBarcodesReceived&&s.barcodeResultItems&&e.onDecodedBarcodesReceived(Object.assign(Object.assign({},i),{barcodeResultItems:s.barcodeResultItems.filter((e=>!e.isFilter))})),e.onRecognizedTextLinesReceived&&s.textLineResultItems&&e.onRecognizedTextLinesReceived(Object.assign(Object.assign({},i),{textLineResultItems:s.textLineResultItems.filter((e=>!e.isFilter))})),e.onDetectedQuadsReceived&&s.detectedQuadResultItems&&e.onDetectedQuadsReceived(Object.assign(Object.assign({},i),{detectedQuadResultItems:s.detectedQuadResultItems.filter((e=>!e.isFilter))})),e.onNormalizedImagesReceived&&s.normalizedImageResultItems&&e.onNormalizedImagesReceived(Object.assign(Object.assign({},i),{normalizedImageResultItems:s.normalizedImageResultItems.filter((e=>!e.isFilter))})),e.onParsedResultsReceived&&s.parsedResultItems&&e.onParsedResultsReceived(Object.assign(Object.assign({},i),{parsedResultItems:s.parsedResultItems.filter((e=>!e.isFilter))})),e.onCapturedResultReceived&&!e.isDce&&(s.items=s.items.filter((e=>!e.isFilter)),s.barcodeResultItems&&(s.barcodeResultItems=s.barcodeResultItems.filter((e=>!e.isFilter))),s.textLineResultItems&&(s.textLineResultItems=s.textLineResultItems.filter((e=>!e.isFilter))),s.detectedQuadResultItems&&(s.detectedQuadResultItems=s.detectedQuadResultItems.filter((e=>!e.isFilter))),s.normalizedImageResultItems&&(s.normalizedImageResultItems=s.normalizedImageResultItems.filter((e=>!e.isFilter))),s.parsedResultItems&&(s.parsedResultItems=s.parsedResultItems.filter((e=>!e.isFilter))),e.onCapturedResultReceived(s));const a=Date.now();if(this._minImageCaptureInterval>-1&&(5===this._averageProcessintTimeArray.length&&this._averageProcessintTimeArray.shift(),5===this._averageFetchImageTimeArray.length&&this._averageFetchImageTimeArray.shift(),this._averageProcessintTimeArray.push(Date.now()-t),this._averageFetchImageTimeArray.push(this._dsImage&&this._dsImage.tag?this._dsImage.tag.timeSpent:0),this._averageTime=Math.min(...this._averageProcessintTimeArray)-Math.max(...this._averageFetchImageTimeArray),this._averageTime=this._averageTime>0?this._averageTime:0,A._onLog&&(A._onLog(`minImageCaptureInterval: ${this._minImageCaptureInterval}`),A._onLog(`averageProcessintTimeArray: ${this._averageProcessintTimeArray}`),A._onLog(`averageFetchImageTimeArray: ${this._averageFetchImageTimeArray}`),A._onLog(`averageTime: ${this._averageTime}`))),A._onLog){const e=Date.now()-a;e>10&&A._onLog(`fetch image calculate time: ${e}`)}A._onLog&&A._onLog(`time finish decode: ${Date.now()}`),A._onLog&&A._onLog("main time: "+(Date.now()-t)),A._onLog&&A._onLog("===================================================="),this._loopReadVideoTimeoutId&&clearTimeout(this._loopReadVideoTimeoutId),this._minImageCaptureInterval>0&&this._minImageCaptureInterval>=this._averageTime?this._loopReadVideoTimeoutId=setTimeout((()=>{this._loopReadVideo(e)}),this._minImageCaptureInterval-this._averageTime):this._loopReadVideoTimeoutId=setTimeout((()=>{this._loopReadVideo(e)}),Math.max(this._minImageCaptureInterval,0))})).catch((t=>{this._isa.stopFetching(),this._loopReadVideoTimeoutId&&clearTimeout(this._loopReadVideoTimeoutId),this._loopReadVideoTimeoutId=setTimeout((()=>{this._isa.startFetching(),this._loopReadVideo(e)}),Math.max(this._minImageCaptureInterval,1e3)),"platform error"!==t.message&&setTimeout((()=>{throw t}),0)}))}_reRunCurrnetFunc(e){this._loopReadVideoTimeoutId&&clearTimeout(this._loopReadVideoTimeoutId),this._loopReadVideoTimeoutId=setTimeout((()=>{this._loopReadVideo(e)}),0)}async capture(e,t){var s,a;this._checkIsDisposed(),t||(t=this._currentSettings.CaptureVisionTemplates[0].Name);const n=await this.containsTask(t);let o;if(await l(n),n.includes("dlr")&&!(null===(s=r.dlr)||void 0===s?void 0:s.bLoadConfusableCharsData)&&await(null===(a=r.dlr)||void 0===a?void 0:a.loadRecognitionData("ConfusableChars",i.dlr)),this._dynamsoft=!1,m(e))o=await this._captureDsimage(e,t);else if("string"==typeof e)o="data:image/"==e.substring(0,11)?await this._captureBase64(e,t):await this._captureUrl(e,t);else if(e instanceof Blob)o=await this._captureBlob(e,t);else if(e instanceof HTMLImageElement)o=await this._captureImage(e,t);else if(e instanceof HTMLCanvasElement)o=await this._captureCanvas(e,t);else{if(!(e instanceof HTMLVideoElement))throw new TypeError("'capture(imageOrFile, templateName)': Type of 'imageOrFile' should be 'DSImageData', 'Url', 'Base64', 'Blob', 'HTMLImageElement', 'HTMLCanvasElement', 'HTMLVideoElement'.");o=await this._captureVideo(e,t)}return o}async _captureDsimage(e,t){return await this._captureInWorker(e,t)}async _captureUrl(e,t){let s=await h(e,"blob");return await this._captureBlob(s,t)}async _captureBase64(e,t){e=e.substring(e.indexOf(",")+1);let s=atob(e),i=s.length,a=new Uint8Array(i);for(;i--;)a[i]=s.charCodeAt(i);return await this._captureBlob(new Blob([a]),t)}async _captureBlob(e,t){let s=null,i=null;if("undefined"!=typeof createImageBitmap)try{s=await createImageBitmap(e)}catch(e){}s||(i=await async function(e){return await new Promise(((t,s)=>{let i=URL.createObjectURL(e),a=new Image;a.src=i,a.onload=()=>{URL.revokeObjectURL(a.dbrObjUrl),t(a)},a.onerror=e=>{s(new Error("Can't convert blob to image : "+(e instanceof Event?e.type:e)))}}))}(e));let a=await this._captureImage(s||i,t);return s&&s.close(),a}async _captureImage(e,t){let s,i,a=e instanceof HTMLImageElement?e.naturalWidth:e.width,r=e instanceof HTMLImageElement?e.naturalHeight:e.height,n=Math.max(a,r);n>this.maxCvsSideLength?(this._compressRate=this.maxCvsSideLength/n,s=Math.round(a*this._compressRate),i=Math.round(r*this._compressRate)):(s=a,i=r),this._canvas||(this._canvas=document.createElement("canvas"));const o=this._canvas;o.width===s&&o.height===i||(o.width=s,o.height=i),o.ctx2d||(o.ctx2d=o.getContext("2d",{willReadFrequently:!0}));return o.ctx2d.drawImage(e,0,0,a,r,0,0,s,i),e.dbrObjUrl&&URL.revokeObjectURL(e.dbrObjUrl),await this._captureCanvas(o,t)}async _captureCanvas(e,t){if(e.crossOrigin&&"anonymous"!=e.crossOrigin)throw"cors";if([e.width,e.height].includes(0))throw Error("The width or height of the 'canvas' is 0.");const s=e.ctx2d||e.getContext("2d",{willReadFrequently:!0}),i={bytes:Uint8Array.from(s.getImageData(0,0,e.width,e.height).data),width:e.width,height:e.height,stride:4*e.width,format:10};return await this._captureInWorker(i,t)}async _captureVideo(e,t){if(e.crossOrigin&&"anonymous"!=e.crossOrigin)throw"cors";let s,i,a=e.videoWidth,r=e.videoHeight,n=Math.max(a,r);n>this.maxCvsSideLength?(this._compressRate=this.maxCvsSideLength/n,s=Math.round(a*this._compressRate),i=Math.round(r*this._compressRate)):(s=a,i=r),this._canvas||(this._canvas=document.createElement("canvas"));const o=this._canvas;o.width===s&&o.height===i||(o.width=s,o.height=i),o.ctx2d||(o.ctx2d=o.getContext("2d",{willReadFrequently:!0}));return o.ctx2d.drawImage(e,0,0,a,r,0,0,s,i),await this._captureCanvas(o,t)}async _captureInWorker(i,a){const{bytes:n,width:o,height:d,stride:l,format:u}=i;let _=e();const m=new p;return t[_]=async e=>{var t,s;if(!e.success){let t=new Error(e.message);return t.stack=e.stack+"\n"+t.stack,m.reject(t)}{const a=Date.now();A._onLog&&(A._onLog(`get result time from worker: ${a}`),A._onLog("worker to main time consume: "+(a-e.workerReturnMsgTime)));try{const a=e.captureResult;i.bytes=e.bytes;for(let e of a.items)0!==this._compressRate&&k(e,this._compressRate),e.type===c.CRIT_ORIGINAL_IMAGE?e.imageData=i:e.type===c.CRIT_NORMALIZED_IMAGE?null===(t=r.ddn)||void 0===t||t.handleNormalizedImageResultItem(e):e.type===c.CRIT_PARSED_RESULT&&(null===(s=r.dcp)||void 0===s||s.handleParsedResultItem(e));if(this._dynamsoft)for(let e of this._resultFilterSet)e.onDecodedBarcodesReceived(a.items),e.onRecognizedTextLinesReceived(a.items),e.onDetectedQuadsReceived(a.items),e.onNormalizedImagesReceived(a.items);const n=function(e){const t={barcodeResultItems:[],textLineResultItems:[],detectedQuadResultItems:[],normalizedImageResultItems:[],parsedResultItems:[]};return e.items.forEach((e=>{e.type===c.CRIT_BARCODE?t.barcodeResultItems.push(e):e.type===c.CRIT_TEXT_LINE?t.textLineResultItems.push(e):e.type===c.CRIT_DETECTED_QUAD?t.detectedQuadResultItems.push(e):e.type===c.CRIT_NORMALIZED_IMAGE?t.normalizedImageResultItems.push(e):e.type===c.CRIT_PARSED_RESULT&&t.parsedResultItems.push(e)})),t}(a);if(n.barcodeResultItems.length&&(a.barcodeResultItems=n.barcodeResultItems),n.textLineResultItems.length&&(a.textLineResultItems=n.textLineResultItems),n.detectedQuadResultItems.length&&(a.detectedQuadResultItems=n.detectedQuadResultItems),n.normalizedImageResultItems.length&&(a.normalizedImageResultItems=n.normalizedImageResultItems),n.parsedResultItems.length&&(a.parsedResultItems=n.parsedResultItems),!this._bPauseScan||!this._dynamsoft){const e=a.intermediateResult;if(e){let t=0;for(let s of this._intermediateResultReceiverSet){t++;for(let a of e){if("onTaskResultsReceived"===a.info.callbackName){for(let e of a.intermediateResultUnits)e.originalImageTag=i.tag?i.tag:null;s[a.info.callbackName]&&s[a.info.callbackName]({intermediateResultUnits:a.intermediateResultUnits},a.info)}else s[a.info.callbackName]&&s[a.info.callbackName](a.result,a.info);t===this._intermediateResultReceiverSet.size&&delete a.info.callbackName}}}a&&a.intermediateResult&&delete a.intermediateResult}return this._compressRate=0,m.resolve(a)}catch(e){return m.reject(e)}}},A._onLog&&A._onLog(`send buffer to worker: ${Date.now()}`),s.postMessage({type:"cvr_capture",id:_,instanceID:this._instanceID,body:{bytes:n,width:o,height:d,stride:l,format:u,templateName:a||"",dynamsoft:this._dynamsoft}},[n.buffer]),m}async initSettings(i){return this._checkIsDisposed(),i&&["string","object"].includes(typeof i)?("string"==typeof i?i.startsWith("{")?this._currentSettings=JSON.parse(i):i=await h(i,"text"):"object"==typeof i&&(this._currentSettings=i,i=JSON.stringify(i)),await new Promise(((a,r)=>{let n=e();t[n]=async e=>{if(e.success){const t=JSON.parse(e.response);if(0!==t.exception){let e=new Error(t.description?t.description:"Init Settings Failed.");return e.errorCode=t.exception,r(e)}let s=[],n=JSON.parse(i).CaptureVisionTemplates;for(let e=0;e<n.length;e++){let t=await this.containsTask(n[e].Name);s=s.concat(t)}return await l([...new Set(s)]),this._bNeedOutputOriginalImage=1===this._currentSettings.CaptureVisionTemplates[0].OutputOriginalImage,a(t)}{let t=new Error(e.message);return t.stack=e.stack+"\n"+t.stack,r(t)}},s.postMessage({type:"cvr_initSettings",id:n,instanceID:this._instanceID,body:{settings:i}})}))):console.error("Invalid template.")}async outputSettings(i){return this._checkIsDisposed(),await new Promise(((a,r)=>{let n=e();t[n]=async e=>{if(e.success){const t=JSON.parse(e.settings);if(0!==t.errorCode){let e=new Error(t.errorString);return e.errorCode=t.errorCode,r(e)}return delete t.errorCode,delete t.errorString,a(t)}{let t=new Error(e.message);return t.stack=e.stack+"\n"+t.stack,r(t)}},s.postMessage({type:"cvr_outputSettings",id:n,instanceID:this._instanceID,body:{templateName:i||"*"}})}))}async outputSettingsToFile(e,t,s){const i=await this.outputSettings(e),a=new Blob([JSON.stringify(i,null,2,(function(e,t){return t instanceof Array?JSON.stringify(t):t}),2)],{type:"application/json"});if(s){const e=document.createElement("a");e.href=URL.createObjectURL(a),t.endsWith(".json")&&(t=t.replace(".json","")),e.download=`${t}.json`,e.onclick=()=>{setTimeout((()=>{URL.revokeObjectURL(e.href)}),500)},e.click()}return a}async getSimplifiedSettings(i){this._checkIsDisposed(),i||(i=this._currentSettings.CaptureVisionTemplates[0].Name);const a=await this.containsTask(i);return await l(a),await new Promise(((a,r)=>{let n=e();t[n]=async e=>{if(e.success){const t=JSON.parse(e.settings,((e,t)=>g&&"barcodeFormatIds"===e?BigInt(t):t));if(t.minImageCaptureInterval=this._minImageCaptureInterval,0!==t.code){let e=new Error(t.codeString);return e.errorCode=t.errorCode,r(e)}return delete t.code,delete t.codeString,a(t)}{let t=new Error(e.message);return t.stack=e.stack+"\n"+t.stack,r(t)}},s.postMessage({type:"cvr_getSimplifiedSettings",id:n,instanceID:this._instanceID,body:{templateName:i}})}))}async updateSettings(i,a){this._checkIsDisposed();const r=await this.containsTask(i);return await l(r),await new Promise(((r,n)=>{let o=e();t[o]=async e=>{if(e.success){const t=JSON.parse(e.response);if(a.minImageCaptureInterval&&a.minImageCaptureInterval>=-1&&(this._minImageCaptureInterval=a.minImageCaptureInterval),this._bNeedOutputOriginalImage=e.bNeedOutputOriginalImage,0!==t.exception){let e=new Error(t.description?t.description:"Update Settings Failed.");return e.errorCode=t.exception,n(e)}return this._currentSettings=await this.outputSettings("*"),r(t)}{let t=new Error(e.message);return t.stack=e.stack+"\n"+t.stack,n(t)}},s.postMessage({type:"cvr_updateSettings",id:o,instanceID:this._instanceID,body:{settings:a,templateName:i}})}))}async resetSettings(){return this._checkIsDisposed(),await new Promise(((i,a)=>{let r=e();t[r]=async e=>{if(e.success){const t=JSON.parse(e.response);if(0!==t.exception){let e=new Error(t.description?t.description:"Reset Settings Failed.");return e.errorCode=t.exception,a(e)}return this._currentSettings=await this.outputSettings("*"),i(t)}{let t=new Error(e.message);return t.stack=e.stack+"\n"+t.stack,a(t)}},s.postMessage({type:"cvr_resetSettings",id:r,instanceID:this._instanceID})}))}getBufferedItemsManager(){return this._bufferdItemsManager||(this._bufferdItemsManager=new v(this)),this._bufferdItemsManager}getIntermediateResultManager(e){if(this._checkIsDisposed(),!e&&0!==d.bSupportIRTModule)throw new Error("The current license does not support the use of intermediate results.");return this._intermediateResultManager||(this._intermediateResultManager=new E(this)),this._intermediateResultManager}contains(e,t){return function(e,t){let s=t.x,i=t.y,a=e[0].x,r=e[0].y,n=e[1].x,o=e[1].y,c=e[2].x,d=e[2].y,l=e[3].x,u=e[3].y,_=R(s,i,a,r,n,o),m=R(s,i,n,o,c,d),h=R(s,i,c,d,l,u),g=R(s,i,l,u,a,r);function R(e,t,s,i,a,r){return(e-s)*(r-i)-(t-i)*(a-s)}return _>=0&&m>=0&&h>=0&&g>=0||_<=0&&m<=0&&h<=0&&g<=0}(e,t)}async parseRequiredResources(i){return this._checkIsDisposed(),await new Promise(((a,r)=>{let n=e();t[n]=async e=>{if(e.success)return a(JSON.parse(e.resources));{let t=new Error(e.message);return t.stack=e.stack+"\n"+t.stack,r(t)}},s.postMessage({type:"cvr_parseRequiredResources",id:n,instanceID:this._instanceID,body:{templateName:i}})}))}async dispose(){this._checkIsDisposed(),this._promiseStartScan&&this.stopCapturing(),this._isa=null,this._resultReceiverSet.clear(),this._isaStateListenerSet.clear(),this._resultFilterSet.clear(),this.bDestroyed=!0;let i=e();t[i]=e=>{if(!e.success){let t=new Error(e.message);throw t.stack=e.stack+"\n"+t.stack,t}},s.postMessage({type:"cvr_dispose",id:i,instanceID:this._instanceID})}async _enableResultCrossVerification(i){return this._checkIsDisposed(),await new Promise(((a,r)=>{let n=e();t[n]=async e=>{if(e.success)return a(e.result);{let t=new Error(e.message);return t.stack=e.stack+"\n"+t.stack,r(t)}},s.postMessage({type:"cvr_enableResultCrossVerification",id:n,instanceID:this._instanceID,body:{verificationEnabled:i}})}))}async _enableResultDeduplication(i){return this._checkIsDisposed(),await new Promise(((a,r)=>{let n=e();t[n]=async e=>{if(e.success)return a(e.result);{let t=new Error(e.message);return t.stack=e.stack+"\n"+t.stack,r(t)}},s.postMessage({type:"cvr_enableResultDeduplication",id:n,instanceID:this._instanceID,body:{duplicateFilterEnabled:i}})}))}async _setDuplicateForgetTime(i){return this._checkIsDisposed(),await new Promise(((a,r)=>{let n=e();t[n]=async e=>{if(e.success)return a(e.result);{let t=new Error(e.message);return t.stack=e.stack+"\n"+t.stack,r(t)}},s.postMessage({type:"cvr_setDuplicateForgetTime",id:n,instanceID:this._instanceID,body:{duplicateForgetTime:i}})}))}async _getDuplicateForgetTime(i){return this._checkIsDisposed(),await new Promise(((a,r)=>{let n=e();t[n]=async e=>{if(e.success)return a(e.time);{let t=new Error(e.message);return t.stack=e.stack+"\n"+t.stack,r(t)}},s.postMessage({type:"cvr_getDuplicateForgetTime",id:n,instanceID:this._instanceID,body:{type:i}})}))}async _setThresholdValue(i,a,r){return await l("ddn"),await new Promise(((n,o)=>{let c=e();t[c]=async e=>{if(e.success)return n();{let t=new Error(e.message);return t.stack=e.stack+"\n"+t.stack,o(t)}},s.postMessage({type:"ddn_setThresholdValue",id:c,instanceID:this._instanceID,body:{threshold:i,leftLimit:a,rightLimit:r}})}))}_checkIsDisposed(){if(this.disposed)throw new Error('"CaptureVisionRouter" instance has been disposed')}}class M{constructor(){this.onCapturedResultReceived=null,this.onOriginalImageResultReceived=null}}class N{constructor(){this._observedResultUnitTypes=R.IRUT_ALL,this._observedTaskMap=new Map,this._parameters={setObservedResultUnitTypes:e=>{this._observedResultUnitTypes=e},getObservedResultUnitTypes:()=>this._observedResultUnitTypes,isResultUnitTypeObserved:e=>!!(e&this._observedResultUnitTypes),addObservedTask:e=>{this._observedTaskMap.set(e,!0)},removeObservedTask:e=>{this._observedTaskMap.set(e,!1)},isTaskObserved:e=>0===this._observedTaskMap.size||!!this._observedTaskMap.get(e)},this.onTaskResultsReceived=null,this.onPredetectedRegionsReceived=null,this.onColourImageUnitReceived=null,this.onScaledDownColourImageUnitReceived=null,this.onGrayscaleImageUnitReceived=null,this.onTransformedGrayscaleImageUnitReceived=null,this.onEnhancedGrayscaleImageUnitReceived=null,this.onBinaryImageUnitReceived=null,this.onTextureDetectionResultUnitReceived=null,this.onTextureRemovedGrayscaleImageUnitReceived=null,this.onTextureRemovedBinaryImageUnitReceived=null,this.onContoursUnitReceived=null,this.onLineSegmentsUnitReceived=null,this.onTextZonesUnitReceived=null,this.onTextRemovedBinaryImageUnitReceived=null,this.onShortLinesUnitReceived=null}getObservationParameters(){return this._parameters}}export{A as CaptureVisionRouter,O as CaptureVisionRouterModule,M as CapturedResultReceiver,L as EnumImageSourceState,E as IntermediateResultManager,N as IntermediateResultReceiver};
+import { getNextTaskID, mapTaskCallBack, worker, autoDiscoveryPaths, workerAutoResources, mapPackageRegister, compareVersion, innerVersions, EnumCapturedResultItemType, CoreModule, loadWasm, handleEngineResourcePaths, EnumImagePixelFormat, EnumColourChannelUsageType, _isDSImageData, requestResource, EnumIntermediateResultUnitType } from 'dynamsoft-core';
+
+/******************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */
+/* global Reflect, Promise, SuppressedError, Symbol, Iterator */
+
+
+function __classPrivateFieldGet(receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+}
+
+function __classPrivateFieldSet(receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+}
+
+typeof SuppressedError === "function" ? SuppressedError : function (error, suppressed, message) {
+    var e = new Error(message);
+    return e.name = "SuppressedError", e.error = error, e.suppressed = suppressed, e;
+};
+
+const isPromiseLike = (value) => (value && "object" === typeof value && "function" === typeof value.then);
+class MutablePromise extends Promise {
+    get status() { return this._s; }
+    get isPending() { return "pending" === this._s; }
+    get isFulfilled() { return "fulfilled" === this._s; }
+    get isRejected() { return "rejected" === this._s; }
+    get task() { return this._task; }
+    set task(value) {
+        //if(!this.isPending){ return; }
+        this._task = value;
+        let p;
+        if (isPromiseLike(value)) {
+            p = value;
+        }
+        else if ("function" === typeof value) {
+            p = new Promise(value);
+        }
+        if (p) {
+            (async () => {
+                try {
+                    const ret = await p;
+                    // make sure task not change
+                    if (value === this._task) {
+                        this.resolve(ret);
+                    }
+                }
+                catch (reason) {
+                    // make sure task not change
+                    if (value === this._task) {
+                        this.reject(reason);
+                    }
+                }
+            })();
+        }
+    }
+    get isEmpty() { return null == this._task; }
+    constructor(executor) {
+        let rs;
+        let rj;
+        const fn = (_rs, _rj) => { rs = _rs; rj = _rj; };
+        super(fn);
+        // walkaround babel which can not extend builtin class
+        // let _this = this;
+        // let then = new Promise(fn).then;
+        // this.then = function(){ then.apply(_this, arguments) } as any;
+        this._s = "pending";
+        this.resolve = (value) => {
+            if (this.isPending) {
+                if (isPromiseLike(value)) {
+                    this.task = value;
+                }
+                else {
+                    this._s = "fulfilled";
+                    rs(value);
+                }
+            }
+        };
+        this.reject = (reason) => {
+            if (this.isPending) {
+                this._s = "rejected";
+                rj(reason);
+            }
+        };
+        this.task = executor;
+    }
+}
+
+class BufferedItemsManager {
+    constructor(cvr) {
+        this._cvr = cvr;
+    }
+    /**
+     * Gets the maximum number of buffered items.
+     * @returns Returns the maximum number of buffered items.
+     */
+    async getMaxBufferedItems() {
+        return await new Promise((rs, rj) => {
+            let taskID = getNextTaskID();
+            mapTaskCallBack[taskID] = async (body) => {
+                if (body.success) {
+                    return rs(body.count);
+                }
+                else {
+                    let ex = new Error(body.message);
+                    ex.stack = body.stack + '\n' + ex.stack;
+                    return rj(ex);
+                }
+            };
+            worker.postMessage({
+                type: "cvr_getMaxBufferedItems",
+                id: taskID,
+                instanceID: this._cvr._instanceID
+            });
+        });
+    }
+    ;
+    /**
+     * Sets the maximum number of buffered items.
+     * @param count the maximum number of buffered items
+     */
+    async setMaxBufferedItems(count) {
+        return await new Promise((rs, rj) => {
+            let taskID = getNextTaskID();
+            mapTaskCallBack[taskID] = async (body) => {
+                if (body.success) {
+                    return rs();
+                }
+                else {
+                    let ex = new Error(body.message);
+                    ex.stack = body.stack + '\n' + ex.stack;
+                    return rj(ex);
+                }
+            };
+            worker.postMessage({
+                type: "cvr_setMaxBufferedItems",
+                id: taskID,
+                instanceID: this._cvr._instanceID,
+                body: {
+                    count
+                }
+            });
+        });
+    }
+    ;
+    /**
+     * Gets the buffered character items.
+     * @return the buffered character items
+     */
+    async getBufferedCharacterItemSet() {
+        return await new Promise((rs, rj) => {
+            let taskID = getNextTaskID();
+            mapTaskCallBack[taskID] = async (body) => {
+                if (body.success) {
+                    return rs(body.itemSet);
+                }
+                else {
+                    let ex = new Error(body.message);
+                    ex.stack = body.stack + '\n' + ex.stack;
+                    return rj(ex);
+                }
+            };
+            worker.postMessage({
+                type: "cvr_getBufferedCharacterItemSet",
+                id: taskID,
+                instanceID: this._cvr._instanceID
+            });
+        });
+    }
+    ;
+}
+
+var irrRegistryState = {
+    onTaskResultsReceived: false,
+    onTaskResultsReceivedForDce: false,
+    // section
+    onPredetectedRegionsReceived: false,
+    onLocalizedBarcodesReceived: false,
+    onDecodedBarcodesReceived: false,
+    onLocalizedTextLinesReceived: false,
+    onRecognizedTextLinesReceived: false,
+    onDetectedQuadsReceived: false,
+    onNormalizedImagesReceived: false,
+    // stage
+    onColourImageUnitReceived: false,
+    onScaledDownColourImageUnitReceived: false,
+    onGrayscaleImageUnitReceived: false,
+    onTransformedGrayscaleImageUnitReceived: false,
+    onEnhancedGrayscaleImageUnitReceived: false,
+    onBinaryImageUnitReceived: false,
+    onTextureDetectionResultUnitReceived: false,
+    onTextureRemovedGrayscaleImageUnitReceived: false,
+    onTextureRemovedBinaryImageUnitReceived: false,
+    onContoursUnitReceived: false,
+    onLineSegmentsUnitReceived: false,
+    onTextZonesUnitReceived: false,
+    onTextRemovedBinaryImageUnitReceived: false,
+    onRawTextLinesReceived: false,
+    onLongLinesUnitReceived: false,
+    onCornersUnitReceived: false,
+    onCandidateQuadEdgesUnitReceived: false,
+    onCandidateBarcodeZonesUnitReceived: false,
+    onScaledUpBarcodeImageUnitReceived: false,
+    onDeformationResistedBarcodeImageUnitReceived: false,
+    onComplementedBarcodeImageUnitReceived: false,
+    onShortLinesUnitReceived: false
+};
+
+const _handleIntermediateResultReceiver = (irr) => {
+    for (let irs in irr._irrRegistryState) {
+        irr._irrRegistryState[irs] = false;
+    }
+    for (let receiver of irr._intermediateResultReceiverSet) {
+        if (receiver.isDce || receiver.isFilter) {
+            irr._irrRegistryState.onTaskResultsReceivedForDce = true;
+            continue;
+        }
+        for (let r in receiver) {
+            if (!irr._irrRegistryState[r]) {
+                irr._irrRegistryState[r] = !!receiver[r];
+            }
+        }
+    }
+};
+class IntermediateResultManager {
+    constructor(cvr) {
+        this._irrRegistryState = irrRegistryState;
+        this._intermediateResultReceiverSet = new Set();
+        this._cvr = cvr;
+    }
+    /**
+     * Adds a `IntermediateResultReceiver` object as the receiver of intermediate results.
+     * @param receiver The receiver object, of type `IntermediateResultReceiver`.
+     */
+    async addResultReceiver(receiver) {
+        if (typeof receiver !== "object")
+            throw new Error(`Invalid receiver.`);
+        this._intermediateResultReceiverSet.add(receiver);
+        _handleIntermediateResultReceiver(this);
+        let observedResultUnitTypes = -1;
+        let observedTaskMap = {};
+        if (!receiver.isDce && !receiver.isFilter) {
+            if (!receiver._observedResultUnitTypes || !receiver._observedTaskMap) {
+                throw new Error("Invalid Intermediate Result Receiver.");
+            }
+            observedResultUnitTypes = receiver._observedResultUnitTypes;
+            receiver._observedTaskMap.forEach((value, key) => {
+                observedTaskMap[key] = value;
+            });
+            receiver._observedTaskMap.clear();
+        }
+        return await new Promise((rs, rj) => {
+            let taskID = getNextTaskID();
+            mapTaskCallBack[taskID] = async (body) => {
+                if (body.success) {
+                    return rs();
+                }
+                else {
+                    let ex = new Error(body.message);
+                    ex.stack = body.stack + '\n' + ex.stack;
+                    return rj(ex);
+                }
+            };
+            worker.postMessage({
+                type: "cvr_setIrrRegistry",
+                id: taskID,
+                instanceID: this._cvr._instanceID,
+                body: {
+                    receiverObj: this._irrRegistryState,
+                    observedResultUnitTypes: observedResultUnitTypes.toString(),
+                    observedTaskMap
+                }
+            });
+        });
+    }
+    ;
+    /**
+     * Removes the specified `IntermediateResultReceiver` object.
+     * @param receiver The receiver object, of type `IntermediateResultReceiver`.
+     */
+    async removeResultReceiver(receiver) {
+        this._intermediateResultReceiverSet.delete(receiver);
+        _handleIntermediateResultReceiver(this);
+        return await new Promise((rs, rj) => {
+            let taskID = getNextTaskID();
+            mapTaskCallBack[taskID] = async (body) => {
+                if (body.success) {
+                    return rs();
+                }
+                else {
+                    let ex = new Error(body.message);
+                    ex.stack = body.stack + '\n' + ex.stack;
+                    return rj(ex);
+                }
+            };
+            worker.postMessage({
+                type: "cvr_setIrrRegistry",
+                id: taskID,
+                instanceID: this._cvr._instanceID,
+                body: {
+                    receiverObj: this._irrRegistryState
+                }
+            });
+        });
+    }
+    ;
+    /**
+     * Retrieves the original image data.
+     *
+     * @returns A promise that resolves when the operation has successfully completed. It provides the original image upon resolution.
+     */
+    getOriginalImage() {
+        return this._cvr._dsImage;
+    }
+    ;
+}
+
+const bSSR = "undefined" == typeof self;
+
+const curScriptDir = (() => {
+    if (!bSSR && document.currentScript) {
+        let src = document.currentScript.src, idxSearch = src.indexOf("?");
+        if (-1 != idxSearch) src = src.substring(0, idxSearch); else {
+            let idxHash = src.indexOf("#");
+            -1 != idxHash && (src = src.substring(0, idxHash));
+        }
+        return src.substring(0, src.lastIndexOf("/") + 1);
+    }
+    return "./";
+})(), getAbsoluteDir = value => {
+    if (null == value && (value = "./"), bSSR) ; else {
+        let a = document.createElement("a");
+        a.href = value, value = a.href;
+    }
+    return value.endsWith("/") || (value += "/"), value;
+};
+
+var _a;
+autoDiscoveryPaths.cvr = { version: "2.4.20", path: curScriptDir };
+workerAutoResources.cvr = { js: true, wasm: true, deps: ["license", "dip"] };
+mapPackageRegister.cvr = {};
+const stdVersion = "1.4.10";
+if ('string' != typeof autoDiscoveryPaths.std && compareVersion(autoDiscoveryPaths.std.version, stdVersion) < 0) {
+    autoDiscoveryPaths.std = { version: stdVersion, path: getAbsoluteDir(curScriptDir + `../../dynamsoft-capture-vision-std@${stdVersion}/dist/`) };
+}
+const dipVersion = "2.4.20";
+if (!autoDiscoveryPaths.dip || 'string' != typeof autoDiscoveryPaths.dip && compareVersion(autoDiscoveryPaths.dip.version, dipVersion) < 0) {
+    autoDiscoveryPaths.dip = { version: dipVersion, path: getAbsoluteDir(curScriptDir + `../../dynamsoft-image-processing@${dipVersion}/dist/`) };
+}
+class CaptureVisionRouterModule {
+    static getVersion() {
+        return this._version;
+    }
+}
+CaptureVisionRouterModule._version = `${"2.4.20"}(Worker: ${(_a = innerVersions.cvr) === null || _a === void 0 ? void 0 : _a.worker}, Wasm: loading...`;
+
+var EnumImageSourceState;
+(function (EnumImageSourceState) {
+    EnumImageSourceState[EnumImageSourceState["ISS_BUFFER_EMPTY"] = 0] = "ISS_BUFFER_EMPTY";
+    EnumImageSourceState[EnumImageSourceState["ISS_EXHAUSTED"] = 1] = "ISS_EXHAUSTED";
+})(EnumImageSourceState || (EnumImageSourceState = {}));
+
+({
+    /** No intermediate result. */
+    IRUT_NULL: BigInt(0),
+    /** A full-color image. */
+    IRUT_COLOUR_IMAGE: BigInt(1),
+    /** A color image that has been scaled down for efficiency. */
+    IRUT_SCALED_DOWN_COLOUR_IMAGE: BigInt(1 << 1),
+    /** A grayscale image derived from the original input. */
+    IRUT_GRAYSCALE_IMAGE: BigInt(1 << 2),
+    /** A grayscale image that has undergone transformation. */
+    IRUT_TRANSOFORMED_GRAYSCALE_IMAGE: BigInt(1 << 3),
+    /** A grayscale image enhanced for further processing. */
+    IRUT_ENHANCED_GRAYSCALE_IMAGE: BigInt(1 << 4),
+    /** Regions pre-detected as potentially relevant for further analysis. */
+    IRUT_PREDETECTED_REGIONS: BigInt(1 << 5),
+    /** A binary (black and white) image. */
+    IRUT_BINARY_IMAGE: BigInt(1 << 6),
+    /** Results from detecting textures within the image. */
+    IRUT_TEXTURE_DETECTION_RESULT: BigInt(1 << 7),
+    /** A grayscale image with textures removed to enhance subject details like text or barcodes. */
+    IRUT_TEXTURE_REMOVED_GRAYSCALE_IMAGE: BigInt(1 << 8),
+    /** A binary image with textures removed), useful for clear detection of subjects without background noise. */
+    IRUT_TEXTURE_REMOVED_BINARY_IMAGE: BigInt(1 << 9),
+    /** Detected contours within the image), which can help in identifying shapes and objects. */
+    IRUT_CONTOURS: BigInt(1 << 10),
+    /** Detected line segments), useful in structural analysis of the image content. */
+    IRUT_LINE_SEGMENTS: BigInt(1 << 11),
+    /** Identified text zones), indicating areas with potential textual content. */
+    IRUT_TEXT_ZONES: BigInt(1 << 12),
+    /** A binary image with text regions removed. */
+    IRUT_TEXT_REMOVED_BINARY_IMAGE: BigInt(1 << 13),
+    /** Zones identified as potential barcode areas), aiding in focused barcode detection. */
+    IRUT_CANDIDATE_BARCODE_ZONES: BigInt(1 << 14),
+    /** Barcodes that have been localized but not yet decoded. */
+    IRUT_LOCALIZED_BARCODES: BigInt(1 << 15),
+    /** Barcode images scaled up for improved readability or decoding accuracy. */
+    IRUT_SCALED_UP_BARCODE_IMAGE: BigInt(1 << 16),
+    /** Images of barcodes processed to resist deformation and improve decoding success. */
+    IRUT_DEFORMATION_RESISTED_BARCODE_IMAGE: BigInt(1 << 17),
+    /** Barcode images that have been complemented. */
+    IRUT_COMPLEMENTED_BARCODE_IMAGE: BigInt(1 << 18),
+    /** Successfully decoded barcodes. */
+    IRUT_DECODED_BARCODES: BigInt(1 << 19),
+    /** Detected long lines. */
+    IRUT_LONG_LINES: BigInt(1 << 20),
+    /** Detected corners within the image. */
+    IRUT_CORNERS: BigInt(1 << 21),
+    /** Candidate edges identified as potential components of quadrilaterals. */
+    IRUT_CANDIDATE_QUAD_EDGES: BigInt(1 << 22),
+    /** Successfully detected quadrilaterals. */
+    IRUT_DETECTED_QUADS: BigInt(1 << 23),
+    /** Text lines that have been localized in preparation for recognition. */
+    IRUT_LOCALIZED_TEXT_LINES: BigInt(1 << 24),
+    /** Successfully recognized text lines. */
+    IRUT_RECOGNIZED_TEXT_LINES: BigInt(1 << 25),
+    /** Successfully normalized images. */
+    IRUT_NORMALIZED_IMAGES: BigInt(1 << 26),
+    /** Successfully detected short lines. */
+    IRUT_SHORT_LINES: BigInt(1 << 27),
+    IRUT_RAW_TEXT_LINES: BigInt(1 << 28),
+    /** A mask to select all types of intermediate results. */
+    IRUT_ALL: BigInt("0xFFFFFFFFFFFFFFFF")
+});
+function handleResultForDraw(results) {
+    const resultsForDraw = {
+        barcodeResultItems: [],
+        textLineResultItems: [],
+        detectedQuadResultItems: [],
+        normalizedImageResultItems: [],
+        parsedResultItems: []
+    };
+    results.items.forEach((item) => {
+        if (item.type === EnumCapturedResultItemType.CRIT_BARCODE) {
+            resultsForDraw.barcodeResultItems.push(item);
+        }
+        else if (item.type === EnumCapturedResultItemType.CRIT_TEXT_LINE) {
+            resultsForDraw.textLineResultItems.push(item);
+        }
+        else if (item.type === EnumCapturedResultItemType.CRIT_DETECTED_QUAD) {
+            resultsForDraw.detectedQuadResultItems.push(item);
+        }
+        else if (item.type === EnumCapturedResultItemType.CRIT_NORMALIZED_IMAGE) {
+            resultsForDraw.normalizedImageResultItems.push(item);
+        }
+        else if (item.type === EnumCapturedResultItemType.CRIT_PARSED_RESULT) {
+            resultsForDraw.parsedResultItems.push(item);
+        }
+    });
+    return resultsForDraw;
+}
+function convertCoordinates(item, compressRate) {
+    if (item && item.location) {
+        const points = item.location.points;
+        for (let point of points) {
+            point.x = point.x / compressRate;
+            point.y = point.y / compressRate;
+        }
+        convertCoordinates(item.referencedItem, compressRate);
+    }
+}
+function checkIsDisposed(cvr) {
+    if (cvr.disposed) {
+        throw new Error(`"CaptureVisionRouter" instance has been disposed`);
+    }
+}
+
+var _CaptureVisionRouter_isa, _CaptureVisionRouter_canvas, _CaptureVisionRouter_promiseStartScan, _CaptureVisionRouter_intermediateResultManager, _CaptureVisionRouter_bufferdItemsManager, _CaptureVisionRouter_resultReceiverSet, _CaptureVisionRouter_isaStateListenerSet, _CaptureVisionRouter_resultFilterSet, _CaptureVisionRouter_compressRate, _CaptureVisionRouter_isScanner, _CaptureVisionRouter_innerUseTag, _CaptureVisionRouter_isDestroyed;
+const _intermediateResultReceiverOfFilter = {
+    onTaskResultsReceived: () => { },
+    isFilter: true
+};
+class CaptureVisionRouter {
+    constructor() {
+        this.maxCvsSideLength = ["iPhone", "Android", "HarmonyOS"].includes(CoreModule.browserInfo.OS) ? 2048 : 4096;
+        this._instanceID = undefined;
+        this._dsImage = null;
+        this._isPauseScan = true;
+        this._isOutputOriginalImage = false;
+        this._isOpenDetectVerify = false;
+        this._isOpenNormalizeVerify = false;
+        this._isOpenBarcodeVerify = false;
+        this._isOpenLabelVerify = false;
+        this._minImageCaptureInterval = 0;
+        this._averageProcessintTimeArray = [];
+        this._averageFetchImageTimeArray = [];
+        this._currentSettings = null;
+        this._averageTime = 999;
+        _CaptureVisionRouter_isa.set(this, null);
+        _CaptureVisionRouter_canvas.set(this, null);
+        _CaptureVisionRouter_promiseStartScan.set(this, null);
+        _CaptureVisionRouter_intermediateResultManager.set(this, null);
+        _CaptureVisionRouter_bufferdItemsManager.set(this, null);
+        _CaptureVisionRouter_resultReceiverSet.set(this, new Set());
+        _CaptureVisionRouter_isaStateListenerSet.set(this, new Set());
+        _CaptureVisionRouter_resultFilterSet.set(this, new Set());
+        _CaptureVisionRouter_compressRate.set(this, 0);
+        _CaptureVisionRouter_isScanner.set(this, false);
+        _CaptureVisionRouter_innerUseTag.set(this, false);
+        _CaptureVisionRouter_isDestroyed.set(this, false);
+        this._singleFrameModeCallbackBind = this._singleFrameModeCallback.bind(this);
+    }
+    /**
+     * Returns whether the `CaptureVisionRouter` instance has been disposed of.
+     *
+     * @returns Boolean indicating whether the `CaptureVisionRouter` instance has been disposed of.
+     */
+    get disposed() {
+        return __classPrivateFieldGet(this, _CaptureVisionRouter_isDestroyed, "f");
+    }
+    /**
+     * Initializes a new instance of the `CaptureVisionRouter` class.
+     *
+     * @returns A promise that resolves with the initialized `CaptureVisionRouter` instance.
+     */
+    static async createInstance() {
+        if (!mapPackageRegister.license) {
+            throw Error('Module `license` is not existed.');
+        }
+        await mapPackageRegister.license.dynamsoft();
+        await loadWasm(["cvr"]);
+        const captureVisionRouter = new CaptureVisionRouter();
+        const p = new MutablePromise();
+        let taskID = getNextTaskID();
+        mapTaskCallBack[taskID] = async (body) => {
+            var _a;
+            if (body.success) {
+                captureVisionRouter._instanceID = body.instanceID;
+                captureVisionRouter._currentSettings = JSON.parse(body.outputSettings);
+                CaptureVisionRouterModule._version = `${"2.4.20"}(Worker: ${(_a = innerVersions.cvr) === null || _a === void 0 ? void 0 : _a.worker}, Wasm: ${body.version})`;
+                __classPrivateFieldSet(captureVisionRouter, _CaptureVisionRouter_innerUseTag, true, "f");
+                __classPrivateFieldSet(captureVisionRouter, _CaptureVisionRouter_intermediateResultManager, captureVisionRouter.getIntermediateResultManager(), "f");
+                __classPrivateFieldSet(captureVisionRouter, _CaptureVisionRouter_innerUseTag, false, "f");
+                p.resolve(captureVisionRouter);
+            }
+            else {
+                const err = Error(body.message);
+                if (body.stack) {
+                    err.stack = body.stack;
+                }
+                p.reject(err);
+            }
+        };
+        worker.postMessage({
+            type: 'cvr_createInstance',
+            id: taskID,
+        });
+        return p;
+    }
+    ;
+    async _singleFrameModeCallback(dsImage) {
+        for (let receiver of __classPrivateFieldGet(this, _CaptureVisionRouter_resultReceiverSet, "f")) {
+            this._isOutputOriginalImage && receiver.onOriginalImageResultReceived && receiver.onOriginalImageResultReceived({ imageData: dsImage });
+        }
+        const copyDsImageData = {
+            bytes: new Uint8Array(dsImage.bytes),
+            width: dsImage.width,
+            height: dsImage.height,
+            stride: dsImage.stride,
+            format: dsImage.format,
+            tag: dsImage.tag
+        };
+        if (!this._templateName)
+            this._templateName = this._currentSettings.CaptureVisionTemplates[0].Name;
+        const result = await this.capture(copyDsImageData, this._templateName);
+        result.originalImageTag = dsImage.tag;
+        for (let receiver of __classPrivateFieldGet(this, _CaptureVisionRouter_resultReceiverSet, "f")) {
+            if (receiver.isDce) {
+                receiver.onCapturedResultReceived(result, {
+                    isDetectVerifyOpen: false,
+                    isNormalizeVerifyOpen: false,
+                    isBarcodeVerifyOpen: false,
+                    isLabelVerifyOpen: false,
+                });
+            }
+        }
+        const resultCommonPart = {
+            originalImageHashId: result.originalImageHashId,
+            originalImageTag: result.originalImageTag,
+            errorCode: result.errorCode,
+            errorString: result.errorString
+        };
+        for (let receiver of __classPrivateFieldGet(this, _CaptureVisionRouter_resultReceiverSet, "f")) {
+            receiver.onDecodedBarcodesReceived && result.barcodeResultItems && receiver.onDecodedBarcodesReceived(Object.assign(Object.assign({}, resultCommonPart), { barcodeResultItems: result.barcodeResultItems }));
+            receiver.onRecognizedTextLinesReceived && result.textLineResultItems && receiver.onRecognizedTextLinesReceived(Object.assign(Object.assign({}, resultCommonPart), { textLineResultItems: result.textLineResultItems }));
+            receiver.onDetectedQuadsReceived && result.detectedQuadResultItems && receiver.onDetectedQuadsReceived(Object.assign(Object.assign({}, resultCommonPart), { detectedQuadResultItems: result.detectedQuadResultItems }));
+            receiver.onNormalizedImagesReceived && result.normalizedImageResultItems && receiver.onNormalizedImagesReceived(Object.assign(Object.assign({}, resultCommonPart), { normalizedImageResultItems: result.normalizedImageResultItems }));
+            receiver.onParsedResultsReceived && result.parsedResultItems && receiver.onParsedResultsReceived(Object.assign(Object.assign({}, resultCommonPart), { parsedResultItems: result.parsedResultItems }));
+            if (receiver.onCapturedResultReceived && !receiver.isDce) {
+                if (this._isOutputOriginalImage) {
+                    const index = result.items.findIndex((item) => { return item.type === 1; });
+                    if (index !== -1) {
+                        result.items[index].imageData = dsImage;
+                    }
+                }
+                receiver.onCapturedResultReceived(result);
+            }
+        }
+    }
+    /**
+     * Sets up an image source to provide images for continuous processing.
+     * @param imageSource The image source which is compliant with the `ImageSourceAdapter` interface.
+     */
+    setInput(imageSource) {
+        checkIsDisposed(this);
+        if (!imageSource) {
+            __classPrivateFieldSet(this, _CaptureVisionRouter_isa, null, "f");
+            return;
+        }
+        __classPrivateFieldSet(this, _CaptureVisionRouter_isa, imageSource, "f");
+        if (imageSource.isCameraEnhancer) {
+            if (__classPrivateFieldGet(this, _CaptureVisionRouter_intermediateResultManager, "f")) {
+                __classPrivateFieldGet(this, _CaptureVisionRouter_isa, "f")._intermediateResultReceiver.isDce = true;
+                __classPrivateFieldGet(this, _CaptureVisionRouter_intermediateResultManager, "f").addResultReceiver(__classPrivateFieldGet(this, _CaptureVisionRouter_isa, "f")._intermediateResultReceiver);
+            }
+            const cameraView = __classPrivateFieldGet(this, _CaptureVisionRouter_isa, "f").getCameraView();
+            if (cameraView) {
+                const dceCrr = cameraView._capturedResultReceiver;
+                dceCrr.isDce = true;
+                __classPrivateFieldGet(this, _CaptureVisionRouter_resultReceiverSet, "f").add(dceCrr);
+            }
+            // TODO: think about off.
+            //(imageSource as any).on("singleFrameAcquired", this._singleFrameModeCallback);
+        }
+    }
+    ;
+    /**
+     * Returns the image source object.
+     */
+    getInput() {
+        return __classPrivateFieldGet(this, _CaptureVisionRouter_isa, "f");
+    }
+    ;
+    /**
+     * Adds or removes listeners for image source state change.
+     */
+    addImageSourceStateListener(listener) {
+        checkIsDisposed(this);
+        if (typeof listener !== "object")
+            return console.warn(`Invalid ISA state listener.`);
+        if (!listener || !Object.keys(listener))
+            return;
+        __classPrivateFieldGet(this, _CaptureVisionRouter_isaStateListenerSet, "f").add(listener);
+    }
+    ;
+    removeImageSourceStateListener(listener) {
+        checkIsDisposed(this);
+        return __classPrivateFieldGet(this, _CaptureVisionRouter_isaStateListenerSet, "f").delete(listener);
+    }
+    /**
+     * Adds a `CapturedResultReceiver` object as the receiver of captured results.
+     * @param receiver The receiver object, of type `CapturedResultReceiver`.
+     */
+    addResultReceiver(receiver) {
+        checkIsDisposed(this);
+        if (typeof receiver !== "object")
+            throw new Error(`Invalid receiver.`);
+        if (!receiver || !Object.keys(receiver).length)
+            return;
+        __classPrivateFieldGet(this, _CaptureVisionRouter_resultReceiverSet, "f").add(receiver);
+        this._setCrrRegistry();
+    }
+    ;
+    /**
+     * Removes the specified `CapturedResultReceiver` object.
+     * @param receiver The receiver object, of type `CapturedResultReceiver`.
+     */
+    removeResultReceiver(receiver) {
+        checkIsDisposed(this);
+        __classPrivateFieldGet(this, _CaptureVisionRouter_resultReceiverSet, "f").delete(receiver);
+        this._setCrrRegistry();
+    }
+    async _setCrrRegistry() {
+        const receiver = {
+            onCapturedResultReceived: false,
+            onDecodedBarcodesReceived: false,
+            onRecognizedTextLinesReceived: false,
+            onDetectedQuadsReceived: false,
+            onNormalizedImagesReceived: false,
+            onParsedResultsReceived: false
+        };
+        for (let r of __classPrivateFieldGet(this, _CaptureVisionRouter_resultReceiverSet, "f")) {
+            if (r.isDce)
+                continue;
+            receiver.onCapturedResultReceived = !!r["onCapturedResultReceived"];
+            receiver.onDecodedBarcodesReceived = !!r["onDecodedBarcodesReceived"];
+            receiver.onRecognizedTextLinesReceived = !!r["onRecognizedTextLinesReceived"];
+            receiver.onDetectedQuadsReceived = !!r["onDetectedQuadsReceived"];
+            receiver.onNormalizedImagesReceived = !!r["onNormalizedImagesReceived"];
+            receiver.onParsedResultsReceived = !!r["onParsedResultsReceived"];
+        }
+        const p = new MutablePromise();
+        let taskID = getNextTaskID();
+        mapTaskCallBack[taskID] = async (body) => {
+            if (body.success) {
+                p.resolve();
+            }
+            else {
+                let ex = new Error(body.message);
+                ex.stack = body.stack + '\n' + ex.stack;
+                p.reject();
+            }
+        };
+        worker.postMessage({
+            type: "cvr_setCrrRegistry",
+            id: taskID,
+            instanceID: this._instanceID,
+            body: {
+                receiver: JSON.stringify(receiver)
+            }
+        });
+        return p;
+    }
+    /**
+     * Adds a `MultiFrameResultCrossFilter` object to filter non-essential results.
+     * @param filter The filter object, of type `MultiFrameResultCrossFilter`.
+     *
+     * @returns A promise that resolves when the operation has successfully completed. It does not provide any value upon resolution.
+     */
+    async addResultFilter(filter) {
+        checkIsDisposed(this);
+        if (!filter || typeof filter !== "object" || !Object.keys(filter).length) {
+            return console.warn(`Invalid filter.`);
+        }
+        __classPrivateFieldGet(this, _CaptureVisionRouter_resultFilterSet, "f").add(filter);
+        // When cvr.addResultFilter is called, this method will automatically be invoked to batch update the filter statuses that were set before calling addResultFilter.
+        filter._dynamsoft();
+        await this._handleFilterUpdate();
+    }
+    ;
+    /**
+     * Removes the specified `MultiFrameResultCrossFilter` object.
+     * @param filter The filter object, of type `MultiFrameResultCrossFilter`.
+     *
+     * @returns A promise that resolves when the operation has successfully completed. It does not provide any value upon resolution.
+     */
+    async removeResultFilter(filter) {
+        checkIsDisposed(this);
+        __classPrivateFieldGet(this, _CaptureVisionRouter_resultFilterSet, "f").delete(filter);
+        await this._handleFilterUpdate();
+    }
+    async _handleFilterUpdate() {
+        /**
+         * Each time a "filter" is added or removed, the "filter set" will be re-traversed,
+         * and _intermediateResultReceiverOfFilter will be added when necessary.
+         * This ensures that _intermediateResultReceiverOfFilter is not left in the "filter set" when the "filter set" is empty or when no filter in the "filter set" has isLatestOverlappingEnabled set to true.
+         */
+        __classPrivateFieldGet(this, _CaptureVisionRouter_intermediateResultManager, "f").removeResultReceiver(_intermediateResultReceiverOfFilter);
+        if (__classPrivateFieldGet(this, _CaptureVisionRouter_resultFilterSet, "f").size === 0) {
+            this._isOpenBarcodeVerify = false;
+            this._isOpenLabelVerify = false;
+            this._isOpenDetectVerify = false;
+            this._isOpenNormalizeVerify = false;
+            const _verificationEnabled = {
+                [EnumCapturedResultItemType.CRIT_BARCODE]: false,
+                [EnumCapturedResultItemType.CRIT_TEXT_LINE]: false,
+                [EnumCapturedResultItemType.CRIT_DETECTED_QUAD]: false,
+                [EnumCapturedResultItemType.CRIT_NORMALIZED_IMAGE]: false
+            };
+            const _duplicateFilterEnabled = {
+                [EnumCapturedResultItemType.CRIT_BARCODE]: false,
+                [EnumCapturedResultItemType.CRIT_TEXT_LINE]: false,
+                [EnumCapturedResultItemType.CRIT_DETECTED_QUAD]: false,
+                [EnumCapturedResultItemType.CRIT_NORMALIZED_IMAGE]: false
+            };
+            await _enableResultCrossVerification(this, _verificationEnabled);
+            await _enableResultDeduplication(this, _duplicateFilterEnabled);
+            return;
+        }
+        for (let filter of __classPrivateFieldGet(this, _CaptureVisionRouter_resultFilterSet, "f")) {
+            this._isOpenBarcodeVerify = filter.isResultCrossVerificationEnabled(EnumCapturedResultItemType.CRIT_BARCODE);
+            this._isOpenLabelVerify = filter.isResultCrossVerificationEnabled(EnumCapturedResultItemType.CRIT_TEXT_LINE);
+            this._isOpenDetectVerify = filter.isResultCrossVerificationEnabled(EnumCapturedResultItemType.CRIT_DETECTED_QUAD);
+            this._isOpenNormalizeVerify = filter.isResultCrossVerificationEnabled(EnumCapturedResultItemType.CRIT_NORMALIZED_IMAGE);
+            if (filter.isLatestOverlappingEnabled(EnumCapturedResultItemType.CRIT_BARCODE)) {
+                const _isExist = [...__classPrivateFieldGet(this, _CaptureVisionRouter_intermediateResultManager, "f")._intermediateResultReceiverSet.values()].find((receiver) => { return receiver.isFilter; });
+                if (!_isExist) {
+                    __classPrivateFieldGet(this, _CaptureVisionRouter_intermediateResultManager, "f").addResultReceiver(_intermediateResultReceiverOfFilter);
+                }
+            }
+            await _enableResultCrossVerification(this, filter.verificationEnabled);
+            await _enableResultDeduplication(this, filter.duplicateFilterEnabled);
+            await _setDuplicateForgetTime(this, filter.duplicateForgetTime);
+        }
+    }
+    /**
+     * Initiates a capturing process based on a specified template. This process is repeated for each image fetched from the source.
+     * @param templateName [Optional] Specifies a "CaptureVisionTemplate" to use.
+     *
+     * @returns A promise that resolves when the capturing process has successfully started. It does not provide any value upon resolution.
+     */
+    async startCapturing(templateName) {
+        var _a, _b;
+        checkIsDisposed(this);
+        if (!this._isPauseScan)
+            return;
+        if (!__classPrivateFieldGet(this, _CaptureVisionRouter_isa, "f"))
+            throw new Error(`'ImageSourceAdapter' is not set. call 'setInput' before 'startCapturing'`);
+        if (!templateName)
+            templateName = this._currentSettings.CaptureVisionTemplates[0].Name;
+        const tasks = await this.containsTask(templateName);
+        await loadWasm(tasks);
+        /*
+         * Why do we need to re-add an existing "filter" when calling "startCapturing"?
+         * Because there may be a situation where the corresponding wasm module has not been loaded when adding "filter",
+         * so after checking the required wasm module in "startCapturing", we will add "filter" again to ensure that "filter" takes effect in wasm.
+         *
+         * Why not check for the required wasm when adding the "filter"?
+         * Because each result type has a default value, we cannot know which wasm modules are actually needed through the passed "filter"
+         *
+         * This part of the logic has room for optimization. will do.
+         **/
+        for (let filter of __classPrivateFieldGet(this, _CaptureVisionRouter_resultFilterSet, "f")) {
+            await this.addResultFilter(filter);
+        }
+        if (tasks.includes("dlr") && !((_a = mapPackageRegister.dlr) === null || _a === void 0 ? void 0 : _a.bLoadConfusableCharsData)) {
+            const _engineResourcePaths = handleEngineResourcePaths(CoreModule.engineResourcePaths, autoDiscoveryPaths);
+            await ((_b = mapPackageRegister.dlr) === null || _b === void 0 ? void 0 : _b.loadRecognitionData("ConfusableChars", _engineResourcePaths.dlr));
+        }
+        if (__classPrivateFieldGet(this, _CaptureVisionRouter_isa, "f").isCameraEnhancer) {
+            if (tasks.includes("ddn")) {
+                __classPrivateFieldGet(this, _CaptureVisionRouter_isa, "f").setPixelFormat(EnumImagePixelFormat.IPF_ABGR_8888);
+            }
+            else {
+                __classPrivateFieldGet(this, _CaptureVisionRouter_isa, "f").setPixelFormat(EnumImagePixelFormat.IPF_GRAYSCALED);
+            }
+        }
+        if (__classPrivateFieldGet(this, _CaptureVisionRouter_isa, "f").singleFrameMode !== undefined && __classPrivateFieldGet(this, _CaptureVisionRouter_isa, "f").singleFrameMode !== "disabled") {
+            this._templateName = templateName;
+            __classPrivateFieldGet(this, _CaptureVisionRouter_isa, "f").on("singleFrameAcquired", this._singleFrameModeCallbackBind);
+            return;
+        }
+        const colourChannelUsageType = __classPrivateFieldGet(this, _CaptureVisionRouter_isa, "f").getColourChannelUsageType();
+        if (colourChannelUsageType === EnumColourChannelUsageType.CCUT_AUTO) {
+            __classPrivateFieldGet(this, _CaptureVisionRouter_isa, "f").setColourChannelUsageType(tasks.includes("ddn") ?
+                EnumColourChannelUsageType.CCUT_FULL_CHANNEL
+                :
+                    EnumColourChannelUsageType.CCUT_Y_CHANNEL_ONLY);
+        }
+        if (__classPrivateFieldGet(this, _CaptureVisionRouter_promiseStartScan, "f") && __classPrivateFieldGet(this, _CaptureVisionRouter_promiseStartScan, "f").isPending)
+            return __classPrivateFieldGet(this, _CaptureVisionRouter_promiseStartScan, "f");
+        __classPrivateFieldSet(this, _CaptureVisionRouter_promiseStartScan, new MutablePromise((rs, rj) => {
+            if (this.disposed)
+                return;
+            let taskID = getNextTaskID();
+            mapTaskCallBack[taskID] = async (body) => {
+                if (!__classPrivateFieldGet(this, _CaptureVisionRouter_promiseStartScan, "f") || __classPrivateFieldGet(this, _CaptureVisionRouter_promiseStartScan, "f").isFulfilled)
+                    return;
+                if (body.success) {
+                    this._isPauseScan = false;
+                    this._isOutputOriginalImage = body.isOutputOriginalImage;
+                    this._loopReadVideoTimeoutId && clearTimeout(this._loopReadVideoTimeoutId);
+                    this._loopReadVideoTimeoutId = setTimeout(async () => {
+                        if (this._minImageCaptureInterval !== -1) {
+                            __classPrivateFieldGet(this, _CaptureVisionRouter_isa, "f").startFetching();
+                        }
+                        this._loopReadVideo(templateName);
+                        // try {
+                        //   await this._loopReadVideo(templateName);
+                        // } catch (ex) {
+                        //   rj(ex);
+                        // }
+                        rs();
+                    }, 0);
+                }
+                else {
+                    let ex = new Error(body.message);
+                    ex.stack = body.stack + '\n' + ex.stack;
+                    return rj(ex);
+                }
+            };
+            worker.postMessage({
+                type: "cvr_startCapturing",
+                id: taskID,
+                instanceID: this._instanceID,
+                body: { templateName }
+            });
+        }), "f");
+        return await __classPrivateFieldGet(this, _CaptureVisionRouter_promiseStartScan, "f");
+    }
+    /**
+     * Stops the capturing process.
+     */
+    stopCapturing() {
+        checkIsDisposed(this);
+        if (!__classPrivateFieldGet(this, _CaptureVisionRouter_isa, "f"))
+            return;
+        if (__classPrivateFieldGet(this, _CaptureVisionRouter_isa, "f").isCameraEnhancer) {
+            if (__classPrivateFieldGet(this, _CaptureVisionRouter_isa, "f").singleFrameMode !== undefined && __classPrivateFieldGet(this, _CaptureVisionRouter_isa, "f").singleFrameMode !== "disabled") {
+                __classPrivateFieldGet(this, _CaptureVisionRouter_isa, "f").off("singleFrameAcquired", this._singleFrameModeCallbackBind);
+                return;
+            }
+        }
+        _clearVerifyList(this);
+        __classPrivateFieldGet(this, _CaptureVisionRouter_isa, "f").stopFetching();
+        this._averageProcessintTimeArray = [];
+        this._averageTime = 999;
+        this._isPauseScan = true;
+        __classPrivateFieldSet(this, _CaptureVisionRouter_promiseStartScan, null, "f");
+        __classPrivateFieldGet(this, _CaptureVisionRouter_isa, "f").setColourChannelUsageType(EnumColourChannelUsageType.CCUT_AUTO);
+    }
+    async containsTask(templateName) {
+        checkIsDisposed(this);
+        return await new Promise((rs, rj) => {
+            let taskID = getNextTaskID();
+            mapTaskCallBack[taskID] = async (body) => {
+                if (body.success) {
+                    return rs(JSON.parse(body.tasks));
+                }
+                else {
+                    let ex = new Error(body.message);
+                    ex.stack = body.stack + '\n' + ex.stack;
+                    return rj(ex);
+                }
+            };
+            worker.postMessage({
+                type: "cvr_containsTask",
+                id: taskID,
+                instanceID: this._instanceID,
+                body: {
+                    templateName
+                }
+            });
+        });
+    }
+    /**
+     * Video stream capture, recursive call, loop frame capture
+     */
+    async _loopReadVideo(templateName) {
+        if ((this.disposed || this._isPauseScan)) {
+            return;
+        }
+        __classPrivateFieldSet(this, _CaptureVisionRouter_isScanner, true, "f");
+        if (__classPrivateFieldGet(this, _CaptureVisionRouter_isa, "f").isBufferEmpty()) {
+            if (__classPrivateFieldGet(this, _CaptureVisionRouter_isa, "f").hasNextImageToFetch()) {
+                for (let listener of __classPrivateFieldGet(this, _CaptureVisionRouter_isaStateListenerSet, "f")) {
+                    listener.onImageSourceStateReceived && listener.onImageSourceStateReceived(EnumImageSourceState.ISS_BUFFER_EMPTY);
+                }
+            }
+            else if (!(__classPrivateFieldGet(this, _CaptureVisionRouter_isa, "f").hasNextImageToFetch())) {
+                for (let listener of __classPrivateFieldGet(this, _CaptureVisionRouter_isaStateListenerSet, "f")) {
+                    listener.onImageSourceStateReceived && listener.onImageSourceStateReceived(EnumImageSourceState.ISS_EXHAUSTED);
+                }
+            }
+        }
+        if (this._minImageCaptureInterval === -1 || __classPrivateFieldGet(this, _CaptureVisionRouter_isa, "f").isBufferEmpty()) {
+            try {
+                if (__classPrivateFieldGet(this, _CaptureVisionRouter_isa, "f").isBufferEmpty() && CaptureVisionRouter._onLog)
+                    CaptureVisionRouter._onLog(`buffer is empty so fetch image`);
+                if (CaptureVisionRouter._onLog) {
+                    CaptureVisionRouter._onLog(`DCE: start fetching a frame: ${Date.now()}`);
+                }
+                this._dsImage = __classPrivateFieldGet(this, _CaptureVisionRouter_isa, "f").fetchImage();
+                if (CaptureVisionRouter._onLog) {
+                    CaptureVisionRouter._onLog(`DCE: finish fetching a frame: ${Date.now()}`);
+                }
+                __classPrivateFieldGet(this, _CaptureVisionRouter_isa, "f").setImageFetchInterval(this._averageTime);
+            }
+            catch (e) {
+                this._reRunCurrnetFunc(templateName);
+                return;
+            }
+        }
+        else {
+            __classPrivateFieldGet(this, _CaptureVisionRouter_isa, "f").setImageFetchInterval(this._averageTime - (this._dsImage && this._dsImage.tag ? this._dsImage.tag.timeSpent : 0));
+            this._dsImage = __classPrivateFieldGet(this, _CaptureVisionRouter_isa, "f").getImage();
+            if (this._dsImage.tag) {
+                if (Date.now() - this._dsImage.tag.timeStamp > 200) {
+                    this._reRunCurrnetFunc(templateName);
+                    return;
+                }
+            }
+        }
+        if (!this._dsImage) {
+            this._reRunCurrnetFunc(templateName);
+            return;
+        }
+        for (let receiver of __classPrivateFieldGet(this, _CaptureVisionRouter_resultReceiverSet, "f")) {
+            this._isOutputOriginalImage && receiver.onOriginalImageResultReceived && receiver.onOriginalImageResultReceived({ imageData: this._dsImage });
+        }
+        // capture
+        // try {
+        //   const captureStartTime = Date.now();
+        //   const result = await this._captureDsimage(this._dsImage, templateName);
+        //   if (CaptureVisionRouter._onLog) CaptureVisionRouter._onLog(`no js handle time: ${Date.now() - captureStartTime}`);
+        //   if (this._isPauseScan) {
+        //     this._reRunCurrnetFunc(templateName);
+        //     return;
+        //   }
+        //   (result as any).originalImageTag = this._dsImage.tag ? this._dsImage.tag : null;
+        //   const resultCommonPart = {
+        //     originalImageHashId: result.originalImageHashId,
+        //     originalImageTag: result.originalImageTag,
+        //     errorCode: result.errorCode,
+        //     errorString: result.errorString
+        //   }
+        //   for (let receiver of this.#resultReceiverSet) {
+        //     if ((receiver as any).isDce) {
+        //       const drawTime = Date.now();
+        //       (receiver as any).onCapturedResultReceived(result, {
+        //         isDetectVerifyOpen: this._isOpenDetectVerify,
+        //         isNormalizeVerifyOpen: this._isOpenNormalizeVerify,
+        //         isBarcodeVerifyOpen: this._isOpenBarcodeVerify,
+        //         isLabelVerifyOpen: this._isOpenLabelVerify,
+        //       });
+        //       if (CaptureVisionRouter._onLog) {
+        //         const time = Date.now() - drawTime;
+        //         if (time > 10) CaptureVisionRouter._onLog(`draw result time: ${time}`)
+        //       };
+        //     }
+        //     receiver.onDecodedBarcodesReceived && result.barcodeResultItems && receiver.onDecodedBarcodesReceived({
+        //       ...resultCommonPart,
+        //       barcodeResultItems: result.barcodeResultItems.filter((item: any) => { return !item.isFilter })
+        //     } as DecodedBarcodesResult);
+        //     receiver.onRecognizedTextLinesReceived && result.textLineResultItems && receiver.onRecognizedTextLinesReceived({
+        //       ...resultCommonPart,
+        //       textLineResultItems: result.textLineResultItems.filter((item: any) => { return !item.isFilter })
+        //     } as RecognizedTextLinesResult);
+        //     receiver.onDetectedQuadsReceived && result.detectedQuadResultItems && receiver.onDetectedQuadsReceived({
+        //       ...resultCommonPart,
+        //       detectedQuadResultItems: result.detectedQuadResultItems.filter((item: any) => { return !item.isFilter })
+        //     } as DetectedQuadsResult);
+        //     receiver.onNormalizedImagesReceived && result.normalizedImageResultItems && receiver.onNormalizedImagesReceived({
+        //       ...resultCommonPart,
+        //       normalizedImageResultItems: result.normalizedImageResultItems.filter((item: any) => { return !item.isFilter })
+        //     } as NormalizedImagesResult);
+        //     receiver.onParsedResultsReceived && result.parsedResultItems && receiver.onParsedResultsReceived({
+        //       ...resultCommonPart,
+        //       parsedResultItems: result.parsedResultItems.filter((item: any) => { return !item.isFilter })
+        //     } as ParsedResult);
+        //     if (receiver.onCapturedResultReceived && !(receiver as any).isDce) {
+        //       (result as any).items = result.items.filter((item: any) => { return !item.isFilter });
+        //       if ((result as any).barcodeResultItems) (result as any).barcodeResultItems = result.barcodeResultItems.filter((item: any) => { return !item.isFilter });
+        //       if ((result as any).textLineResultItems) (result as any).textLineResultItems = result.textLineResultItems.filter((item: any) => { return !item.isFilter });
+        //       if ((result as any).detectedQuadResultItems) (result as any).detectedQuadResultItems = result.detectedQuadResultItems.filter((item: any) => { return !item.isFilter });
+        //       if ((result as any).normalizedImageResultItems) (result as any).normalizedImageResultItems = result.normalizedImageResultItems.filter((item: any) => { return !item.isFilter });
+        //       if ((result as any).parsedResultItems) (result as any).parsedResultItems = result.parsedResultItems.filter((item: any) => { return !item.isFilter });
+        //       receiver.onCapturedResultReceived(result);
+        //     }
+        //   }
+        //   const fetchImageCalculateStartTime = Date.now();
+        //   if (this._minImageCaptureInterval > -1) {
+        //     if (this._averageProcessintTimeArray.length === 5) this._averageProcessintTimeArray.shift();
+        //     if (this._averageFetchImageTimeArray.length === 5) this._averageFetchImageTimeArray.shift();
+        //     this._averageProcessintTimeArray.push(Date.now() - captureStartTime);
+        //     //this._averageTime = this._averageProcessintTimeArray.reduce((time, value) => time + value, 0) / this._averageProcessintTimeArray.length;
+        //     this._averageFetchImageTimeArray.push((this._dsImage && this._dsImage.tag ? (this._dsImage.tag as any).timeSpent : 0));
+        //     this._averageTime = Math.min(...this._averageProcessintTimeArray) - Math.max(...this._averageFetchImageTimeArray);
+        //     this._averageTime = this._averageTime > 0 ? this._averageTime : 0;
+        //     if (CaptureVisionRouter._onLog) {
+        //       CaptureVisionRouter._onLog(`minImageCaptureInterval: ${this._minImageCaptureInterval}`);
+        //       CaptureVisionRouter._onLog(`averageProcessintTimeArray: ${this._averageProcessintTimeArray}`);
+        //       CaptureVisionRouter._onLog(`averageFetchImageTimeArray: ${this._averageFetchImageTimeArray}`);
+        //       CaptureVisionRouter._onLog(`averageTime: ${this._averageTime}`);
+        //     };
+        //   }
+        //   if (CaptureVisionRouter._onLog) {
+        //     const time = Date.now() - fetchImageCalculateStartTime;
+        //     if (time > 10) CaptureVisionRouter._onLog(`fetch image calculate time: ${time}`)
+        //   };
+        //   if (CaptureVisionRouter._onLog) CaptureVisionRouter._onLog(`time finish decode: ${Date.now()}`)
+        //   if (CaptureVisionRouter._onLog) CaptureVisionRouter._onLog(`main time: ${Date.now() - captureStartTime}`);
+        //   if (CaptureVisionRouter._onLog) CaptureVisionRouter._onLog("====================================================");
+        //   this._loopReadVideoTimeoutId && clearTimeout(this._loopReadVideoTimeoutId);
+        //   if (this._minImageCaptureInterval > 0 && this._minImageCaptureInterval >= this._averageTime) {
+        //     this._loopReadVideoTimeoutId = setTimeout(() => {
+        //       this._loopReadVideo(templateName);
+        //     }, this._minImageCaptureInterval - this._averageTime);
+        //   } else {
+        //     this._loopReadVideoTimeoutId = setTimeout(() => {
+        //       this._loopReadVideo(templateName);
+        //     }, Math.max(this._minImageCaptureInterval, 0));
+        //   }
+        // } catch (ex) {
+        //   this.#isa.stopFetching();
+        //   this._loopReadVideoTimeoutId && clearTimeout(this._loopReadVideoTimeoutId);
+        //   this._loopReadVideoTimeoutId = setTimeout(() => {
+        //     this.#isa.startFetching();
+        //     this._loopReadVideo(templateName);
+        //   }, Math.max(this._minImageCaptureInterval, 1000));
+        //   if (!(ex.message === 'platform error')) {
+        //     throw ex;
+        //   }
+        // }
+        const captureStartTime = Date.now();
+        this._captureDsimage(this._dsImage, templateName).then(async (result) => {
+            if (CaptureVisionRouter._onLog)
+                CaptureVisionRouter._onLog(`no js handle time: ${Date.now() - captureStartTime}`);
+            if (this._isPauseScan) {
+                this._reRunCurrnetFunc(templateName);
+                return;
+            }
+            result.originalImageTag = this._dsImage.tag ? this._dsImage.tag : null;
+            const resultCommonPart = {
+                originalImageHashId: result.originalImageHashId,
+                originalImageTag: result.originalImageTag,
+                errorCode: result.errorCode,
+                errorString: result.errorString
+            };
+            for (let receiver of __classPrivateFieldGet(this, _CaptureVisionRouter_resultReceiverSet, "f")) {
+                if (receiver.isDce) {
+                    const drawTime = Date.now();
+                    receiver.onCapturedResultReceived(result, {
+                        isDetectVerifyOpen: this._isOpenDetectVerify,
+                        isNormalizeVerifyOpen: this._isOpenNormalizeVerify,
+                        isBarcodeVerifyOpen: this._isOpenBarcodeVerify,
+                        isLabelVerifyOpen: this._isOpenLabelVerify,
+                    });
+                    if (CaptureVisionRouter._onLog) {
+                        const time = Date.now() - drawTime;
+                        if (time > 10)
+                            CaptureVisionRouter._onLog(`draw result time: ${time}`);
+                    }
+                }
+                receiver.onDecodedBarcodesReceived && result.barcodeResultItems && receiver.onDecodedBarcodesReceived(Object.assign(Object.assign({}, resultCommonPart), { barcodeResultItems: result.barcodeResultItems.filter((item) => { return !item.isFilter; }) }));
+                receiver.onRecognizedTextLinesReceived && result.textLineResultItems && receiver.onRecognizedTextLinesReceived(Object.assign(Object.assign({}, resultCommonPart), { textLineResultItems: result.textLineResultItems.filter((item) => { return !item.isFilter; }) }));
+                receiver.onDetectedQuadsReceived && result.detectedQuadResultItems && receiver.onDetectedQuadsReceived(Object.assign(Object.assign({}, resultCommonPart), { detectedQuadResultItems: result.detectedQuadResultItems.filter((item) => { return !item.isFilter; }) }));
+                receiver.onNormalizedImagesReceived && result.normalizedImageResultItems && receiver.onNormalizedImagesReceived(Object.assign(Object.assign({}, resultCommonPart), { normalizedImageResultItems: result.normalizedImageResultItems.filter((item) => { return !item.isFilter; }) }));
+                receiver.onParsedResultsReceived && result.parsedResultItems && receiver.onParsedResultsReceived(Object.assign(Object.assign({}, resultCommonPart), { parsedResultItems: result.parsedResultItems.filter((item) => { return !item.isFilter; }) }));
+                if (receiver.onCapturedResultReceived && !receiver.isDce) {
+                    result.items = result.items.filter((item) => { return !item.isFilter; });
+                    if (result.barcodeResultItems)
+                        result.barcodeResultItems = result.barcodeResultItems.filter((item) => { return !item.isFilter; });
+                    if (result.textLineResultItems)
+                        result.textLineResultItems = result.textLineResultItems.filter((item) => { return !item.isFilter; });
+                    if (result.detectedQuadResultItems)
+                        result.detectedQuadResultItems = result.detectedQuadResultItems.filter((item) => { return !item.isFilter; });
+                    if (result.normalizedImageResultItems)
+                        result.normalizedImageResultItems = result.normalizedImageResultItems.filter((item) => { return !item.isFilter; });
+                    if (result.parsedResultItems)
+                        result.parsedResultItems = result.parsedResultItems.filter((item) => { return !item.isFilter; });
+                    receiver.onCapturedResultReceived(result);
+                }
+            }
+            const fetchImageCalculateStartTime = Date.now();
+            if (this._minImageCaptureInterval > -1) {
+                if (this._averageProcessintTimeArray.length === 5)
+                    this._averageProcessintTimeArray.shift();
+                if (this._averageFetchImageTimeArray.length === 5)
+                    this._averageFetchImageTimeArray.shift();
+                this._averageProcessintTimeArray.push(Date.now() - captureStartTime);
+                //this._averageTime = this._averageProcessintTimeArray.reduce((time, value) => time + value, 0) / this._averageProcessintTimeArray.length;
+                this._averageFetchImageTimeArray.push((this._dsImage && this._dsImage.tag ? this._dsImage.tag.timeSpent : 0));
+                this._averageTime = Math.min(...this._averageProcessintTimeArray) - Math.max(...this._averageFetchImageTimeArray);
+                this._averageTime = this._averageTime > 0 ? this._averageTime : 0;
+                if (CaptureVisionRouter._onLog) {
+                    CaptureVisionRouter._onLog(`minImageCaptureInterval: ${this._minImageCaptureInterval}`);
+                    CaptureVisionRouter._onLog(`averageProcessintTimeArray: ${this._averageProcessintTimeArray}`);
+                    CaptureVisionRouter._onLog(`averageFetchImageTimeArray: ${this._averageFetchImageTimeArray}`);
+                    CaptureVisionRouter._onLog(`averageTime: ${this._averageTime}`);
+                }
+            }
+            if (CaptureVisionRouter._onLog) {
+                const time = Date.now() - fetchImageCalculateStartTime;
+                if (time > 10)
+                    CaptureVisionRouter._onLog(`fetch image calculate time: ${time}`);
+            }
+            if (CaptureVisionRouter._onLog)
+                CaptureVisionRouter._onLog(`time finish decode: ${Date.now()}`);
+            if (CaptureVisionRouter._onLog)
+                CaptureVisionRouter._onLog(`main time: ${Date.now() - captureStartTime}`);
+            if (CaptureVisionRouter._onLog)
+                CaptureVisionRouter._onLog("====================================================");
+            this._loopReadVideoTimeoutId && clearTimeout(this._loopReadVideoTimeoutId);
+            if (this._minImageCaptureInterval > 0 && this._minImageCaptureInterval >= this._averageTime) {
+                this._loopReadVideoTimeoutId = setTimeout(() => {
+                    this._loopReadVideo(templateName);
+                }, this._minImageCaptureInterval - this._averageTime);
+            }
+            else {
+                this._loopReadVideoTimeoutId = setTimeout(() => {
+                    this._loopReadVideo(templateName);
+                }, Math.max(this._minImageCaptureInterval, 0));
+            }
+        }).catch((ex) => {
+            __classPrivateFieldGet(this, _CaptureVisionRouter_isa, "f").stopFetching();
+            if (ex.errorCode && ex.errorCode === 0) {
+                this._loopReadVideoTimeoutId && clearTimeout(this._loopReadVideoTimeoutId);
+                this._loopReadVideoTimeoutId = setTimeout(() => {
+                    __classPrivateFieldGet(this, _CaptureVisionRouter_isa, "f").startFetching();
+                    this._loopReadVideo(templateName);
+                }, Math.max(this._minImageCaptureInterval, 1000));
+            }
+            if (!(ex.message === 'platform error')) {
+                setTimeout(() => { throw ex; }, 0);
+            }
+        });
+    }
+    _reRunCurrnetFunc(templateName) {
+        this._loopReadVideoTimeoutId && clearTimeout(this._loopReadVideoTimeoutId);
+        this._loopReadVideoTimeoutId = setTimeout(() => {
+            this._loopReadVideo(templateName);
+        }, 0);
+    }
+    /**
+     * Processes a single image or a file containing a single image to derive important information.
+     * @param imageOrFile Specifies the image or file to be processed. The following data types are accepted: `Blob`, `HTMLImageElement`, `HTMLCanvasElement`, `HTMLVideoElement`, `DSImageData`, `string`.
+     * @param templateName [Optional] Specifies a "CaptureVisionTemplate" to use.
+     *
+     * @returns A promise that resolves with a `CapturedResult` object which contains the derived information from the image processed.
+     */
+    async capture(imageOrFile, templateName) {
+        var _a, _b;
+        checkIsDisposed(this);
+        if (!templateName)
+            templateName = this._currentSettings.CaptureVisionTemplates[0].Name;
+        const tasks = await this.containsTask(templateName);
+        await loadWasm(tasks);
+        if (tasks.includes("dlr") && !((_a = mapPackageRegister.dlr) === null || _a === void 0 ? void 0 : _a.bLoadConfusableCharsData)) {
+            const _engineResourcePaths = handleEngineResourcePaths(CoreModule.engineResourcePaths, autoDiscoveryPaths);
+            await ((_b = mapPackageRegister.dlr) === null || _b === void 0 ? void 0 : _b.loadRecognitionData("ConfusableChars", _engineResourcePaths.dlr));
+        }
+        let result;
+        __classPrivateFieldSet(this, _CaptureVisionRouter_isScanner, false, "f");
+        if (_isDSImageData(imageOrFile)) {
+            result = await this._captureDsimage(imageOrFile, templateName);
+        }
+        else if (typeof imageOrFile === "string") {
+            if (imageOrFile.substring(0, 11) == "data:image/") {
+                result = await this._captureBase64(imageOrFile, templateName);
+            }
+            else {
+                result = await this._captureUrl(imageOrFile, templateName);
+            }
+        }
+        else if (imageOrFile instanceof Blob) {
+            result = await this._captureBlob(imageOrFile, templateName);
+        }
+        else if (imageOrFile instanceof HTMLImageElement) {
+            result = await this._captureImage(imageOrFile, templateName);
+        }
+        else if (imageOrFile instanceof HTMLCanvasElement) {
+            result = await this._captureCanvas(imageOrFile, templateName);
+        }
+        else if (imageOrFile instanceof HTMLVideoElement) {
+            result = await this._captureVideo(imageOrFile, templateName);
+        }
+        else {
+            throw new TypeError("'capture(imageOrFile, templateName)': Type of 'imageOrFile' should be 'DSImageData', 'Url', 'Base64', 'Blob', 'HTMLImageElement', 'HTMLCanvasElement', 'HTMLVideoElement'.");
+        }
+        return result;
+    }
+    ;
+    async _captureDsimage(imageOrFile, templateName) {
+        return await this._captureInWorker(imageOrFile, templateName);
+    }
+    async _captureUrl(imageOrFile, templateName) {
+        let blob = await requestResource(imageOrFile, "blob");
+        return await this._captureBlob(blob, templateName);
+    }
+    async _captureBase64(base64Str, templateName) {
+        base64Str = base64Str.substring(base64Str.indexOf(',') + 1);
+        let binaryStr = atob(base64Str);
+        let n = binaryStr.length;
+        let u8arr = new Uint8Array(n);
+        while (n--) {
+            u8arr[n] = binaryStr.charCodeAt(n);
+        }
+        return await this._captureBlob(new Blob([u8arr]), templateName);
+    }
+    async _captureBlob(imageOrFile, templateName) {
+        const useObjurlToDrawBlobToImg = async function (blob) {
+            return await new Promise((rs, rj) => {
+                let objUrl = URL.createObjectURL(blob);
+                let image = new Image();
+                image.src = objUrl;
+                image.onload = () => {
+                    URL.revokeObjectURL(image.dbrObjUrl); // relese memory
+                    rs(image);
+                };
+                image.onerror = ev => {
+                    rj(new Error("Can't convert blob to image : " + (ev instanceof Event ? ev.type : ev)));
+                };
+            });
+        };
+        let imageBitmap = null;
+        let img = null;
+        if (typeof createImageBitmap !== "undefined") {
+            try {
+                imageBitmap = await createImageBitmap(imageOrFile);
+            }
+            catch (ex) {
+                // createImageBitmap maybe fail in a lot of sense
+                // although objurl can pass
+            }
+        }
+        if (!imageBitmap) {
+            img = await useObjurlToDrawBlobToImg(imageOrFile);
+        }
+        let results = await this._captureImage(imageBitmap || img, templateName);
+        if (imageBitmap) {
+            imageBitmap.close();
+        } // release memory
+        return results;
+    }
+    async _captureImage(image, templateName) {
+        let imgW = image instanceof HTMLImageElement ? image.naturalWidth : image.width;
+        let imgH = image instanceof HTMLImageElement ? image.naturalHeight : image.height;
+        let maxNaturalWH = Math.max(imgW, imgH);
+        let acceptW, acceptH;
+        if (maxNaturalWH > this.maxCvsSideLength) {
+            __classPrivateFieldSet(this, _CaptureVisionRouter_compressRate, this.maxCvsSideLength / maxNaturalWH, "f");
+            acceptW = Math.round(imgW * __classPrivateFieldGet(this, _CaptureVisionRouter_compressRate, "f"));
+            acceptH = Math.round(imgH * __classPrivateFieldGet(this, _CaptureVisionRouter_compressRate, "f"));
+        }
+        else {
+            acceptW = imgW;
+            acceptH = imgH;
+        }
+        if (!__classPrivateFieldGet(this, _CaptureVisionRouter_canvas, "f")) {
+            __classPrivateFieldSet(this, _CaptureVisionRouter_canvas, document.createElement('canvas'), "f");
+        }
+        const cvs = __classPrivateFieldGet(this, _CaptureVisionRouter_canvas, "f");
+        if (cvs.width !== acceptW || cvs.height !== acceptH) {
+            cvs.width = acceptW;
+            cvs.height = acceptH;
+        }
+        if (!cvs.ctx2d) {
+            cvs.ctx2d = cvs.getContext('2d', { willReadFrequently: true });
+        }
+        const ctx = cvs.ctx2d;
+        ctx.drawImage(image, 0, 0, imgW, imgH, 0, 0, acceptW, acceptH);
+        if (image.dbrObjUrl) {
+            URL.revokeObjectURL(image.dbrObjUrl); // relese memory
+        }
+        return await this._captureCanvas(cvs, templateName);
+    }
+    async _captureCanvas(canvas, templateName) {
+        if (canvas.crossOrigin && "anonymous" != canvas.crossOrigin) { // canvas has crossOrigin to detect if cors, is native api
+            throw "cors";
+        }
+        if ([canvas.width, canvas.height].includes(0)) {
+            throw Error(`The width or height of the 'canvas' is 0.`);
+        }
+        const ctx = canvas.ctx2d || canvas.getContext("2d", { willReadFrequently: true });
+        const imgData = Uint8Array.from(ctx.getImageData(0, 0, canvas.width, canvas.height).data);
+        const DsImageData = {
+            bytes: imgData,
+            width: canvas.width,
+            height: canvas.height,
+            stride: canvas.width * 4,
+            format: 10,
+        };
+        return await this._captureInWorker(DsImageData, templateName);
+    }
+    async _captureVideo(video, templateName) {
+        if (video.crossOrigin && "anonymous" != video.crossOrigin) {
+            throw "cors";
+        }
+        let imgW = video.videoWidth;
+        let imgH = video.videoHeight;
+        let maxNaturalWH = Math.max(imgW, imgH);
+        let acceptW, acceptH;
+        if (maxNaturalWH > this.maxCvsSideLength) {
+            __classPrivateFieldSet(this, _CaptureVisionRouter_compressRate, this.maxCvsSideLength / maxNaturalWH, "f");
+            acceptW = Math.round(imgW * __classPrivateFieldGet(this, _CaptureVisionRouter_compressRate, "f"));
+            acceptH = Math.round(imgH * __classPrivateFieldGet(this, _CaptureVisionRouter_compressRate, "f"));
+        }
+        else {
+            acceptW = imgW;
+            acceptH = imgH;
+        }
+        if (!__classPrivateFieldGet(this, _CaptureVisionRouter_canvas, "f")) {
+            __classPrivateFieldSet(this, _CaptureVisionRouter_canvas, document.createElement('canvas'), "f");
+        }
+        const cvs = __classPrivateFieldGet(this, _CaptureVisionRouter_canvas, "f");
+        if (cvs.width !== acceptW || cvs.height !== acceptH) {
+            cvs.width = acceptW;
+            cvs.height = acceptH;
+        }
+        if (!cvs.ctx2d) {
+            cvs.ctx2d = cvs.getContext('2d', { willReadFrequently: true });
+        }
+        const ctx = cvs.ctx2d;
+        ctx.drawImage(video, 0, 0, imgW, imgH, 0, 0, acceptW, acceptH);
+        return await this._captureCanvas(cvs, templateName);
+    }
+    async _captureInWorker(DsImageData, templateName) {
+        const { bytes, width, height, stride, format } = DsImageData;
+        let taskID = getNextTaskID();
+        const p = new MutablePromise();
+        mapTaskCallBack[taskID] = async (body) => {
+            var _a, _b;
+            if (body.success) {
+                const getResultFromWorkerTime = Date.now();
+                if (CaptureVisionRouter._onLog) {
+                    CaptureVisionRouter._onLog(`get result time from worker: ${getResultFromWorkerTime}`);
+                    CaptureVisionRouter._onLog(`worker to main time consume: ${getResultFromWorkerTime - body.workerReturnMsgTime}`);
+                }
+                try {
+                    const captureResult = body.captureResult;
+                    if (captureResult.errorCode !== 0) {
+                        let error = new Error(captureResult.errorString);
+                        error.errorCode = captureResult.errorCode;
+                        return p.reject(error);
+                    }
+                    DsImageData.bytes = body.bytes;
+                    for (let item of captureResult.items) {
+                        if (__classPrivateFieldGet(this, _CaptureVisionRouter_compressRate, "f") !== 0) {
+                            convertCoordinates(item, __classPrivateFieldGet(this, _CaptureVisionRouter_compressRate, "f"));
+                        }
+                        if (item.type === EnumCapturedResultItemType.CRIT_ORIGINAL_IMAGE) {
+                            item.imageData = DsImageData;
+                        }
+                        else if (item.type === EnumCapturedResultItemType.CRIT_NORMALIZED_IMAGE) {
+                            (_a = mapPackageRegister.ddn) === null || _a === void 0 ? void 0 : _a.handleNormalizedImageResultItem(item);
+                        }
+                        else if (item.type === EnumCapturedResultItemType.CRIT_PARSED_RESULT) {
+                            (_b = mapPackageRegister.dcp) === null || _b === void 0 ? void 0 : _b.handleParsedResultItem(item);
+                        }
+                    }
+                    if (__classPrivateFieldGet(this, _CaptureVisionRouter_isScanner, "f")) {
+                        for (let filter of __classPrivateFieldGet(this, _CaptureVisionRouter_resultFilterSet, "f")) {
+                            filter.onDecodedBarcodesReceived(captureResult);
+                            filter.onRecognizedTextLinesReceived(captureResult);
+                            filter.onDetectedQuadsReceived(captureResult);
+                            filter.onNormalizedImagesReceived(captureResult);
+                        }
+                    }
+                    const resultsForDraw = handleResultForDraw(captureResult);
+                    resultsForDraw.barcodeResultItems.length && (captureResult.barcodeResultItems = resultsForDraw.barcodeResultItems);
+                    resultsForDraw.textLineResultItems.length && (captureResult.textLineResultItems = resultsForDraw.textLineResultItems);
+                    resultsForDraw.detectedQuadResultItems.length && (captureResult.detectedQuadResultItems = resultsForDraw.detectedQuadResultItems);
+                    resultsForDraw.normalizedImageResultItems.length && (captureResult.normalizedImageResultItems = resultsForDraw.normalizedImageResultItems);
+                    resultsForDraw.parsedResultItems.length && (captureResult.parsedResultItems = resultsForDraw.parsedResultItems);
+                    if (!this._isPauseScan || !__classPrivateFieldGet(this, _CaptureVisionRouter_isScanner, "f")) {
+                        const irs = captureResult.intermediateResult; // irs => intermediateResults
+                        if (irs) {
+                            let irrSetCount = 0;
+                            for (let irr of __classPrivateFieldGet(this, _CaptureVisionRouter_intermediateResultManager, "f")._intermediateResultReceiverSet) {
+                                irrSetCount++;
+                                for (let cb of irs) {
+                                    if (cb.info.callbackName === "onTaskResultsReceived") {
+                                        for (let unit of cb.intermediateResultUnits) {
+                                            unit.originalImageTag = DsImageData.tag ? DsImageData.tag : null;
+                                        }
+                                        if (irr[cb.info.callbackName]) {
+                                            irr[cb.info.callbackName]({ intermediateResultUnits: cb.intermediateResultUnits }, cb.info);
+                                        }
+                                    }
+                                    else {
+                                        if (irr[cb.info.callbackName]) {
+                                            irr[cb.info.callbackName](cb.result, cb.info);
+                                        }
+                                    }
+                                    if (irrSetCount === __classPrivateFieldGet(this, _CaptureVisionRouter_intermediateResultManager, "f")._intermediateResultReceiverSet.size) {
+                                        delete cb.info.callbackName;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    captureResult && captureResult.hasOwnProperty("intermediateResult") && delete captureResult.intermediateResult;
+                    __classPrivateFieldSet(this, _CaptureVisionRouter_compressRate, 0, "f");
+                    return p.resolve(captureResult);
+                }
+                catch (ex) {
+                    return p.reject(ex);
+                }
+            }
+            else {
+                let ex = new Error(body.message);
+                ex.stack = body.stack + '\n' + ex.stack;
+                return p.reject(ex);
+            }
+        };
+        if (CaptureVisionRouter._onLog) {
+            CaptureVisionRouter._onLog(`send buffer to worker: ${Date.now()}`);
+        }
+        worker.postMessage({
+            type: "cvr_capture",
+            id: taskID,
+            instanceID: this._instanceID,
+            body: {
+                bytes,
+                width,
+                height,
+                stride,
+                format,
+                templateName: templateName ? templateName : "",
+                isScanner: __classPrivateFieldGet(this, _CaptureVisionRouter_isScanner, "f")
+            }
+        }, [bytes.buffer]);
+        return p;
+    }
+    ;
+    /**
+     * Configures runtime settings using a provided JSON string, an object, or a URL pointing to an object, which contains settings for one or more `CaptureVisionTemplates`.
+     * @param settings A JSON string, an object, or a URL pointing to an object that contains settings for one or more `CaptureVisionTemplates`.
+     *
+     * @returns A promise that resolves when the operation has completed. It provides an object that describes the result.
+     */
+    async initSettings(settings) {
+        checkIsDisposed(this);
+        if (!settings || !["string", "object"].includes(typeof settings)) {
+            return console.error("Invalid template.");
+        }
+        if (typeof settings === "string") {
+            if (!settings.startsWith("{")) {
+                settings = await requestResource(settings, "text");
+            }
+            this._currentSettings = JSON.parse(settings);
+        }
+        else if (typeof settings === "object") {
+            this._currentSettings = settings;
+            settings = JSON.stringify(settings);
+        }
+        return await new Promise((rs, rj) => {
+            let taskID = getNextTaskID();
+            mapTaskCallBack[taskID] = async (body) => {
+                if (body.success) {
+                    const response = JSON.parse(body.response);
+                    if (response.exception !== 0) {
+                        let error = new Error(response.description ? response.description : "Init Settings Failed.");
+                        error.errorCode = response.exception;
+                        return rj(error);
+                    }
+                    let modules = [];
+                    let templateNames = JSON.parse(settings).CaptureVisionTemplates;
+                    for (let i = 0; i < templateNames.length; i++) {
+                        let tasks = await this.containsTask(templateNames[i].Name);
+                        modules = modules.concat(tasks);
+                    }
+                    await loadWasm([...new Set(modules)]);
+                    this._isOutputOriginalImage = (this._currentSettings.CaptureVisionTemplates[0].OutputOriginalImage === 1);
+                    return rs(response);
+                }
+                else {
+                    let ex = new Error(body.message);
+                    ex.stack = body.stack + '\n' + ex.stack;
+                    return rj(ex);
+                }
+            };
+            worker.postMessage({
+                type: "cvr_initSettings",
+                id: taskID,
+                instanceID: this._instanceID,
+                body: { settings },
+            });
+        });
+    }
+    ;
+    /**
+     * Returns an object that contains settings for the specified `CaptureVisionTemplate`.
+     * @param templateName Specifies a `CaptureVisionTemplate` by its name. If passed "*", the returned object will contain all templates.
+     *
+     * @returns A promise that resolves with the object that contains settings for the specified template or all templates.
+     */
+    async outputSettings(templateName) {
+        checkIsDisposed(this);
+        return await new Promise((rs, rj) => {
+            let taskID = getNextTaskID();
+            mapTaskCallBack[taskID] = async (body) => {
+                if (body.success) {
+                    const settings = JSON.parse(body.settings);
+                    if (settings.errorCode !== 0) {
+                        let error = new Error(settings.errorString);
+                        error.errorCode = settings.errorCode;
+                        return rj(error);
+                    }
+                    delete settings.errorCode;
+                    delete settings.errorString;
+                    return rs(settings);
+                }
+                else {
+                    let ex = new Error(body.message);
+                    ex.stack = body.stack + '\n' + ex.stack;
+                    return rj(ex);
+                }
+            };
+            worker.postMessage({
+                type: "cvr_outputSettings",
+                id: taskID,
+                instanceID: this._instanceID,
+                body: {
+                    templateName: templateName ? templateName : "*"
+                }
+            });
+        });
+    }
+    ;
+    /**
+     * Generates a Blob object or initiates a JSON file download containing the settings for the specified `CaptureVisionTemplate`.
+     * @param templateName Specifies a `CaptureVisionTemplate` by its name. If passed "*", the returned object will contain all templates.
+     * @param fileName Specifies the name of the file.
+     * @param download Boolean that specifies whether to initiates a file download.
+     *
+     * @returns A promise that resolves with the Blob object that contains settings for the specified template or all templates.
+     */
+    async outputSettingsToFile(templateName, fileName, download) {
+        const settings = await this.outputSettings(templateName);
+        const jsonBlob = new Blob([JSON.stringify(settings, null, 2, function (_, value) {
+                if (value instanceof Array) {
+                    return JSON.stringify(value);
+                }
+                else {
+                    return value;
+                }
+            }, 2)], { type: "application/json" });
+        if (download) {
+            const downloadLink = document.createElement("a");
+            downloadLink.href = URL.createObjectURL(jsonBlob);
+            if (fileName.endsWith(".json")) {
+                fileName = fileName.replace(".json", "");
+            }
+            downloadLink.download = `${fileName}.json`;
+            downloadLink.onclick = () => {
+                setTimeout(() => {
+                    URL.revokeObjectURL(downloadLink.href);
+                }, 500);
+            };
+            downloadLink.click();
+        }
+        return jsonBlob;
+    }
+    /**
+     * Retrieves a JSON object that contains simplified settings for the specified `CaptureVisionTemplate`.
+     * @param templateName Specifies a `CaptureVisionTemplate` by its name.
+     *
+     * @returns A promise that resolves with a JSON object, of type `SimplifiedCaptureVisionSettings`, which represents the simplified settings for the specified template.
+     * @remarks If the settings of the specified template are too complex, we cannot create a SimplifiedCaptureVisionSettings, and as a result, it will return an error.
+     */
+    async getSimplifiedSettings(templateName) {
+        checkIsDisposed(this);
+        if (!templateName)
+            templateName = this._currentSettings.CaptureVisionTemplates[0].Name;
+        const tasks = await this.containsTask(templateName);
+        await loadWasm(tasks);
+        return await new Promise((rs, rj) => {
+            let taskID = getNextTaskID();
+            mapTaskCallBack[taskID] = async (body) => {
+                if (body.success) {
+                    const result = JSON.parse(body.settings, (k, v) => {
+                        if (k === "barcodeFormatIds") {
+                            return BigInt(v);
+                        }
+                        return v;
+                    });
+                    result.minImageCaptureInterval = this._minImageCaptureInterval;
+                    if (result.code !== 0) {
+                        let error = new Error(result.codeString);
+                        error.errorCode = result.errorCode;
+                        return rj(error);
+                    }
+                    delete result.code;
+                    delete result.codeString;
+                    return rs(result);
+                }
+                else {
+                    let ex = new Error(body.message);
+                    ex.stack = body.stack + '\n' + ex.stack;
+                    return rj(ex);
+                }
+            };
+            worker.postMessage({
+                type: "cvr_getSimplifiedSettings",
+                id: taskID,
+                instanceID: this._instanceID,
+                body: { templateName }
+            });
+        });
+    }
+    ;
+    /**
+     * Updates the specified `CaptureVisionTemplate` with an updated `SimplifiedCaptureVisionSettings` object.
+     * @param templateName Specifies a `CaptureVisionTemplate` by its name.
+     * @param settings The `SimplifiedCaptureVisionSettings` object that contains updated settings.
+     *
+     * @returns A promise that resolves when the operation has completed. It provides an object that describes the result.
+     */
+    async updateSettings(templateName, settings) {
+        checkIsDisposed(this);
+        const tasks = await this.containsTask(templateName);
+        await loadWasm(tasks);
+        return await new Promise((rs, rj) => {
+            let taskID = getNextTaskID();
+            mapTaskCallBack[taskID] = async (body) => {
+                if (body.success) {
+                    const response = JSON.parse(body.response);
+                    if (settings.minImageCaptureInterval && settings.minImageCaptureInterval >= -1) {
+                        this._minImageCaptureInterval = settings.minImageCaptureInterval;
+                    }
+                    this._isOutputOriginalImage = body.isOutputOriginalImage;
+                    if (response.exception !== 0) {
+                        let error = new Error(response.description ? response.description : "Update Settings Failed.");
+                        error.errorCode = response.exception;
+                        return rj(error);
+                    }
+                    this._currentSettings = await this.outputSettings("*");
+                    return rs(response);
+                }
+                else {
+                    let ex = new Error(body.message);
+                    ex.stack = body.stack + '\n' + ex.stack;
+                    return rj(ex);
+                }
+            };
+            worker.postMessage({
+                type: "cvr_updateSettings",
+                id: taskID,
+                instanceID: this._instanceID,
+                body: {
+                    settings,
+                    templateName
+                }
+            });
+        });
+    }
+    /**
+     * Restores all runtime settings to their original default values.
+     *
+     * @returns A promise that resolves when the operation has completed. It provides an object that describes the result.
+     */
+    async resetSettings() {
+        checkIsDisposed(this);
+        return await new Promise((rs, rj) => {
+            let taskID = getNextTaskID();
+            mapTaskCallBack[taskID] = async (body) => {
+                if (body.success) {
+                    const response = JSON.parse(body.response);
+                    if (response.exception !== 0) {
+                        let error = new Error(response.description ? response.description : "Reset Settings Failed.");
+                        error.errorCode = response.exception;
+                        return rj(error);
+                    }
+                    this._currentSettings = await this.outputSettings("*");
+                    return rs(response);
+                }
+                else {
+                    let ex = new Error(body.message);
+                    ex.stack = body.stack + '\n' + ex.stack;
+                    return rj(ex);
+                }
+            };
+            worker.postMessage({
+                type: "cvr_resetSettings",
+                id: taskID,
+                instanceID: this._instanceID
+            });
+        });
+    }
+    ;
+    /**
+     * Returns an object, of type `BufferedItemsManager`, that manages buffered items.
+     * @returns The `BufferedItemsManager` object.
+     */
+    getBufferedItemsManager() {
+        if (!__classPrivateFieldGet(this, _CaptureVisionRouter_bufferdItemsManager, "f")) {
+            __classPrivateFieldSet(this, _CaptureVisionRouter_bufferdItemsManager, new BufferedItemsManager(this), "f");
+        }
+        return __classPrivateFieldGet(this, _CaptureVisionRouter_bufferdItemsManager, "f");
+    }
+    /**
+     * Returns an object, of type `IntermediateResultManager`, that manages intermediate results.
+     *
+     * @returns The `IntermediateResultManager` object.
+     */
+    getIntermediateResultManager() {
+        checkIsDisposed(this);
+        if (!__classPrivateFieldGet(this, _CaptureVisionRouter_innerUseTag, "f") && CoreModule.bSupportIRTModule !== 0) {
+            throw new Error("The current license does not support the use of intermediate results.");
+        }
+        if (!__classPrivateFieldGet(this, _CaptureVisionRouter_intermediateResultManager, "f")) {
+            __classPrivateFieldSet(this, _CaptureVisionRouter_intermediateResultManager, new IntermediateResultManager(this), "f");
+        }
+        return __classPrivateFieldGet(this, _CaptureVisionRouter_intermediateResultManager, "f");
+    }
+    ;
+    async parseRequiredResources(templateName) {
+        checkIsDisposed(this);
+        return await new Promise((rs, rj) => {
+            let taskID = getNextTaskID();
+            mapTaskCallBack[taskID] = async (body) => {
+                if (body.success) {
+                    return rs(JSON.parse(body.resources));
+                }
+                else {
+                    let ex = new Error(body.message);
+                    ex.stack = body.stack + '\n' + ex.stack;
+                    return rj(ex);
+                }
+            };
+            worker.postMessage({
+                type: "cvr_parseRequiredResources",
+                id: taskID,
+                instanceID: this._instanceID,
+                body: {
+                    templateName
+                }
+            });
+        });
+    }
+    /**
+     * Releases all resources used by the `CaptureVisionRouter` instance.
+     *
+     * @returns A promise that resolves when the resources have been successfully released. It does not provide any value upon resolution.
+     */
+    async dispose() {
+        checkIsDisposed(this);
+        if (__classPrivateFieldGet(this, _CaptureVisionRouter_promiseStartScan, "f")) {
+            this.stopCapturing();
+        }
+        __classPrivateFieldSet(this, _CaptureVisionRouter_isa, null, "f");
+        __classPrivateFieldGet(this, _CaptureVisionRouter_resultReceiverSet, "f").clear();
+        __classPrivateFieldGet(this, _CaptureVisionRouter_isaStateListenerSet, "f").clear();
+        __classPrivateFieldGet(this, _CaptureVisionRouter_resultFilterSet, "f").clear();
+        __classPrivateFieldGet(this, _CaptureVisionRouter_intermediateResultManager, "f")._intermediateResultReceiverSet.clear();
+        __classPrivateFieldSet(this, _CaptureVisionRouter_isDestroyed, true, "f");
+        // this._captureStateListenerSet.clear();
+        let taskID = getNextTaskID();
+        mapTaskCallBack[taskID] = (body) => {
+            if (body.success) ;
+            else {
+                let ex = new Error(body.message);
+                ex.stack = body.stack + '\n' + ex.stack;
+                throw ex;
+            }
+        };
+        worker.postMessage({
+            type: 'cvr_dispose',
+            id: taskID,
+            instanceID: this._instanceID
+        });
+    }
+    ;
+    /**
+     * For Debug
+     */
+    _getInternalData() {
+        return {
+            isa: __classPrivateFieldGet(this, _CaptureVisionRouter_isa, "f"),
+            promiseStartScan: __classPrivateFieldGet(this, _CaptureVisionRouter_promiseStartScan, "f"),
+            intermediateResultManager: __classPrivateFieldGet(this, _CaptureVisionRouter_intermediateResultManager, "f"),
+            bufferdItemsManager: __classPrivateFieldGet(this, _CaptureVisionRouter_bufferdItemsManager, "f"),
+            resultReceiverSet: __classPrivateFieldGet(this, _CaptureVisionRouter_resultReceiverSet, "f"),
+            isaStateListenerSet: __classPrivateFieldGet(this, _CaptureVisionRouter_isaStateListenerSet, "f"),
+            resultFilterSet: __classPrivateFieldGet(this, _CaptureVisionRouter_resultFilterSet, "f"),
+            compressRate: __classPrivateFieldGet(this, _CaptureVisionRouter_compressRate, "f"),
+            canvas: __classPrivateFieldGet(this, _CaptureVisionRouter_canvas, "f"),
+            isScanner: __classPrivateFieldGet(this, _CaptureVisionRouter_isScanner, "f"),
+            innerUseTag: __classPrivateFieldGet(this, _CaptureVisionRouter_innerUseTag, "f"),
+            isDestroyed: __classPrivateFieldGet(this, _CaptureVisionRouter_isDestroyed, "f")
+        };
+    }
+    async _getWasmFilterState() {
+        return await new Promise((rs, rj) => {
+            let taskID = getNextTaskID();
+            mapTaskCallBack[taskID] = async (body) => {
+                if (body.success) {
+                    const response = JSON.parse(body.response);
+                    return rs(response);
+                }
+                else {
+                    let ex = new Error(body.message);
+                    ex.stack = body.stack + '\n' + ex.stack;
+                    return rj(ex);
+                }
+            };
+            worker.postMessage({
+                type: "cvr_getWasmFilterState",
+                id: taskID,
+                instanceID: this._instanceID
+            });
+        });
+    }
+}
+_CaptureVisionRouter_isa = new WeakMap(), _CaptureVisionRouter_canvas = new WeakMap(), _CaptureVisionRouter_promiseStartScan = new WeakMap(), _CaptureVisionRouter_intermediateResultManager = new WeakMap(), _CaptureVisionRouter_bufferdItemsManager = new WeakMap(), _CaptureVisionRouter_resultReceiverSet = new WeakMap(), _CaptureVisionRouter_isaStateListenerSet = new WeakMap(), _CaptureVisionRouter_resultFilterSet = new WeakMap(), _CaptureVisionRouter_compressRate = new WeakMap(), _CaptureVisionRouter_isScanner = new WeakMap(), _CaptureVisionRouter_innerUseTag = new WeakMap(), _CaptureVisionRouter_isDestroyed = new WeakMap();
+async function _enableResultCrossVerification(cvr, verificationEnabled) {
+    checkIsDisposed(cvr);
+    return await new Promise((rs, rj) => {
+        let taskID = getNextTaskID();
+        mapTaskCallBack[taskID] = async (body) => {
+            if (body.success) {
+                return rs(body.result);
+            }
+            else {
+                let ex = new Error(body.message);
+                ex.stack = body.stack + '\n' + ex.stack;
+                return rj(ex);
+            }
+        };
+        worker.postMessage({
+            type: "cvr_enableResultCrossVerification",
+            id: taskID,
+            instanceID: cvr._instanceID,
+            body: {
+                verificationEnabled
+            }
+        });
+    });
+}
+async function _enableResultDeduplication(cvr, duplicateFilterEnabled) {
+    checkIsDisposed(cvr);
+    return await new Promise((rs, rj) => {
+        let taskID = getNextTaskID();
+        mapTaskCallBack[taskID] = async (body) => {
+            if (body.success) {
+                return rs(body.result);
+            }
+            else {
+                let ex = new Error(body.message);
+                ex.stack = body.stack + '\n' + ex.stack;
+                return rj(ex);
+            }
+        };
+        worker.postMessage({
+            type: "cvr_enableResultDeduplication",
+            id: taskID,
+            instanceID: cvr._instanceID,
+            body: {
+                duplicateFilterEnabled
+            }
+        });
+    });
+}
+async function _setDuplicateForgetTime(cvr, duplicateForgetTime) {
+    checkIsDisposed(cvr);
+    return await new Promise((rs, rj) => {
+        let taskID = getNextTaskID();
+        mapTaskCallBack[taskID] = async (body) => {
+            if (body.success) {
+                return rs(body.result);
+            }
+            else {
+                let ex = new Error(body.message);
+                ex.stack = body.stack + '\n' + ex.stack;
+                return rj(ex);
+            }
+        };
+        worker.postMessage({
+            type: "cvr_setDuplicateForgetTime",
+            id: taskID,
+            instanceID: cvr._instanceID,
+            body: {
+                duplicateForgetTime
+            }
+        });
+    });
+}
+async function _clearVerifyList(cvr) {
+    let taskID = getNextTaskID();
+    const p = new MutablePromise();
+    mapTaskCallBack[taskID] = async (body) => {
+        if (body.success) {
+            return p.resolve();
+        }
+        else {
+            let ex = new Error(body.message);
+            ex.stack = body.stack + '\n' + ex.stack;
+            return p.reject(ex);
+        }
+    };
+    worker.postMessage({
+        type: "cvr_clearVerifyList",
+        id: taskID,
+        instanceID: cvr._instanceID
+    });
+    return p;
+}
+
+// TODO
+class CapturedResultReceiver {
+    constructor() {
+        /**
+         * Event triggered when a generic captured result is available, occurring each time an image finishes its processing.
+         * This event can be used for any result that does not fit into the specific categories of the other callback events.
+         * @param result The captured result, an instance of `CapturedResult`.
+         */
+        this.onCapturedResultReceived = null;
+        /**
+         * Event triggered when the original image result is available.
+         * This event is used to handle the original image captured by an image source such as Dynamsoft Camera Enhancer.
+         * @param result The original image result, an instance of `OriginalImageResultItem`.
+         */
+        this.onOriginalImageResultReceived = null;
+    }
+}
+
+class IntermediateResultReceiver {
+    constructor() {
+        this._observedResultUnitTypes = EnumIntermediateResultUnitType.IRUT_ALL;
+        this._observedTaskMap = new Map();
+        this._parameters = {
+            setObservedResultUnitTypes: (types) => {
+                this._observedResultUnitTypes = types;
+            },
+            getObservedResultUnitTypes: () => {
+                return this._observedResultUnitTypes;
+            },
+            isResultUnitTypeObserved: (type) => {
+                return !!(type & this._observedResultUnitTypes);
+            },
+            addObservedTask: (taskName) => {
+                this._observedTaskMap.set(taskName, true);
+            },
+            removeObservedTask: (taskName) => {
+                this._observedTaskMap.set(taskName, false);
+            },
+            isTaskObserved: (taskName) => {
+                if (this._observedTaskMap.size === 0)
+                    return true;
+                return !!(this._observedTaskMap.get(taskName));
+            }
+        };
+        this.onTaskResultsReceived = null;
+        // section
+        this.onPredetectedRegionsReceived = null;
+        // The remaining callback definitions will be automatically injected when imported into other modules
+        // stage
+        this.onColourImageUnitReceived = null;
+        this.onScaledDownColourImageUnitReceived = null;
+        this.onGrayscaleImageUnitReceived = null;
+        this.onTransformedGrayscaleImageUnitReceived = null;
+        this.onEnhancedGrayscaleImageUnitReceived = null;
+        this.onBinaryImageUnitReceived = null;
+        this.onTextureDetectionResultUnitReceived = null;
+        this.onTextureRemovedGrayscaleImageUnitReceived = null;
+        this.onTextureRemovedBinaryImageUnitReceived = null;
+        this.onContoursUnitReceived = null;
+        this.onLineSegmentsUnitReceived = null;
+        this.onTextZonesUnitReceived = null;
+        this.onTextRemovedBinaryImageUnitReceived = null;
+        this.onShortLinesUnitReceived = null;
+        // The remaining callback definitions will be automatically injected when imported into other modules
+    }
+    /**
+     * Gets the observed parameters of the intermediate result receiver. Allowing for configuration of intermediate result observation.
+     * @return The observed parameters, of type ObservationParameters. The default parameters are to observe all intermediate result unit types and all tasks.
+     */
+    getObservationParameters() {
+        return this._parameters;
+    }
+}
+
+var EnumPresetTemplate;
+(function (EnumPresetTemplate) {
+    /**
+     * @brief Versatile function for barcode reading, document detection, or text recognition.
+     */
+    EnumPresetTemplate["PT_DEFAULT"] = "Default";
+    /**
+     * @brief Scans a single barcode.
+     */
+    EnumPresetTemplate["PT_READ_BARCODES"] = "ReadBarcodes_Default";
+    /**
+     * @brief Identifies and reads any text present.
+     */
+    EnumPresetTemplate["PT_RECOGNIZE_TEXT_LINES"] = "RecognizeTextLines_Default";
+    /**
+     * @brief RIdentifies the edges of a document.
+     */
+    EnumPresetTemplate["PT_DETECT_DOCUMENT_BOUNDARIES"] = "DetectDocumentBoundaries_Default";
+    /**
+     * @brief Detects document edges and standardizes its format.
+     */
+    EnumPresetTemplate["PT_DETECT_AND_NORMALIZE_DOCUMENT"] = "DetectAndNormalizeDocument_Default";
+    /**
+     * @brief Adjusts a document to a standard format using detected borders.
+     */
+    EnumPresetTemplate["PT_NORMALIZE_DOCUMENT"] = "NormalizeDocument_Default";
+    /**
+     * @brief Represents a barcode reading mode where speed is prioritized.
+     *
+     * In this mode, the barcode reader will optimize for faster barcode detection
+     * and decoding, sacrificing some level of accuracy and read rate. It is suitable
+     * for situations where a quick response time is more important than perfect
+     * barcode recognition.
+     */
+    EnumPresetTemplate["PT_READ_BARCODES_SPEED_FIRST"] = "ReadBarcodes_SpeedFirst";
+    /**
+     * @brief Represents a barcode reading mode where barcode read rate is prioritized.
+     *
+     * In this mode, the barcode reader will optimize for higher barcode read rates,
+     * even if it may sometimes result in reduced accuracy and speed. It is suitable for
+     * scenarios where maximizing the number of successfully read barcodes is critical.
+     */
+    EnumPresetTemplate["PT_READ_BARCODES_READ_RATE_FIRST"] = "ReadBarcodes_ReadRateFirst";
+    /**
+     * @brief Represents a balanced barcode reading mode.
+     *
+     * This mode aims for a reasonable balance between speed and read rate in barcode
+     * recognition. It is suitable for most common use cases where a compromise between
+     * speed and read rate is acceptable.
+     */
+    EnumPresetTemplate["PT_READ_BARCODES_BALANCE"] = "ReadBarcodes_Balance";
+    /**
+    * @brief Represents a barcode reading mode for single barcode code detection.
+    *
+    * In this mode, the barcode reader will focus on detecting and decoding a single
+    * barcode code, ignoring any additional codes in the same image. It is efficient
+    * when the target image has only one barcode.
+    */
+    EnumPresetTemplate["PT_READ_SINGLE_BARCODE"] = "ReadBarcodes_Balanced";
+    /**
+     * @brief Represents a barcode reading mode optimized for dense barcode codes.
+     *
+     * This mode is designed to handle dense or closely packed barcode codes where
+     * accuracy is paramount. It may operate slower than other modes but is suitable
+     * for challenging scenarios where code density is high.
+     */
+    EnumPresetTemplate["PT_READ_DENSE_BARCODES"] = "ReadDenseBarcodes";
+    /**
+     * @brief Represents a barcode reading mode optimized for distant barcode codes.
+     *
+     * This mode is designed to scanning a barcode that is placed far from the device.
+     */
+    EnumPresetTemplate["PT_READ_DISTANT_BARCODES"] = "ReadDistantBarcodes";
+    /**
+    * @brief Represents a text recognition mode focused on recognizing numbers.
+    */
+    EnumPresetTemplate["PT_RECOGNIZE_NUMBERS"] = "RecognizeNumbers";
+    /**
+     * @brief Represents a text recognition mode focused on recognizing alphabetic characters (letters).
+     *
+     */
+    EnumPresetTemplate["PT_RECOGNIZE_LETTERS"] = "RecognizeLetters";
+    /**
+     * @brief Represents a text recognition mode that combines numbers and alphabetic characters (letters) recognition.
+     */
+    EnumPresetTemplate["PT_RECOGNIZE_NUMBERS_AND_LETTERS"] = "RecognizeNumbersAndLetters";
+    /**
+     * @brief Represents a text recognition mode that combines numbers and uppercase letters recognition.
+     */
+    EnumPresetTemplate["PT_RECOGNIZE_NUMBERS_AND_UPPERCASE_LETTERS"] = "RecognizeNumbersAndUppercaseLetters";
+    /**
+     * @brief Represents a text recognition mode focused on recognizing uppercase letters.
+     */
+    EnumPresetTemplate["PT_RECOGNIZE_UPPERCASE_LETTERS"] = "RecognizeUppercaseLetters";
+})(EnumPresetTemplate || (EnumPresetTemplate = {}));
+
+export { CaptureVisionRouter, CaptureVisionRouterModule, CapturedResultReceiver, EnumImageSourceState, EnumPresetTemplate, IntermediateResultReceiver };

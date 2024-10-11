@@ -451,6 +451,20 @@ declare class DT_Quad extends DT_Polygon {
     getQuad(): Quadrilateral;
 }
 
+declare class DT_Group extends DrawingItem {
+    constructor(childItems: Array<DrawingItem>);
+    protected extendSet(property: string, value: any): boolean;
+    protected extendGet(property: string): void;
+    protected updateCoordinateBaseFromImageToView(): void;
+    protected updateCoordinateBaseFromViewToImage(): void;
+    setPosition(): void;
+    getPosition(): any;
+    updatePosition(): void;
+    getChildDrawingItems(): Array<DrawingItem>;
+    setChildDrawingItems(item: DrawingItem): void;
+    removeChildItem(item: DrawingItem): void;
+}
+
 declare class DrawingLayer {
     static DDN_LAYER_ID: number;
     static DBR_LAYER_ID: number;
@@ -831,304 +845,6 @@ declare class EventHandler {
     dispose(): void;
 }
 
-declare class CameraView extends View {
-    #private;
-    /**
-     * @ignore
-     */
-    static _onLog: (message: any) => void;
-    /**
-     * @ignore
-     */
-    static uiComponentName: string;
-    private static get engineResourcePath();
-    private static _defaultUIElementURL;
-    /**
-     * Specifies the URL to a default UI definition file.
-     * This URL is used as a fallback source for the UI of the `CameraView` class when the `createInstance()` method is invoked without specifying a `HTMLDivElement`.
-     * This ensures that `CameraView` has a user interface even when no custom UI is provided.
-     */
-    static set defaultUIElementURL(value: string);
-    static get defaultUIElementURL(): string;
-    /**
-     * Initializes a new instance of the `CameraView` class.
-     * This method allows for optional customization of the user interface (UI) through a specified HTML element or an HTML file.
-     */
-    static createInstance(elementOrUrl?: HTMLElement | string): Promise<CameraView>;
-    /**
-     * Transform the coordinates from related to scan region to related to the whole video/image.
-     * @param coord The coordinates related to scan region.
-     * @param sx The x coordinate of scan region related to the whole video/image.
-     * @param sy The y coordinate of scan region related to the whole video/image.
-     * @param sWidth The width of scan region.
-     * @param sHeight The height of scan region.
-     * @param dWidth The width of cropped image. Its value is different from `sWidth` when the image is compressed.
-     * @param dHeight The height of cropped image. Its value is different from `sHeight` when the image is compressed.
-     * @ignore
-     */
-    static _transformCoordinates(coord: {
-        x: number;
-        y: number;
-    }, sx: number, sy: number, sWidth: number, sHeight: number, dWidth: number, dHeight: number): void;
-    /**
-     * @ignore
-     */
-    eventHandler: EventHandler;
-    private UIElement;
-    /**
-     * @ignore
-     */
-    containerClassName: string;
-    _videoContainer: HTMLDivElement;
-    private videoFit;
-    /** @ignore */
-    _hideDefaultSelection: boolean;
-    /** @ignore */
-    _divScanArea: any;
-    /** @ignore */
-    _divScanLight: any;
-    /** @ignore */
-    _bgLoading: any;
-    /** @ignore */
-    _selCam: any;
-    /** @ignore */
-    _bgCamera: any;
-    /** @ignore */
-    _selRsl: any;
-    /** @ignore */
-    _optGotRsl: any;
-    /** @ignore */
-    _btnClose: any;
-    /** @ignore */
-    _selMinLtr: any;
-    /** @ignore */
-    _optGotMinLtr: any;
-    /** @ignore */
-    _cvsSingleFrameMode: HTMLCanvasElement;
-    private scanRegion;
-    private _drawingLayerOfMask;
-    private _maskBackRectStyleId;
-    private _maskCenterRectStyleId;
-    private regionMaskFillStyle;
-    private regionMaskStrokeStyle;
-    private regionMaskLineWidth;
-    /**
-     * @ignore
-     */
-    _userSetMaskVisible: boolean;
-    /**
-     * @ignore
-     */
-    _userSetLaserVisible: boolean;
-    private _updateLayersTimeoutId;
-    private _updateLayersTimeout;
-    /**
-     * Trigger when the css dimensions of the container of video element changed, or window changed.
-     */
-    private _videoResizeListener;
-    private _windowResizeListener;
-    private _resizeObserver;
-    /**
-     * @ignore
-     */
-    set _singleFrameMode(value: "disabled" | "camera" | "image");
-    get _singleFrameMode(): "disabled" | "camera" | "image";
-    _onSingleFrameAcquired: (canvas: HTMLCanvasElement) => void;
-    private _singleFrameInputContainer;
-    _clickIptSingleFrameMode: () => void;
-    _capturedResultReceiver: any;
-    /**
-     * Returns whether the `CameraView` instance has been disposed of.
-     *
-     * @returns Boolean indicating whether the `CameraView` instance has been disposed of.
-     */
-    get disposed(): boolean;
-    private constructor();
-    /**
-     * Differ from 'setUIElement()', 'setUIElement()' allow parameter of 'string' type, which means a url, '_setUIElement()' only accept parameter of 'HTMLElement' type.
-     * @param element
-     */
-    private _setUIElement;
-    setUIElement(elementOrUrl: HTMLElement | string): Promise<void>;
-    getUIElement(): HTMLElement;
-    private _bindUI;
-    private _unbindUI;
-    /**
-     * Show loading animation.
-     * @ignore
-     */
-    _startLoading(): void;
-    /**
-     * Hide loading animation.
-     * @ignore
-     */
-    _stopLoading(): void;
-    /**
-     * Render cameras info in camera selection in default UI.
-     * @ignore
-     */
-    _renderCamerasInfo(curCamera: {
-        deviceId: string;
-        label: string;
-    }, cameraList: Array<{
-        deviceId: string;
-        label: string;
-    }>): void;
-    /**
-     * Render resolution list in resolution selection in default UI.
-     * @ignore
-     */
-    _renderResolutionInfo(curResolution: {
-        width: number;
-        height: number;
-    }): void;
-    /**
-     * Retrieves the `HTMLVideoElement` that is currently being used for displaying the video in this `CameraView` instance.
-     * This method allows access to the underlying video element, enabling direct interaction or further customization.
-     *
-     * @returns The `HTMLVideoElement` currently used by this `CameraView` instance for video display.
-     */
-    getVideoElement(): HTMLVideoElement;
-    /**
-     * tell if video is loaded.
-     * @ignore
-     */
-    isVideoLoaded(): boolean;
-    /**
-     * Sets the `object-fit` CSS property of the `HTMLVideoElement` used by this `CameraView` instance.
-     * The `object-fit` property specifies how the video content should be resized to fit the container in a way that maintains its aspect ratio.
-     * @param objectFit The value for the `object-fit` property. At present, only "cover" and "contain" are allowed and the default is "contain".
-     * Check out more on [object-fit](https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit).
-     */
-    setVideoFit(value: "contain" | "cover"): void;
-    /**
-     * Retrieves the current value of the `object-fit` CSS property from the `HTMLVideoElement` used by this `CameraView` instance.
-     * The `object-fit` property determines how the video content is resized to fit its container.
-     *
-     * @returns The current value of the `object-fit` property applied to the video element. At present, the value is limited to "cover" and "contain".
-     * Check out more on [object-fit](https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit).
-     */
-    getVideoFit(): "contain" | "cover";
-    /**
-     * Get dimensions of content(video, or image in single frame mode). It decides what dimensions the layers should be created.
-     * @returns
-     */
-    protected getContentDimensions(): {
-        width: number;
-        height: number;
-        objectFit: string;
-    };
-    /**
-     * Update prop '#convertedRegion' and update related UI.
-     * @param contentDimensions
-     * @ignore
-     */
-    private updateConvertedRegion;
-    /**
-     * @ignore
-     */
-    getConvertedRegion(): {
-        x: number;
-        y: number;
-        width: number;
-        height: number;
-    };
-    /**
-     * @ignore
-     */
-    setScanRegion(region: DSRect | Rect): void;
-    /**
-     * @ignore
-     */
-    getScanRegion(): any;
-    /**
-     * Returns the region of the video that is currently visible to the user.
-     * @param options [Optional] Specifies how the visible region should be returned.
-     * @param options.inPixels [Optional] If `true`, the coordinates of the visible region are returned in pixels. If `false` or omitted, the coordinates are returned as a percentage of the video element's size.
-     *
-     * @returns An object representing the visible region of the video.
-     */
-    getVisibleRegionOfVideo(options: {
-        inPixels?: boolean;
-    }): Rect;
-    private setScanRegionMask;
-    private clearScanRegionMask;
-    /**
-     * Not used yet.
-     * @ignore
-     */
-    private deleteScanRegionMask;
-    /**
-     *
-     * @param visible
-     * @ignore
-     */
-    private _setScanRegionMaskVisible;
-    /**
-     * Sets the visibility of the scan region mask. This can be used to show or hide the mask.
-     * @param visible Boolean indicating whether the scan region mask should be visible (`true`) or not (`false`).
-     */
-    setScanRegionMaskVisible(visible: boolean): void;
-    /**
-     * Checks if the scan region mask is currently visible.
-     *
-     * @returns Boolean indicating whether the scan region mask is visible (`true`) or not (`false`).
-     */
-    isScanRegionMaskVisible(): boolean;
-    /**
-     * Sets the style of the scan region mask. This style includes the line width, stroke color, and fill color.
-     * @param style An object containing the new style settings for the scan region mask.
-     * @param style.lineWidth The width of the line used to draw the border of the scan region mask.
-     * @param style.strokeStyle The color of the stroke (border) of the scan region mask.
-     * @param style.fillStyle The fill color of the scan region mask.
-     */
-    setScanRegionMaskStyle(style: {
-        lineWidth: number;
-        strokeStyle: string;
-        fillStyle: string;
-    }): void;
-    /**
-     * Retrieves the current style of the scan region mask. This includes the line width, stroke color, and fill color.
-     */
-    getScanRegionMaskStyle(): {
-        fillStyle: string;
-        strokeStyle: string;
-        lineWidth: number;
-    };
-    /**
-     * @ignore
-     */
-    private _setScanLaserVisible;
-    /**
-     * Sets the visibility of the scan laser effect. This can be used to show or hide the scan laser.
-     * @param visible Boolean indicating whether the scan laser should be visible (`true`) or not (`false`).
-     */
-    setScanLaserVisible(visible: boolean): void;
-    /**
-     * Checks if the scan laser effect is currently visible.
-     *
-     * @returns Boolean indicating whether the scan laser is visible (`true`) or not (`false`).
-     */
-    isScanLaserVisible(): boolean;
-    /**
-     * @ignore
-     */
-    _updateVideoContainer(): void;
-    /**
-     * Update all layers(scan laser, drawing layers, scan region mask). Not used yet.
-     * @ignore
-     */
-    private updateLayers;
-    /**
-     * Clears all system-defined `DrawingItem` objects while keeping user-defined ones.
-     */
-    clearAllInnerDrawingItems(): void;
-    /**
-     * Remove added elements. Remove event listeners.
-     */
-    dispose(): void;
-}
-
 declare class CameraEnhancer extends ImageSourceAdapter {
     #private;
     /** @ignore */
@@ -1176,6 +892,8 @@ declare class CameraEnhancer extends ImageSourceAdapter {
      * @returns A promise that resolves with the initialized `CameraEnhancer` instance.
      */
     static createInstance(view?: CameraView): Promise<CameraEnhancer>;
+    private cameraManager;
+    private cameraView;
     /**
      * @ignore
      */
@@ -1227,6 +945,7 @@ declare class CameraEnhancer extends ImageSourceAdapter {
      */
     set cameraOpenTimeout(value: number);
     get cameraOpenTimeout(): number;
+    isTorchOn: undefined | boolean;
     set singleFrameMode(value: "disabled" | "camera" | "image");
     get singleFrameMode(): "disabled" | "camera" | "image";
     /**
@@ -1464,6 +1183,11 @@ declare class CameraEnhancer extends ImageSourceAdapter {
      * @returns A promise that resolves when the torch has been successfully turned off. It does not provide any value upon resolution.
      */
     turnOffTorch(): Promise<void>;
+    _taskid4AutoTorch: any;
+    _delay4AutoTorch: number;
+    grayThreshold4AutoTorch: number;
+    maxDarkCount4AutoTroch: number;
+    turnAutoTorch(delay?: number): Promise<void>;
     /**
      * Sets the color temperature of the camera's video feed.
      * This method should be called when the camera is turned on. Note that it only works with Chromium-based browsers such as Edge and Chrome on Windows or Android. Other browsers such as Firefox or Safari are not supported. Note that all browsers on iOS (including Chrome) use WebKit as the rendering engine and are not supported.
@@ -1732,6 +1456,301 @@ declare class CameraEnhancer extends ImageSourceAdapter {
     dispose(): void;
 }
 
+declare class CameraView extends View {
+    #private;
+    /**
+     * @ignore
+     */
+    static _onLog: (message: any) => void;
+    private static get engineResourcePath();
+    private static _defaultUIElementURL;
+    /**
+     * Specifies the URL to a default UI definition file.
+     * This URL is used as a fallback source for the UI of the `CameraView` class when the `createInstance()` method is invoked without specifying a `HTMLDivElement`.
+     * This ensures that `CameraView` has a user interface even when no custom UI is provided.
+     */
+    static set defaultUIElementURL(value: string);
+    static get defaultUIElementURL(): string;
+    /**
+     * Initializes a new instance of the `CameraView` class.
+     * This method allows for optional customization of the user interface (UI) through a specified HTML element or an HTML file.
+     */
+    static createInstance(elementOrUrl?: HTMLElement | string): Promise<CameraView>;
+    /**
+     * Transform the coordinates from related to scan region to related to the whole video/image.
+     * @param coord The coordinates related to scan region.
+     * @param sx The x coordinate of scan region related to the whole video/image.
+     * @param sy The y coordinate of scan region related to the whole video/image.
+     * @param sWidth The width of scan region.
+     * @param sHeight The height of scan region.
+     * @param dWidth The width of cropped image. Its value is different from `sWidth` when the image is compressed.
+     * @param dHeight The height of cropped image. Its value is different from `sHeight` when the image is compressed.
+     * @ignore
+     */
+    static _transformCoordinates(coord: {
+        x: number;
+        y: number;
+    }, sx: number, sy: number, sWidth: number, sHeight: number, dWidth: number, dHeight: number): void;
+    cameraEnhancer: CameraEnhancer;
+    /**
+     * @ignore
+     */
+    eventHandler: EventHandler;
+    private UIElement;
+    /**
+     * @ignore
+     */
+    containerClassName: string;
+    _videoContainer: HTMLDivElement;
+    private videoFit;
+    /** @ignore */
+    _hideDefaultSelection: boolean;
+    /** @ignore */
+    _divScanArea: any;
+    /** @ignore */
+    _divScanLight: any;
+    /** @ignore */
+    _bgLoading: any;
+    /** @ignore */
+    _selCam: any;
+    /** @ignore */
+    _bgCamera: any;
+    /** @ignore */
+    _selRsl: any;
+    /** @ignore */
+    _optGotRsl: any;
+    /** @ignore */
+    _btnClose: any;
+    /** @ignore */
+    _selMinLtr: any;
+    /** @ignore */
+    _optGotMinLtr: any;
+    /** @ignore */
+    _cvsSingleFrameMode: HTMLCanvasElement;
+    private scanRegion;
+    private _drawingLayerOfMask;
+    private _maskBackRectStyleId;
+    private _maskCenterRectStyleId;
+    private regionMaskFillStyle;
+    private regionMaskStrokeStyle;
+    private regionMaskLineWidth;
+    /**
+     * @ignore
+     */
+    _userSetMaskVisible: boolean;
+    /**
+     * @ignore
+     */
+    _userSetLaserVisible: boolean;
+    private _updateLayersTimeoutId;
+    private _updateLayersTimeout;
+    /**
+     * Trigger when the css dimensions of the container of video element changed, or window changed.
+     */
+    private _videoResizeListener;
+    private _windowResizeListener;
+    private _resizeObserver;
+    /**
+     * @ignore
+     */
+    set _singleFrameMode(value: "disabled" | "camera" | "image");
+    get _singleFrameMode(): "disabled" | "camera" | "image";
+    _onSingleFrameAcquired: (canvas: HTMLCanvasElement) => void;
+    private _singleFrameInputContainer;
+    _clickIptSingleFrameMode: () => void;
+    _capturedResultReceiver: any;
+    /**
+     * Returns whether the `CameraView` instance has been disposed of.
+     *
+     * @returns Boolean indicating whether the `CameraView` instance has been disposed of.
+     */
+    get disposed(): boolean;
+    private constructor();
+    /**
+     * Differ from 'setUIElement()', 'setUIElement()' allow parameter of 'string' type, which means a url, '_setUIElement()' only accept parameter of 'HTMLElement' type.
+     * @param element
+     */
+    private _setUIElement;
+    setUIElement(elementOrUrl: HTMLElement | string): Promise<void>;
+    getUIElement(): HTMLElement;
+    private _bindUI;
+    private _unbindUI;
+    /**
+     * Show loading animation.
+     * @ignore
+     */
+    _startLoading(): void;
+    /**
+     * Hide loading animation.
+     * @ignore
+     */
+    _stopLoading(): void;
+    /**
+     * Render cameras info in camera selection in default UI.
+     * @ignore
+     */
+    _renderCamerasInfo(curCamera: {
+        deviceId: string;
+        label: string;
+    }, cameraList: Array<{
+        deviceId: string;
+        label: string;
+    }>): void;
+    /**
+     * Render resolution list in resolution selection in default UI.
+     * @ignore
+     */
+    _renderResolutionInfo(curResolution: {
+        width: number;
+        height: number;
+    }): void;
+    /**
+     * Retrieves the `HTMLVideoElement` that is currently being used for displaying the video in this `CameraView` instance.
+     * This method allows access to the underlying video element, enabling direct interaction or further customization.
+     *
+     * @returns The `HTMLVideoElement` currently used by this `CameraView` instance for video display.
+     */
+    getVideoElement(): HTMLVideoElement;
+    /**
+     * tell if video is loaded.
+     * @ignore
+     */
+    isVideoLoaded(): boolean;
+    /**
+     * Sets the `object-fit` CSS property of the `HTMLVideoElement` used by this `CameraView` instance.
+     * The `object-fit` property specifies how the video content should be resized to fit the container in a way that maintains its aspect ratio.
+     * @param objectFit The value for the `object-fit` property. At present, only "cover" and "contain" are allowed and the default is "contain".
+     * Check out more on [object-fit](https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit).
+     */
+    setVideoFit(value: "contain" | "cover"): void;
+    /**
+     * Retrieves the current value of the `object-fit` CSS property from the `HTMLVideoElement` used by this `CameraView` instance.
+     * The `object-fit` property determines how the video content is resized to fit its container.
+     *
+     * @returns The current value of the `object-fit` property applied to the video element. At present, the value is limited to "cover" and "contain".
+     * Check out more on [object-fit](https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit).
+     */
+    getVideoFit(): "contain" | "cover";
+    /**
+     * Get dimensions of content(video, or image in single frame mode). It decides what dimensions the layers should be created.
+     * @returns
+     */
+    protected getContentDimensions(): {
+        width: number;
+        height: number;
+        objectFit: string;
+    };
+    /**
+     * Update prop '#convertedRegion' and update related UI.
+     * @param contentDimensions
+     * @ignore
+     */
+    private updateConvertedRegion;
+    /**
+     * @ignore
+     */
+    getConvertedRegion(): {
+        x: number;
+        y: number;
+        width: number;
+        height: number;
+    };
+    /**
+     * @ignore
+     */
+    setScanRegion(region: DSRect | Rect): void;
+    /**
+     * @ignore
+     */
+    getScanRegion(): any;
+    /**
+     * Returns the region of the video that is currently visible to the user.
+     * @param options [Optional] Specifies how the visible region should be returned.
+     * @param options.inPixels [Optional] If `true`, the coordinates of the visible region are returned in pixels. If `false` or omitted, the coordinates are returned as a percentage of the video element's size.
+     *
+     * @returns An object representing the visible region of the video.
+     */
+    getVisibleRegionOfVideo(options: {
+        inPixels?: boolean;
+    }): Rect;
+    private setScanRegionMask;
+    private clearScanRegionMask;
+    /**
+     * Not used yet.
+     * @ignore
+     */
+    private deleteScanRegionMask;
+    /**
+     *
+     * @param visible
+     * @ignore
+     */
+    _setScanRegionMaskVisible(visible: boolean): void;
+    /**
+     * Sets the visibility of the scan region mask. This can be used to show or hide the mask.
+     * @param visible Boolean indicating whether the scan region mask should be visible (`true`) or not (`false`).
+     */
+    setScanRegionMaskVisible(visible: boolean): void;
+    /**
+     * Checks if the scan region mask is currently visible.
+     *
+     * @returns Boolean indicating whether the scan region mask is visible (`true`) or not (`false`).
+     */
+    isScanRegionMaskVisible(): boolean;
+    /**
+     * Sets the style of the scan region mask. This style includes the line width, stroke color, and fill color.
+     * @param style An object containing the new style settings for the scan region mask.
+     * @param style.lineWidth The width of the line used to draw the border of the scan region mask.
+     * @param style.strokeStyle The color of the stroke (border) of the scan region mask.
+     * @param style.fillStyle The fill color of the scan region mask.
+     */
+    setScanRegionMaskStyle(style: {
+        lineWidth: number;
+        strokeStyle: string;
+        fillStyle: string;
+    }): void;
+    /**
+     * Retrieves the current style of the scan region mask. This includes the line width, stroke color, and fill color.
+     */
+    getScanRegionMaskStyle(): {
+        fillStyle: string;
+        strokeStyle: string;
+        lineWidth: number;
+    };
+    /**
+     * @ignore
+     */
+    private _setScanLaserVisible;
+    /**
+     * Sets the visibility of the scan laser effect. This can be used to show or hide the scan laser.
+     * @param visible Boolean indicating whether the scan laser should be visible (`true`) or not (`false`).
+     */
+    setScanLaserVisible(visible: boolean): void;
+    /**
+     * Checks if the scan laser effect is currently visible.
+     *
+     * @returns Boolean indicating whether the scan laser is visible (`true`) or not (`false`).
+     */
+    isScanLaserVisible(): boolean;
+    /**
+     * @ignore
+     */
+    _updateVideoContainer(): void;
+    /**
+     * Update all layers(scan laser, drawing layers, scan region mask). Not used yet.
+     * @ignore
+     */
+    private updateLayers;
+    /**
+     * Clears all system-defined `DrawingItem` objects while keeping user-defined ones.
+     */
+    clearAllInnerDrawingItems(): void;
+    /**
+     * Remove added elements. Remove event listeners.
+     */
+    dispose(): void;
+}
+
 declare class ImageEditorView extends View {
     #private;
     static createInstance(elementOrUrl?: HTMLElement | string): Promise<ImageEditorView>;
@@ -1816,8 +1835,10 @@ declare class ImageEditorView extends View {
 
 declare class Feedback {
     #private;
+    static allowBeep: boolean;
     static beepSoundSource: string;
     static beep(): void;
+    static allowVibrate: boolean;
     static vibrateDuration: number;
     static vibrate(): void;
 }
@@ -1844,4 +1865,4 @@ declare class DrawingStyleManager {
     static updateDrawingStyle(styleId: number, styleDefinition: DrawingStyle): void;
 }
 
-export { CameraEnhancer, CameraEnhancerModule, CameraView, DCEFrame, DrawingItem, DrawingItemEvent, DrawingLayer, DrawingStyle, DrawingStyleManager, EnumDrawingItemMediaType, EnumDrawingItemState, EnumEnhancedFeatures, Feedback, DT_Image as ImageDrawingItem, ImageEditorView, DT_Line as LineDrawingItem, Note, PlayCallbackInfo, DT_Quad as QuadDrawingItem, DT_Rect as RectDrawingItem, Resolution, DT_Text as TextDrawingItem, TipConfig, VideoDeviceInfo, VideoFrameTag };
+export { CameraEnhancer, CameraEnhancerModule, CameraView, DCEFrame, DrawingItem, DrawingItemEvent, DrawingLayer, DrawingStyle, DrawingStyleManager, EnumDrawingItemMediaType, EnumDrawingItemState, EnumEnhancedFeatures, Feedback, DT_Group as GroupDrawingItem, DT_Image as ImageDrawingItem, ImageEditorView, DT_Line as LineDrawingItem, Note, PlayCallbackInfo, DT_Quad as QuadDrawingItem, DT_Rect as RectDrawingItem, Resolution, DT_Text as TextDrawingItem, TipConfig, VideoDeviceInfo, VideoFrameTag };

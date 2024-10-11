@@ -1,3 +1,6 @@
+import MutablePromise from 'mutable-promise';
+import { detectEnvironmentForDbrjsLikeProject, browserInfo } from '@scannerproxy/browser-info';
+
 declare enum EnumImageTagType {
     ITT_FILE_IMAGE = 0,
     ITT_VIDEO_FRAME = 1
@@ -293,7 +296,17 @@ declare enum EnumErrorCode {
     /** The license required for parsing Vehicle Identification Number (VIN) data is invalid or not present. */
     EC_VIN_LICENSE_INVALID = -90010,
     /** The license required for parsing customized code types is invalid or not present. */
-    EC_CUSTOMIZED_CODE_TYPE_LICENSE_INVALID = -90011
+    EC_CUSTOMIZED_CODE_TYPE_LICENSE_INVALID = -90011,
+    /**The license is initialized successfully but detected invalid content in your key.*/
+    EC_LICENSE_WARNING = -10076,
+    /** [Barcode Reader] No license found.*/
+    EC_BARCODE_READER_LICENSE_NOT_FOUND = -30063,
+    /**[Label Recognizer] No license found.*/
+    EC_LABEL_RECOGNIZER_LICENSE_NOT_FOUND = -40103,
+    /**[Document Normalizer] No license found.*/
+    EC_DOCUMENT_NORMALIZER_LICENSE_NOT_FOUND = -50058,
+    /**[Code Parser] No license found.*/
+    EC_CODE_PARSER_LICENSE_NOT_FOUND = -90012
 }
 
 declare enum EnumGrayscaleEnhancementMode {
@@ -344,68 +357,70 @@ declare enum EnumRasterDataSource {
     RDS_EXTRACTED_IMAGES = 1
 }
 
-declare enum EnumIntermediateResultUnitType {
+declare const EnumIntermediateResultUnitType: {
     /** No intermediate result. */
-    IRUT_NULL = 0,
+    IRUT_NULL: bigint;
     /** A full-color image. */
-    IRUT_COLOUR_IMAGE = 1,
+    IRUT_COLOUR_IMAGE: bigint;
     /** A color image that has been scaled down for efficiency. */
-    IRUT_SCALED_DOWN_COLOUR_IMAGE = 2,
+    IRUT_SCALED_DOWN_COLOUR_IMAGE: bigint;
     /** A grayscale image derived from the original input. */
-    IRUT_GRAYSCALE_IMAGE = 4,
+    IRUT_GRAYSCALE_IMAGE: bigint;
     /** A grayscale image that has undergone transformation. */
-    IRUT_TRANSOFORMED_GRAYSCALE_IMAGE = 8,
+    IRUT_TRANSOFORMED_GRAYSCALE_IMAGE: bigint;
     /** A grayscale image enhanced for further processing. */
-    IRUT_ENHANCED_GRAYSCALE_IMAGE = 16,
+    IRUT_ENHANCED_GRAYSCALE_IMAGE: bigint;
     /** Regions pre-detected as potentially relevant for further analysis. */
-    IRUT_PREDETECTED_REGIONS = 32,
+    IRUT_PREDETECTED_REGIONS: bigint;
     /** A binary (black and white) image. */
-    IRUT_BINARY_IMAGE = 64,
+    IRUT_BINARY_IMAGE: bigint;
     /** Results from detecting textures within the image. */
-    IRUT_TEXTURE_DETECTION_RESULT = 128,
+    IRUT_TEXTURE_DETECTION_RESULT: bigint;
     /** A grayscale image with textures removed to enhance subject details like text or barcodes. */
-    IRUT_TEXTURE_REMOVED_GRAYSCALE_IMAGE = 256,
-    /** A binary image with textures removed, useful for clear detection of subjects without background noise. */
-    IRUT_TEXTURE_REMOVED_BINARY_IMAGE = 512,
-    /** Detected contours within the image, which can help in identifying shapes and objects. */
-    IRUT_CONTOURS = 1024,
-    /** Detected line segments, useful in structural analysis of the image content. */
-    IRUT_LINE_SEGMENTS = 2048,
-    /** Identified text zones, indicating areas with potential textual content. */
-    IRUT_TEXT_ZONES = 4096,
+    IRUT_TEXTURE_REMOVED_GRAYSCALE_IMAGE: bigint;
+    /** A binary image with textures removed), useful for clear detection of subjects without background noise. */
+    IRUT_TEXTURE_REMOVED_BINARY_IMAGE: bigint;
+    /** Detected contours within the image), which can help in identifying shapes and objects. */
+    IRUT_CONTOURS: bigint;
+    /** Detected line segments), useful in structural analysis of the image content. */
+    IRUT_LINE_SEGMENTS: bigint;
+    /** Identified text zones), indicating areas with potential textual content. */
+    IRUT_TEXT_ZONES: bigint;
     /** A binary image with text regions removed. */
-    IRUT_TEXT_REMOVED_BINARY_IMAGE = 8192,
-    /** Zones identified as potential barcode areas, aiding in focused barcode detection. */
-    IRUT_CANDIDATE_BARCODE_ZONES = 16384,
+    IRUT_TEXT_REMOVED_BINARY_IMAGE: bigint;
+    /** Zones identified as potential barcode areas), aiding in focused barcode detection. */
+    IRUT_CANDIDATE_BARCODE_ZONES: bigint;
     /** Barcodes that have been localized but not yet decoded. */
-    IRUT_LOCALIZED_BARCODES = 32768,
+    IRUT_LOCALIZED_BARCODES: bigint;
     /** Barcode images scaled up for improved readability or decoding accuracy. */
-    IRUT_SCALED_UP_BARCODE_IMAGE = 65536,
+    IRUT_SCALED_UP_BARCODE_IMAGE: bigint;
     /** Images of barcodes processed to resist deformation and improve decoding success. */
-    IRUT_DEFORMATION_RESISTED_BARCODE_IMAGE = 131072,
+    IRUT_DEFORMATION_RESISTED_BARCODE_IMAGE: bigint;
     /** Barcode images that have been complemented. */
-    IRUT_COMPLEMENTED_BARCODE_IMAGE = 262144,
+    IRUT_COMPLEMENTED_BARCODE_IMAGE: bigint;
     /** Successfully decoded barcodes. */
-    IRUT_DECODED_BARCODES = 524288,
+    IRUT_DECODED_BARCODES: bigint;
     /** Detected long lines. */
-    IRUT_LONG_LINES = 1048576,
+    IRUT_LONG_LINES: bigint;
     /** Detected corners within the image. */
-    IRUT_CORNERS = 2097152,
+    IRUT_CORNERS: bigint;
     /** Candidate edges identified as potential components of quadrilaterals. */
-    IRUT_CANDIDATE_QUAD_EDGES = 4194304,
+    IRUT_CANDIDATE_QUAD_EDGES: bigint;
     /** Successfully detected quadrilaterals. */
-    IRUT_DETECTED_QUADS = 8388608,
+    IRUT_DETECTED_QUADS: bigint;
     /** Text lines that have been localized in preparation for recognition. */
-    IRUT_LOCALIZED_TEXT_LINES = 16777216,
+    IRUT_LOCALIZED_TEXT_LINES: bigint;
     /** Successfully recognized text lines. */
-    IRUT_RECOGNIZED_TEXT_LINES = 33554432,
+    IRUT_RECOGNIZED_TEXT_LINES: bigint;
     /** Successfully normalized images. */
-    IRUT_NORMALIZED_IMAGES = 67108864,
+    IRUT_NORMALIZED_IMAGES: bigint;
     /** Successfully detected short lines. */
-    IRUT_SHORT_LINES = 134217728,
+    IRUT_SHORT_LINES: bigint;
+    IRUT_RAW_TEXT_LINES: bigint;
     /** A mask to select all types of intermediate results. */
-    IRUT_ALL = 268435455
-}
+    IRUT_ALL: bigint;
+};
+type EnumIntermediateResultUnitType = bigint;
 
 declare enum EnumRegionObjectElementType {
     ROET_PREDETECTED_REGION = 0,
@@ -630,12 +645,12 @@ interface ObservationParameters {
      * @param types The types of intermediate result units to observe.
      * @returns A promise that resolves when the types have been successfully set. It does not provide any value upon resolution.
      */
-    setObservedResultUnitTypes: (types: number) => void;
+    setObservedResultUnitTypes: (types: bigint) => void;
     /**
      * Retrieves the types of intermediate result units that are observed.
      * @returns A promise that resolves with a number that represents the types that are observed.
      */
-    getObservedResultUnitTypes: () => number;
+    getObservedResultUnitTypes: () => bigint;
     /**
      * Determines whether the specified result unit type is observed.
      * @param type The result unit type to check.
@@ -780,52 +795,25 @@ declare abstract class ImageSourceAdapter {
     getColourChannelUsageType(): EnumColourChannelUsageType;
 }
 
-declare const mapAsyncDependency: {
-    [key: string]: any;
-};
-/** @deprecated Pls use doOrWaitAsyncDependency, which has better error catching */
-declare const newAsyncDependency: (depName: string) => {
-    p: any;
-    justWait: boolean;
-};
-declare const waitAsyncDependency: (depName: string | string[]) => Promise<void>;
-declare const doOrWaitAsyncDependency: (depName: string | string[], asyncFunc: () => Promise<void>) => Promise<void>;
-declare let worker: Worker;
-declare const getNextTaskID: () => number;
-declare const mapTaskCallBack: {
-    [key: string]: Function;
-};
-declare let onLog: (message: any) => void | undefined;
-declare const setOnLog: (value: typeof onLog) => void;
-declare let bDebug: boolean;
-declare const setBDebug: (value: boolean) => void;
-declare const innerVersions: {
+interface WorkerAutoResources {
     [key: string]: {
-        worker?: string;
-        wasm?: string;
+        js?: string[] | boolean;
+        wasm?: string[] | boolean;
+        deps?: string[];
     };
-};
-declare const mapPackageRegister: {
-    [key: string]: any;
-};
-interface ProxyEngineResourcePaths {
-    "rootDirectory"?: string;
-    "std"?: string;
-    "dip"?: string;
-    "dnn"?: string;
-    "core"?: string;
-    "license"?: string;
-    "cvr"?: string;
-    "utility"?: string;
-    "dbr"?: string;
-    "dlr"?: string;
-    "ddn"?: string;
-    "dcp"?: string;
-    "dce"?: string;
-    "dlrData"?: string;
-    [moduleName: string]: string | undefined;
 }
-declare const engineResourcePaths: {
+interface PostMessageBody {
+    needLoadCore?: boolean;
+    bLog?: boolean;
+    bd?: boolean;
+    dm?: string;
+    value?: boolean;
+    count?: number;
+    engineResourcePaths?: EngineResourcePaths;
+    autoResources?: WorkerAutoResources;
+    names?: string[];
+}
+interface EngineResourcePaths {
     "rootDirectory"?: string;
     "std"?: string | {
         version: string;
@@ -843,6 +831,107 @@ declare const engineResourcePaths: {
         version: string;
         path: string;
     };
+    "license"?: string | {
+        version: string;
+        path: string;
+    };
+    "cvr"?: string | {
+        version: string;
+        path: string;
+    };
+    "utility"?: string | {
+        version: string;
+        path: string;
+    };
+    "dbr"?: string | {
+        version: string;
+        path: string;
+    };
+    "dlr"?: string | {
+        version: string;
+        path: string;
+    };
+    "ddn"?: string | {
+        version: string;
+        path: string;
+    };
+    "dcp"?: string | {
+        version: string;
+        path: string;
+    };
+    "dce"?: string | {
+        version: string;
+        path: string;
+    };
+    "dlrData"?: string | {
+        version: string;
+        path: string;
+    };
+    [moduleName: string]: string | {
+        version: string;
+        path: string;
+    } | undefined;
+}
+interface AutoDiscoveryPaths {
+    "std"?: {
+        version: string;
+        path: string;
+    };
+    "dip"?: {
+        version: string;
+        path: string;
+    };
+    "dnn"?: {
+        version: string;
+        path: string;
+    };
+    "core"?: {
+        version: string;
+        path: string;
+    };
+    "license"?: {
+        version: string;
+        path: string;
+    };
+    "cvr"?: {
+        version: string;
+        path: string;
+    };
+    "utility"?: {
+        version: string;
+        path: string;
+    };
+    "dbr"?: {
+        version: string;
+        path: string;
+    };
+    "dlr"?: {
+        version: string;
+        path: string;
+    };
+    "ddn"?: {
+        version: string;
+        path: string;
+    };
+    "dcp"?: {
+        version: string;
+        path: string;
+    };
+    "dce"?: {
+        version: string;
+        path: string;
+    };
+    "dlrData"?: {
+        version: string;
+        path: string;
+    };
+}
+interface ProxyEngineResourcePaths {
+    "rootDirectory"?: string;
+    "std"?: string;
+    "dip"?: string;
+    "dnn"?: string;
+    "core"?: string;
     "license"?: string;
     "cvr"?: string;
     "utility"?: string;
@@ -852,30 +941,62 @@ declare const engineResourcePaths: {
     "dcp"?: string;
     "dce"?: string;
     "dlrData"?: string;
-    [moduleName: string]: string | {
-        version: string;
-        path: string;
-    } | undefined;
-};
-declare const workerAutoResources: {
+    [moduleName: string]: string | undefined;
+}
+interface InnerVersions {
     [key: string]: {
-        js?: string[] | boolean;
-        wasm?: string[] | boolean;
-        deps?: string[];
+        worker?: string;
+        wasm?: string;
     };
+}
+interface WasmVersions {
+    "DIP"?: string;
+    "DNN"?: string;
+    "CORE"?: string;
+    "LICENSE"?: string;
+    "CVR"?: string;
+    "UTILITY"?: string;
+    "DBR"?: string;
+    "DLR"?: string;
+    "DDN"?: string;
+    "DCP"?: string;
+}
+interface MapController {
+    [key: string]: ((body: any, taskID: number, instanceID?: number) => void);
+}
+
+declare const mapAsyncDependency: {
+    [key: string]: MutablePromise<void>;
 };
+declare const waitAsyncDependency: (depName: string | string[]) => Promise<void>;
+declare const doOrWaitAsyncDependency: (depName: string | string[], asyncFunc: () => Promise<void>) => Promise<void>;
+declare let worker: Worker;
+declare const getNextTaskID: () => number;
+declare const mapTaskCallBack: {
+    [key: string]: Function;
+};
+declare let onLog: (message: string) => void | undefined;
+declare const setOnLog: (value: typeof onLog) => void;
+declare let bDebug: boolean;
+declare const setBDebug: (value: boolean) => void;
+declare const innerVersions: InnerVersions;
+declare const mapPackageRegister: {
+    [key: string]: any;
+};
+declare const autoDiscoveryPaths: AutoDiscoveryPaths;
+declare const workerAutoResources: WorkerAutoResources;
 declare const loadWasm: (names?: string[] | string) => Promise<void>;
 declare class CoreModule {
-    static get engineResourcePaths(): ProxyEngineResourcePaths;
-    static set engineResourcePaths(value: ProxyEngineResourcePaths);
+    static get engineResourcePaths(): EngineResourcePaths;
+    static set engineResourcePaths(value: EngineResourcePaths);
     private static _bSupportDce4Module;
     static get bSupportDce4Module(): number;
     private static _bSupportIRTModule;
     static get bSupportIRTModule(): number;
     private static _versions;
     static get versions(): any;
-    static get _onLog(): (message: any) => void;
-    static set _onLog(value: (message: any) => void);
+    static get _onLog(): (message: string) => void;
+    static set _onLog(value: (message: string) => void);
     static get _bDebug(): boolean;
     static set _bDebug(value: boolean);
     static _workerName: string;
@@ -888,19 +1009,25 @@ declare class CoreModule {
     /**
      * Detect environment and get a report.
      */
-    static detectEnvironment(): Promise<any>;
+    static detectEnvironment(): Promise<ReturnType<typeof detectEnvironmentForDbrjsLikeProject>>;
     /**
      * modify from https://gist.github.com/2107/5529665
      * @ignore
      */
-    static browserInfo: any;
-    static getModuleVersion(): Promise<any>;
+    static browserInfo: typeof browserInfo;
+    static getModuleVersion(): Promise<WasmVersions>;
     static getVersion(): string;
     static enableLogging(): void;
     static disableLogging(): void;
     static cfd(count: number): Promise<void>;
 }
 
+/**
+ * Judge if the input is an object(exclude array and function). If `null` or `undefined`, return `false`.
+ * @param value
+ * @returns
+ */
+declare const isObject: (value: any) => value is Object;
 /**
  * Judge is the input is a {@link Arc} object.
  * @param value
@@ -975,6 +1102,12 @@ declare const isRect: (value: any) => value is Rect;
 declare function requestResource(url: string, type: "text" | "blob" | "arraybuffer"): Promise<any>;
 declare function checkIsLink(str: string): boolean;
 declare const compareVersion: (strV1: string, strV2: string) => number;
-declare const bSupportBigInt: boolean;
+declare const handleEngineResourcePaths: (engineResourcePaths: EngineResourcePaths, autoDiscoveryPaths: AutoDiscoveryPaths) => EngineResourcePaths;
+type mimetype = "image/png" | "image/jpeg";
+declare const _saveToFile: (imageData: ImageData, name: string, download?: boolean) => Promise<File>;
+declare const _toCanvas: (imageData: ImageData | DSImageData) => HTMLCanvasElement;
+declare const _toImage: (MIMEType: mimetype, imageData: ImageData | DSImageData) => HTMLImageElement;
+declare const _toBlob: (MIMEType: mimetype, imageData: ImageData | DSImageData) => Promise<Blob>;
+declare const _getNorImageData: (dsImageData: DSImageData) => ImageData;
 
-export { Arc, BinaryImageUnit, CapturedResultItem, ColourImageUnit, Contour, ContoursUnit, CoreModule, Corner, DSFile, DSImageData, DSRect, Edge, EnhancedGrayscaleImageUnit, EnumBufferOverflowProtectionMode, EnumCapturedResultItemType, EnumColourChannelUsageType, EnumCornerType, EnumErrorCode, EnumGrayscaleEnhancementMode, EnumGrayscaleTransformationMode, EnumImagePixelFormat, EnumImageTagType, EnumIntermediateResultUnitType, EnumPDFReadingMode, EnumRasterDataSource, EnumRegionObjectElementType, EnumSectionType, FileImageTag, GrayscaleImageUnit, ImageSourceAdapter, ImageSourceErrorListener, ImageTag, IntermediateResult, IntermediateResultExtraInfo, IntermediateResultUnit, LineSegment, LineSegmentsUnit, ObservationParameters, OriginalImageResultItem, PDFReadingParameter, Point, Polygon, PredetectedRegionElement, PredetectedRegionsUnit, Quadrilateral, Rect, RegionObjectElement, ScaledDownColourImageUnit, ShortLinesUnit, TextRemovedBinaryImageUnit, TextZonesUnit, TextureDetectionResultUnit, TextureRemovedBinaryImageUnit, TextureRemovedGrayscaleImageUnit, TransformedGrayscaleImageUnit, Warning, isArc as _isArc, isContour as _isContour, isDSImageData as _isDSImageData, isDSRect as _isDSRect, isImageTag as _isImageTag, isLineSegment as _isLineSegment, isPoint as _isPoint, isPolygon as _isPolygon, isQuad as _isQuad, isRect as _isRect, bDebug, bSupportBigInt, checkIsLink, compareVersion, doOrWaitAsyncDependency, engineResourcePaths, getNextTaskID, innerVersions, loadWasm, mapAsyncDependency, mapPackageRegister, mapTaskCallBack, newAsyncDependency, onLog, requestResource, setBDebug, setOnLog, waitAsyncDependency, worker, workerAutoResources };
+export { Arc, AutoDiscoveryPaths, BinaryImageUnit, CapturedResultItem, ColourImageUnit, Contour, ContoursUnit, CoreModule, Corner, DSFile, DSImageData, DSRect, Edge, EngineResourcePaths, EnhancedGrayscaleImageUnit, EnumBufferOverflowProtectionMode, EnumCapturedResultItemType, EnumColourChannelUsageType, EnumCornerType, EnumErrorCode, EnumGrayscaleEnhancementMode, EnumGrayscaleTransformationMode, EnumImagePixelFormat, EnumImageTagType, EnumIntermediateResultUnitType, EnumPDFReadingMode, EnumRasterDataSource, EnumRegionObjectElementType, EnumSectionType, FileImageTag, GrayscaleImageUnit, ImageSourceAdapter, ImageSourceErrorListener, ImageTag, InnerVersions, IntermediateResult, IntermediateResultExtraInfo, IntermediateResultUnit, LineSegment, LineSegmentsUnit, MapController, ObservationParameters, OriginalImageResultItem, PDFReadingParameter, Point, Polygon, PostMessageBody, PredetectedRegionElement, PredetectedRegionsUnit, ProxyEngineResourcePaths, Quadrilateral, Rect, RegionObjectElement, ScaledDownColourImageUnit, ShortLinesUnit, TextRemovedBinaryImageUnit, TextZonesUnit, TextureDetectionResultUnit, TextureRemovedBinaryImageUnit, TextureRemovedGrayscaleImageUnit, TransformedGrayscaleImageUnit, Warning, WasmVersions, WorkerAutoResources, _getNorImageData, isArc as _isArc, isContour as _isContour, isDSImageData as _isDSImageData, isDSRect as _isDSRect, isImageTag as _isImageTag, isLineSegment as _isLineSegment, isPoint as _isPoint, isPolygon as _isPolygon, isQuad as _isQuad, isRect as _isRect, _saveToFile, _toBlob, _toCanvas, _toImage, autoDiscoveryPaths, bDebug, checkIsLink, compareVersion, doOrWaitAsyncDependency, getNextTaskID, handleEngineResourcePaths, innerVersions, isArc, isContour, isDSImageData, isDSRect, isImageTag, isLineSegment, isObject, isPoint, isPolygon, isQuad, isRect, loadWasm, mapAsyncDependency, mapPackageRegister, mapTaskCallBack, onLog, requestResource, setBDebug, setOnLog, waitAsyncDependency, worker, workerAutoResources };

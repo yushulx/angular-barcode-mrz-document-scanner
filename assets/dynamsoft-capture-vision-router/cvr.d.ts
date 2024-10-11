@@ -1,4 +1,4 @@
-import { ImageTag, CapturedResultItem, Quadrilateral, DSImageData, OriginalImageResultItem, ObservationParameters, IntermediateResult, IntermediateResultExtraInfo, PredetectedRegionsUnit, ColourImageUnit, ScaledDownColourImageUnit, GrayscaleImageUnit, TransformedGrayscaleImageUnit, EnhancedGrayscaleImageUnit, BinaryImageUnit, TextureDetectionResultUnit, TextureRemovedGrayscaleImageUnit, TextureRemovedBinaryImageUnit, ContoursUnit, LineSegmentsUnit, TextZonesUnit, TextRemovedBinaryImageUnit, ShortLinesUnit, EnumCapturedResultItemType, ImageSourceAdapter, IntermediateResultUnit, Point } from 'dynamsoft-core';
+import { ImageTag, CapturedResultItem, Quadrilateral, DSImageData, OriginalImageResultItem, ObservationParameters, IntermediateResult, IntermediateResultExtraInfo, PredetectedRegionsUnit, ColourImageUnit, ScaledDownColourImageUnit, GrayscaleImageUnit, TransformedGrayscaleImageUnit, EnhancedGrayscaleImageUnit, BinaryImageUnit, TextureDetectionResultUnit, TextureRemovedGrayscaleImageUnit, TextureRemovedBinaryImageUnit, ContoursUnit, LineSegmentsUnit, TextZonesUnit, TextRemovedBinaryImageUnit, ShortLinesUnit, EnumCapturedResultItemType, EnumGrayscaleTransformationMode, EnumGrayscaleEnhancementMode, ImageSourceAdapter } from 'dynamsoft-core';
 
 declare const EnumBarcodeFormat: {
     /**No barcode format in BarcodeFormat*/
@@ -97,103 +97,6 @@ declare const EnumBarcodeFormat: {
     BF_PHARMACODE_TWO_TRACK: bigint;
     /**PHARMACODE.*/
     BF_PHARMACODE: bigint;
-} | {
-    /**No barcode format in BarcodeFormat*/
-    BF_NULL: string;
-    /**All supported formats in BarcodeFormat*/
-    BF_ALL: string;
-    /**Use the default barcode format settings*/
-    BF_DEFAULT: string;
-    /**Combined value of BF_CODABAR, BF_CODE_128, BF_CODE_39, BF_CODE_39_Extended, BF_CODE_93, BF_EAN_13, BF_EAN_8, INDUSTRIAL_25, BF_ITF, BF_UPC_A, BF_UPC_E, BF_MSI_CODE;  */
-    BF_ONED: string;
-    /**Combined value of BF_GS1_DATABAR_OMNIDIRECTIONAL, BF_GS1_DATABAR_TRUNCATED, BF_GS1_DATABAR_STACKED, BF_GS1_DATABAR_STACKED_OMNIDIRECTIONAL, BF_GS1_DATABAR_EXPANDED, BF_GS1_DATABAR_EXPANDED_STACKED, BF_GS1_DATABAR_LIMITED*/
-    BF_GS1_DATABAR: string;
-    /**Code 39 */
-    BF_CODE_39: string;
-    /**Code 128 */
-    BF_CODE_128: string;
-    /**Code 93 */
-    BF_CODE_93: string;
-    /**Codabar */
-    BF_CODABAR: string;
-    /**Interleaved 2 of 5 */
-    BF_ITF: string;
-    /**EAN-13 */
-    BF_EAN_13: string;
-    /**EAN-8 */
-    BF_EAN_8: string;
-    /**UPC-A */
-    BF_UPC_A: string;
-    /**UPC-E */
-    BF_UPC_E: string;
-    /**Industrial 2 of 5 */
-    BF_INDUSTRIAL_25: string;
-    /**CODE39 Extended */
-    BF_CODE_39_EXTENDED: string;
-    /**GS1 Databar Omnidirectional*/
-    BF_GS1_DATABAR_OMNIDIRECTIONAL: string;
-    /**GS1 Databar Truncated*/
-    BF_GS1_DATABAR_TRUNCATED: string;
-    /**GS1 Databar Stacked*/
-    BF_GS1_DATABAR_STACKED: string;
-    /**GS1 Databar Stacked Omnidirectional*/
-    BF_GS1_DATABAR_STACKED_OMNIDIRECTIONAL: string;
-    /**GS1 Databar Expanded*/
-    BF_GS1_DATABAR_EXPANDED: string;
-    /**GS1 Databar Expaned Stacked*/
-    BF_GS1_DATABAR_EXPANDED_STACKED: string;
-    /**GS1 Databar Limited*/
-    BF_GS1_DATABAR_LIMITED: string;
-    /**Patch code. */
-    BF_PATCHCODE: string;
-    /**PDF417 */
-    BF_CODE_32: string;
-    /**PDF417 */
-    BF_PDF417: string;
-    /**QRCode */
-    BF_QR_CODE: string;
-    /**DataMatrix */
-    BF_DATAMATRIX: string;
-    /**AZTEC */
-    BF_AZTEC: string;
-    /**MAXICODE */
-    BF_MAXICODE: string;
-    /**Micro QR Code*/
-    BF_MICRO_QR: string;
-    /**Micro PDF417*/
-    BF_MICRO_PDF417: string;
-    /**GS1 Composite Code*/
-    BF_GS1_COMPOSITE: string;
-    /**MSI Code*/
-    BF_MSI_CODE: string;
-    BF_CODE_11: string;
-    BF_TWO_DIGIT_ADD_ON: string;
-    BF_FIVE_DIGIT_ADD_ON: string;
-    BF_MATRIX_25: string;
-    /**Combined value of BF2_USPSINTELLIGENTMAIL, BF2_POSTNET, BF2_PLANET, BF2_AUSTRALIANPOST, BF2_RM4SCC.*/
-    BF_POSTALCODE: string;
-    /**Nonstandard barcode */
-    BF_NONSTANDARD_BARCODE: string;
-    /**USPS Intelligent Mail.*/
-    BF_USPSINTELLIGENTMAIL: string;
-    /**Postnet.*/
-    BF_POSTNET: string;
-    /**Planet.*/
-    BF_PLANET: string;
-    /**Australian Post.*/
-    BF_AUSTRALIANPOST: string;
-    /**Royal Mail 4-State Customer Barcode.*/
-    BF_RM4SCC: string;
-    /**KIX.*/
-    BF_KIX: string;
-    /**DotCode.*/
-    BF_DOTCODE: string;
-    /**_PHARMACODE_ONE_TRACK.*/
-    BF_PHARMACODE_ONE_TRACK: string;
-    /**PHARMACODE_TWO_TRACK.*/
-    BF_PHARMACODE_TWO_TRACK: string;
-    /**PHARMACODE.*/
-    BF_PHARMACODE: string;
 };
 type EnumBarcodeFormat = BigInt;
 interface BarcodeDetails {
@@ -202,7 +105,7 @@ interface BarcodeResultItem extends CapturedResultItem {
     format: EnumBarcodeFormat;
     formatString: string;
     text: string;
-    bytes: Array<number>;
+    bytes: Uint8Array;
     location: Quadrilateral;
     confidence: number;
     angle: number;
@@ -266,11 +169,11 @@ interface CapturedResult {
     readonly originalImageHashId: string;
     readonly originalImageTag: ImageTag;
     readonly items: Array<CapturedResultItem>;
-    readonly barcodeResultItems: Array<BarcodeResultItem>;
-    readonly textLineResultItems: Array<TextLineResultItem>;
-    readonly detectedQuadResultItems: Array<DetectedQuadResultItem>;
-    readonly normalizedImageResultItems: Array<NormalizedImageResultItem>;
-    readonly parsedResultItems: Array<ParsedResultItem>;
+    readonly barcodeResultItems?: Array<BarcodeResultItem>;
+    readonly textLineResultItems?: Array<TextLineResultItem>;
+    readonly detectedQuadResultItems?: Array<DetectedQuadResultItem>;
+    readonly normalizedImageResultItems?: Array<NormalizedImageResultItem>;
+    readonly parsedResultItems?: Array<ParsedResultItem>;
 }
 
 declare class CapturedResultReceiver {
@@ -352,6 +255,7 @@ declare class IntermediateResultReceiver {
 declare class IntermediateResultManager {
     private _cvr;
     private _irrRegistryState;
+    _intermediateResultReceiverSet: Set<IntermediateResultReceiver>;
     constructor(cvr: any);
     /**
      * Adds a `IntermediateResultReceiver` object as the receiver of intermediate results.
@@ -380,6 +284,57 @@ interface ImageSourceStateListener {
     onImageSourceStateReceived?: (status: EnumImageSourceState) => void;
 }
 
+interface SimplifiedBarcodeReaderSettings {
+    barcodeFormatIds: bigint;
+    expectedBarcodesCount: number;
+    grayscaleTransformationModes: Array<EnumGrayscaleTransformationMode>;
+    grayscaleEnhancementModes: Array<EnumGrayscaleEnhancementMode>;
+    localizationModes: Array<number>;
+    deblurModes: Array<number>;
+    minResultConfidence: number;
+    minBarcodeTextLength: number;
+    barcodeTextRegExPattern: string;
+}
+interface SimplifiedLabelRecognizerSettings {
+    characterModelName: string;
+    lineStringRegExPattern: string;
+    grayscaleTransformationModes: Array<EnumGrayscaleTransformationMode>;
+    grayscaleEnhancementModes: Array<EnumGrayscaleEnhancementMode>;
+}
+declare enum EnumImageColourMode {
+    /** Output image in color mode. */
+    ICM_COLOUR = 0,
+    /** Output image in grayscale mode. */
+    ICM_GRAYSCALE = 1,
+    /** Output image in binary mode. */
+    ICM_BINARY = 2
+}
+/**
+ * The `SimplifiedDocumentNormalizerSettings` interface defines simplified settings for document detection and normalization.
+ */
+interface SimplifiedDocumentNormalizerSettings {
+    /** Grayscale enhancement modes to apply for improving detection in challenging conditions. */
+    grayscaleEnhancementModes: Array<EnumGrayscaleEnhancementMode>;
+    /** Grayscale transformation modes to apply, enhancing detection capability. */
+    grayscaleTransformationModes: Array<EnumGrayscaleTransformationMode>;
+    /** Color mode of the anticipated normalized page */
+    colourMode: EnumImageColourMode;
+    /** Width and height of the anticipated normalized page. */
+    pageSize: [number, number];
+    /** Anticipated brightness level of the normalized image. */
+    brightness: number;
+    /** Anticipated contrast level of the normalized image. */
+    contrast: number;
+    /**
+     * Threshold for reducing the size of large images to speed up processing.
+     * If the size of the image's shorter edge exceeds this threshold, the image may be downscaled to decrease processing time. The standard setting is 2300.
+     */
+    scaleDownThreshold: number;
+    /** The minimum ratio between the target document area and the total image area. Only those exceedingthis value will be outputted (measured in percentages).*/
+    minQuadrilateralAreaRatio: number;
+    /** The number of documents expected to be detected.*/
+    expectedDocumentsCount: number;
+}
 interface SimplifiedCaptureVisionSettings {
     capturedResultItemTypes: EnumCapturedResultItemType;
     roi: Quadrilateral;
@@ -404,57 +359,51 @@ interface SimplifiedCaptureVisionSettings {
     /**
     * Specifies the basic settings for the barcode reader module. It is of type `SimplifiedBarcodeReaderSettings`.
     */
-    barcodeSettings: any;
+    barcodeSettings: SimplifiedBarcodeReaderSettings;
     /**
      * Specifies the basic settings for the document normalizer module. It is of type `SimplifiedDocumentNormalizerSettings`.
      */
-    documentSettings: any;
+    documentSettings: SimplifiedDocumentNormalizerSettings;
     /**
      * Specifies the basic settings for the label recognizer module. It is of type `SimplifiedLabelRecognizerSettings`.
      */
-    labelSettings: any;
+    labelSettings: SimplifiedLabelRecognizerSettings;
 }
 
 interface CapturedResultFilter {
     onOriginalImageResultReceived?: (result: OriginalImageResultItem) => void;
+    onDecodedBarcodesReceived?: (result: CapturedResult) => void;
+    onRecognizedTextLinesReceived?: (result: CapturedResult) => void;
+    onDetectedQuadsReceived?: (result: CapturedResult) => void;
+    onNormalizedImagesReceived?: (result: CapturedResult) => void;
+    onParsedResultsReceived?: (result: CapturedResult) => void;
     [key: string]: any;
 }
 
 declare class CaptureVisionRouter {
-    static _onLog: (message: any) => void;
+    #private;
+    static _onLog: (message: string) => void;
     maxCvsSideLength: number;
-    private _isa;
+    _instanceID: number;
     private _dsImage;
-    private _instanceID;
     private _loopReadVideoTimeoutId;
-    private _bPauseScan;
-    private _bNeedOutputOriginalImage;
-    private _canvas;
-    private _resultReceiverSet;
-    private _isaStateListenerSet;
-    private _resultFilterSet;
-    private _intermediateResultReceiverSet;
-    private _intermediateResultManager;
-    private _bufferdItemsManager;
+    private _isPauseScan;
+    private _isOutputOriginalImage;
     private _templateName;
-    private _bOpenDetectVerify;
-    private _bOpenNormalizeVerify;
-    private _bOpenBarcodeVerify;
-    private _bOpenLabelVerify;
+    private _isOpenDetectVerify;
+    private _isOpenNormalizeVerify;
+    private _isOpenBarcodeVerify;
+    private _isOpenLabelVerify;
     private _minImageCaptureInterval;
     private _averageProcessintTimeArray;
     private _averageFetchImageTimeArray;
     private _currentSettings;
     private _averageTime;
-    private _compressRate;
-    private _dynamsoft;
-    protected captureInParallel: boolean;
     /**
      * Returns whether the `CaptureVisionRouter` instance has been disposed of.
      *
      * @returns Boolean indicating whether the `CaptureVisionRouter` instance has been disposed of.
      */
-    protected bDestroyed: boolean;
     get disposed(): boolean;
     /**
      * Initializes a new instance of the `CaptureVisionRouter` class.
@@ -503,24 +452,18 @@ declare class CaptureVisionRouter {
      * @returns A promise that resolves when the operation has successfully completed. It does not provide any value upon resolution.
      */
     removeResultFilter(filter: CapturedResultFilter): Promise<void>;
-    private _handleFilterSwitch;
+    private _handleFilterUpdate;
     /**
      * Initiates a capturing process based on a specified template. This process is repeated for each image fetched from the source.
      * @param templateName [Optional] Specifies a "CaptureVisionTemplate" to use.
      *
      * @returns A promise that resolves when the capturing process has successfully started. It does not provide any value upon resolution.
      */
-    private _promiseStartScan;
     startCapturing(templateName: string): Promise<void>;
     /**
      * Stops the capturing process.
      */
     stopCapturing(): void;
-    private _clearVerifyList;
-    _getIntermediateResult(): Promise<{
-        intermediateResultUnits: Array<IntermediateResultUnit>;
-        info: IntermediateResultExtraInfo;
-    }>;
     containsTask(templateName: string): Promise<any>;
     /**
      * Video stream capture, recursive call, loop frame capture
@@ -598,8 +541,7 @@ declare class CaptureVisionRouter {
      *
      * @returns The `IntermediateResultManager` object.
      */
-    getIntermediateResultManager(bInner?: boolean): IntermediateResultManager;
-    contains(points: [Point, Point, Point, Point], point: Point): boolean;
+    getIntermediateResultManager(): IntermediateResultManager;
     parseRequiredResources(templateName: string): Promise<{
         models: string[];
         specss: string[];
@@ -610,12 +552,11 @@ declare class CaptureVisionRouter {
      * @returns A promise that resolves when the resources have been successfully released. It does not provide any value upon resolution.
      */
     dispose(): Promise<void>;
-    private _enableResultCrossVerification;
-    private _enableResultDeduplication;
-    private _setDuplicateForgetTime;
-    _getDuplicateForgetTime(type: EnumCapturedResultItemType): Promise<number>;
-    _setThresholdValue(threshold: number, leftLimit: number, rightLimit: number): Promise<void>;
-    private _checkIsDisposed;
+    /**
+     * For Debug
+     */
+    private _getInternalData;
+    private _getWasmFilterState;
 }
 
 declare class CaptureVisionRouterModule {
@@ -627,4 +568,99 @@ interface RawImageResultItem extends CapturedResultItem {
     readonly imageData: DSImageData;
 }
 
-export { CaptureVisionRouter, CaptureVisionRouterModule, CapturedResult, CapturedResultFilter, CapturedResultReceiver, EnumImageSourceState, ImageSourceStateListener, IntermediateResultManager, IntermediateResultReceiver, RawImageResultItem, SimplifiedCaptureVisionSettings };
+declare enum EnumPresetTemplate {
+    /**
+     * @brief Versatile function for barcode reading, document detection, or text recognition.
+     */
+    PT_DEFAULT = "Default",
+    /**
+     * @brief Scans a single barcode.
+     */
+    PT_READ_BARCODES = "ReadBarcodes_Default",
+    /**
+     * @brief Identifies and reads any text present.
+     */
+    PT_RECOGNIZE_TEXT_LINES = "RecognizeTextLines_Default",
+    /**
+     * @brief RIdentifies the edges of a document.
+     */
+    PT_DETECT_DOCUMENT_BOUNDARIES = "DetectDocumentBoundaries_Default",
+    /**
+     * @brief Detects document edges and standardizes its format.
+     */
+    PT_DETECT_AND_NORMALIZE_DOCUMENT = "DetectAndNormalizeDocument_Default",
+    /**
+     * @brief Adjusts a document to a standard format using detected borders.
+     */
+    PT_NORMALIZE_DOCUMENT = "NormalizeDocument_Default",
+    /**
+     * @brief Represents a barcode reading mode where speed is prioritized.
+     *
+     * In this mode, the barcode reader will optimize for faster barcode detection
+     * and decoding, sacrificing some level of accuracy and read rate. It is suitable
+     * for situations where a quick response time is more important than perfect
+     * barcode recognition.
+     */
+    PT_READ_BARCODES_SPEED_FIRST = "ReadBarcodes_SpeedFirst",
+    /**
+     * @brief Represents a barcode reading mode where barcode read rate is prioritized.
+     *
+     * In this mode, the barcode reader will optimize for higher barcode read rates,
+     * even if it may sometimes result in reduced accuracy and speed. It is suitable for
+     * scenarios where maximizing the number of successfully read barcodes is critical.
+     */
+    PT_READ_BARCODES_READ_RATE_FIRST = "ReadBarcodes_ReadRateFirst",
+    /**
+     * @brief Represents a balanced barcode reading mode.
+     *
+     * This mode aims for a reasonable balance between speed and read rate in barcode
+     * recognition. It is suitable for most common use cases where a compromise between
+     * speed and read rate is acceptable.
+     */
+    PT_READ_BARCODES_BALANCE = "ReadBarcodes_Balance",
+    /**
+    * @brief Represents a barcode reading mode for single barcode code detection.
+    *
+    * In this mode, the barcode reader will focus on detecting and decoding a single
+    * barcode code, ignoring any additional codes in the same image. It is efficient
+    * when the target image has only one barcode.
+    */
+    PT_READ_SINGLE_BARCODE = "ReadBarcodes_Balanced",
+    /**
+     * @brief Represents a barcode reading mode optimized for dense barcode codes.
+     *
+     * This mode is designed to handle dense or closely packed barcode codes where
+     * accuracy is paramount. It may operate slower than other modes but is suitable
+     * for challenging scenarios where code density is high.
+     */
+    PT_READ_DENSE_BARCODES = "ReadDenseBarcodes",
+    /**
+     * @brief Represents a barcode reading mode optimized for distant barcode codes.
+     *
+     * This mode is designed to scanning a barcode that is placed far from the device.
+     */
+    PT_READ_DISTANT_BARCODES = "ReadDistantBarcodes",
+    /**
+    * @brief Represents a text recognition mode focused on recognizing numbers.
+    */
+    PT_RECOGNIZE_NUMBERS = "RecognizeNumbers",
+    /**
+     * @brief Represents a text recognition mode focused on recognizing alphabetic characters (letters).
+     *
+     */
+    PT_RECOGNIZE_LETTERS = "RecognizeLetters",
+    /**
+     * @brief Represents a text recognition mode that combines numbers and alphabetic characters (letters) recognition.
+     */
+    PT_RECOGNIZE_NUMBERS_AND_LETTERS = "RecognizeNumbersAndLetters",
+    /**
+     * @brief Represents a text recognition mode that combines numbers and uppercase letters recognition.
+     */
+    PT_RECOGNIZE_NUMBERS_AND_UPPERCASE_LETTERS = "RecognizeNumbersAndUppercaseLetters",
+    /**
+     * @brief Represents a text recognition mode focused on recognizing uppercase letters.
+     */
+    PT_RECOGNIZE_UPPERCASE_LETTERS = "RecognizeUppercaseLetters"
+}
+
+export { CaptureVisionRouter, CaptureVisionRouterModule, CapturedResult, CapturedResultFilter, CapturedResultReceiver, EnumImageSourceState, EnumPresetTemplate, ImageSourceStateListener, IntermediateResultReceiver, RawImageResultItem, SimplifiedCaptureVisionSettings };
