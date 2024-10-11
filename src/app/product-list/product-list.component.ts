@@ -19,6 +19,7 @@ import Dynamsoft from 'dwt';
   styleUrls: ['./product-list.component.css'],
 })
 export class ProductListComponent {
+  isLoading = false;
   products = products;
   inputText: string = '';
   processedText: string = '';
@@ -28,7 +29,7 @@ export class ProductListComponent {
   }
 
   async activate(): Promise<void> {
-
+    this.isLoading = true;
     this.processedText = this.inputText.toUpperCase();
     // Configure the paths where the .wasm files and other necessary resources for modules are located.
     CoreModule.engineResourcePaths = {
@@ -65,9 +66,10 @@ export class ProductListComponent {
       Dynamsoft.DWT.ResourcesPath = "assets/dynamic-web-twain";
       Dynamsoft.DWT.UseLocalService = true;
     } catch (error) {
-      alert(error);
+      console.log(error);
     }
 
+    this.isLoading = false;
   }
 
   toggleDivVisibility(): void {
