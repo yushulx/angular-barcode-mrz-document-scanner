@@ -50,7 +50,7 @@ export class ProductListComponent {
     try {
       // Visit https://www.dynamsoft.com/customer/license/trialLicense/?product=dcv&package=cross-platform to get a trial license for capture vision suite.
       let licenseKey: string = this.inputText === '' ? this.placeholderText : this.inputText;
-      LicenseManager.initLicense(licenseKey);
+      await LicenseManager.initLicense(licenseKey, { executeNow: true });
 
       // DDV.Core.license = licenseKey;
       DDV.Core.engineResourcePath = getFullUrl('assets/dynamsoft-document-viewer/engine/');
