@@ -45,6 +45,7 @@ export class ProductListComponent {
       dcp: getFullUrl('assets/dynamsoft-code-parser/'),
       dnn: getFullUrl('assets/dynamsoft-capture-vision-dnn/'),
       dlrData: getFullUrl('assets/dynamsoft-label-recognizer-data/'),
+      dwt: getFullUrl('assets/dynamic-web-twain/'),
     };
 
     try {
@@ -63,7 +64,7 @@ export class ProductListComponent {
 
       // DWT
       Dynamsoft.DWT.ProductKey = licenseKey;
-      Dynamsoft.DWT.ResourcesPath = "assets/dynamic-web-twain";
+      // Dynamsoft.DWT.ResourcesPath = "assets/dynamic-web-twain";
       Dynamsoft.DWT.UseLocalService = true;
     } catch (error) {
       console.log(error);
