@@ -4,7 +4,7 @@
  * @returns A JSON object that contains the parsed information.
  */
 
-import { ParsedResultItem } from "dynamsoft-code-parser";
+import { ParsedResultItem } from "dynamsoft-capture-vision-bundle";
 
 export function handleMrzParseResult(result: ParsedResultItem): any {
     const parseResultInfo: any = {};

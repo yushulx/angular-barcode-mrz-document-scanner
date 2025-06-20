@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OverlayManager } from '../overlay';
-import { CapturedResult, CaptureVisionRouter, EnumCapturedResultItemType } from 'dynamsoft-capture-vision-bundle';
-import { LabelRecognizerModule, TextLineResultItem } from 'dynamsoft-label-recognizer';
-import { CodeParser, CodeParserModule, ParsedResultItem } from 'dynamsoft-code-parser';
+import { CapturedResult, CaptureVisionRouter, CodeParser, CodeParserModule, EnumCapturedResultItemType, TextLineResultItem } from 'dynamsoft-capture-vision-bundle';
 import { handleMrzParseResult } from '../utils';
 
 @Component({
@@ -34,7 +32,8 @@ export class MrzReaderComponent implements OnInit {
         await CodeParserModule.loadSpec("MRTD_TD3_PASSPORT");
         await CodeParserModule.loadSpec("MRTD_TD3_VISA");
 
-        await LabelRecognizerModule.loadRecognitionData("MRZ");
+        await CaptureVisionRouter.appendModelBuffer("MRZCharRecognition");
+        await CaptureVisionRouter.appendModelBuffer("MRZTextLineRecognition");
         this.cvr = await CaptureVisionRouter.createInstance();
         this.parser = await CodeParser.createInstance();
         let ret = await this.cvr.initSettings('assets/template.json');

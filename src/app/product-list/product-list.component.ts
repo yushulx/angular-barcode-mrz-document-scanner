@@ -5,10 +5,6 @@ import { products } from '../products';
 import { CoreModule, LicenseManager } from 'dynamsoft-capture-vision-bundle';
 
 import { SharedService } from '../shared.service';
-
-import 'dynamsoft-document-normalizer';
-import 'dynamsoft-label-recognizer';
-import 'dynamsoft-code-parser';
 import { getFullUrl } from '../utils';
 import { DDV } from 'dynamsoft-document-viewer';
 import Dynamsoft from 'dwt';
@@ -33,18 +29,8 @@ export class ProductListComponent {
     this.processedText = this.inputText.toUpperCase();
     // Configure the paths where the .wasm files and other necessary resources for modules are located.
     CoreModule.engineResourcePaths = {
-      std: getFullUrl('assets/dynamsoft-capture-vision-std/'),
-      dip: getFullUrl('assets/dynamsoft-image-processing/'),
-      core: getFullUrl('assets/dynamsoft-core/'),
-      license: getFullUrl('assets/dynamsoft-license/'),
-      cvr: getFullUrl('assets/dynamsoft-capture-vision-router/'),
-      dbr: getFullUrl('assets/dynamsoft-barcode-reader/'),
-      dce: getFullUrl('assets/dynamsoft-camera-enhancer/'),
-      ddn: getFullUrl('assets/dynamsoft-document-normalizer/'),
-      dlr: getFullUrl('assets/dynamsoft-label-recognizer/'),
-      dcp: getFullUrl('assets/dynamsoft-code-parser/'),
-      dnn: getFullUrl('assets/dynamsoft-capture-vision-dnn/'),
-      dlrData: getFullUrl('assets/dynamsoft-label-recognizer-data/'),
+      dcvBundle: getFullUrl('assets/dynamsoft-capture-vision-bundle/'),
+      dcvData: getFullUrl('assets/dynamsoft-capture-vision-data/'),
       dwt: getFullUrl('assets/dynamic-web-twain/'),
     };
 
@@ -64,7 +50,7 @@ export class ProductListComponent {
 
       // DWT
       Dynamsoft.DWT.ProductKey = licenseKey;
-      // Dynamsoft.DWT.ResourcesPath = "assets/dynamic-web-twain";
+      Dynamsoft.DWT.ResourcesPath = "assets/dynamic-web-twain";
       Dynamsoft.DWT.UseLocalService = true;
     } catch (error) {
       console.log(error);

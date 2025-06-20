@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { OverlayManager } from '../overlay';
-import { CameraEnhancer, CameraView, CapturedResult, CaptureVisionRouter, EnumCapturedResultItemType, Resolution } from 'dynamsoft-capture-vision-bundle';
-import { CodeParser, CodeParserModule } from 'dynamsoft-code-parser';
-import { LabelRecognizerModule, TextLineResultItem } from 'dynamsoft-label-recognizer';
+import { CameraEnhancer, CameraView, CapturedResult, CaptureVisionRouter, EnumCapturedResultItemType, Resolution, TextLineResultItem } from 'dynamsoft-capture-vision-bundle';
+import { CodeParser, CodeParserModule } from 'dynamsoft-capture-vision-bundle';
 import { handleMrzParseResult } from '../utils';
 
 const componentDestroyedErrorMsg = 'VideoCapture Component Destroyed';
@@ -37,7 +36,8 @@ export class MrzScannerComponent implements OnInit {
       await CodeParserModule.loadSpec("MRTD_TD3_PASSPORT");
       await CodeParserModule.loadSpec("MRTD_TD3_VISA");
 
-      await LabelRecognizerModule.loadRecognitionData("MRZ");
+      await CaptureVisionRouter.appendModelBuffer("MRZCharRecognition");
+      await CaptureVisionRouter.appendModelBuffer("MRZTextLineRecognition");
       this.cvr = await CaptureVisionRouter.createInstance();
       this.parser = await CodeParser.createInstance();
       let ret = await this.cvr.initSettings('assets/template.json');

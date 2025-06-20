@@ -1,8 +1,8 @@
 import { Template } from '@angular/compiler/src/render3/r3_ast';
 import { Component, OnInit } from '@angular/core';
-import { BarcodeResultItem, CameraEnhancer, CameraView, CapturedResult, CaptureVisionRouter, DSImageData, EnumCapturedResultItemType, OriginalImageResultItem, Resolution, SimplifiedCaptureVisionSettings } from 'dynamsoft-capture-vision-bundle';
+import { BarcodeResultItem, CameraEnhancer, CameraView, CapturedResult, CaptureVisionRouter, DSImageData, EnhancedImageResultItem, EnumCapturedResultItemType, OriginalImageResultItem, Resolution, SimplifiedCaptureVisionSettings } from 'dynamsoft-capture-vision-bundle';
 import { OverlayManager } from '../overlay';
-import { DetectedQuadResultItem, DetectedQuadsResult, EnumImageColourMode, NormalizedImageResultItem } from 'dynamsoft-document-normalizer';
+import { DetectedQuadResultItem, EnumImageColourMode } from 'dynamsoft-capture-vision-bundle';
 
 const componentDestroyedErrorMsg = 'VideoCapture Component Destroyed';
 
@@ -69,7 +69,7 @@ export class CameraDetectionComponent implements OnInit {
         this.cvr.setInput(this.cameraEnhancer);
 
         let settings: SimplifiedCaptureVisionSettings = await this.cvr.getSimplifiedSettings('DetectDocumentBoundaries_Default');
-        settings.capturedResultItemTypes |= EnumCapturedResultItemType.CRIT_ORIGINAL_IMAGE;
+        settings.outputOriginalImage = true;
         await this.cvr!.updateSettings('DetectDocumentBoundaries_Default', settings);
 
         // Define a callback for results.
@@ -180,12 +180,18 @@ export class CameraDetectionComponent implements OnInit {
 
       this.cvr.capture(data, 'NormalizeDocument_Default').then((normalizedImagesResult: CapturedResult) => {
         if (normalizedImagesResult.items.length === 0) { return; }
-        let result = normalizedImagesResult.items[0] as NormalizedImageResultItem;
-        let image = document.getElementById('normalizedImage') as HTMLCanvasElement;
-        image.width = result.imageData.width;
-        image.height = result.imageData.height;
-        const destinationContext = image.getContext('2d');
-        destinationContext?.drawImage(result.toCanvas(), 0, 0);
+        for (let item of normalizedImagesResult.items) {
+          if (item.type !== EnumCapturedResultItemType.CRIT_ENHANCED_IMAGE) {
+            continue;
+          }
+          let result = item as EnhancedImageResultItem;
+          let image = document.getElementById('normalizedImage') as HTMLCanvasElement;
+          image.width = result.imageData.width;
+          image.height = result.imageData.height;
+          const destinationContext = image.getContext('2d');
+          destinationContext?.drawImage(result.toCanvas(), 0, 0);
+        }
+
       });
     }
   }

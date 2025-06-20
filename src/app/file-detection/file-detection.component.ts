@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OverlayManager } from '../overlay';
-import { CapturedResult, CaptureVisionRouter, SimplifiedCaptureVisionSettings } from 'dynamsoft-capture-vision-bundle';
-import { DetectedQuadResultItem, EnumImageColourMode, NormalizedImageResultItem } from 'dynamsoft-document-normalizer';
+import { CapturedResult, CaptureVisionRouter, DetectedQuadResultItem, EnhancedImageResultItem, EnumCapturedResultItemType, EnumImageColourMode, SimplifiedCaptureVisionSettings } from 'dynamsoft-capture-vision-bundle';
 
 @Component({
   selector: 'app-file-detection',
@@ -68,9 +67,16 @@ export class FileDetectionComponent implements OnInit {
 
       this.cvr.capture(file, 'NormalizeDocument_Default').then((normalizedImagesResult: CapturedResult) => {
         if (normalizedImagesResult.items.length === 0) { return; }
-        let result = normalizedImagesResult.items[0] as NormalizedImageResultItem;
-        let image = document.getElementById('normalizedImage') as HTMLImageElement;
-        image.src = result.toImage("image/jpeg").src;
+        for (let item of normalizedImagesResult.items) {
+          if (item.type !== EnumCapturedResultItemType.CRIT_ENHANCED_IMAGE) {
+            continue;
+          }
+
+          let result = item as EnhancedImageResultItem;
+          let image = document.getElementById('normalizedImage') as HTMLImageElement;
+          image.src = result.toImage("image/jpeg").src;
+        }
+
       });
     }
   }

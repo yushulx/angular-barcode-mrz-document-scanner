@@ -27,63 +27,13 @@
               "src/assets",
               {
                 "glob": "**/*",
-                "input": "./node_modules/dynamsoft-capture-vision-std/dist",
-                "output": "assets/dynamsoft-capture-vision-std"
+                "input": "./node_modules/dynamsoft-capture-vision-bundle/dist",
+                "output": "assets/dynamsoft-capture-vision-bundle"
               },
               {
                 "glob": "**/*",
-                "input": "./node_modules/dynamsoft-image-processing/dist",
-                "output": "assets/dynamsoft-image-processing"
-              },
-              {
-                "glob": "**/*",
-                "input": "./node_modules/dynamsoft-core/dist",
-                "output": "assets/dynamsoft-core"
-              },
-              {
-                "glob": "**/*",
-                "input": "./node_modules/dynamsoft-license/dist",
-                "output": "assets/dynamsoft-license"
-              },
-              {
-                "glob": "**/*",
-                "input": "./node_modules/dynamsoft-capture-vision-router/dist",
-                "output": "assets/dynamsoft-capture-vision-router"
-              },
-              {
-                "glob": "**/*",
-                "input": "./node_modules/dynamsoft-barcode-reader/dist",
-                "output": "assets/dynamsoft-barcode-reader"
-              },
-              {
-                "glob": "**/*",
-                "input": "./node_modules/dynamsoft-camera-enhancer/dist",
-                "output": "assets/dynamsoft-camera-enhancer"
-              },
-              {
-                "glob": "**/*",
-                "input": "./node_modules/dynamsoft-document-normalizer/dist",
-                "output": "assets/dynamsoft-document-normalizer"
-              },
-              {
-                "glob": "**/*",
-                "input": "./node_modules/dynamsoft-label-recognizer/dist",
-                "output": "assets/dynamsoft-label-recognizer"
-              },
-              {
-                "glob": "**/*",
-                "input": "./node_modules/dynamsoft-code-parser/dist",
-                "output": "assets/dynamsoft-code-parser"
-              },
-              {
-                "glob": "**/*",
-                "input": "./node_modules/dynamsoft-capture-vision-dnn/dist",
-                "output": "assets/dynamsoft-capture-vision-dnn"
-              },
-              {
-                "glob": "**/*",
-                "input": "./node_modules/dynamsoft-label-recognizer-data/dist",
-                "output": "assets/dynamsoft-label-recognizer-data"
+                "input": "./node_modules/dynamsoft-capture-vision-data",
+                "output": "assets/dynamsoft-capture-vision-data"
               },
               {
                 "glob": "**/*",
@@ -164,8 +114,23 @@
               "src/assets",
               {
                 "glob": "**/*",
-                "input": "./node_modules/dynamsoft-javascript-barcode/dist",
-                "output": "assets/dynamsoft-javascript-barcode"
+                "input": "./node_modules/dynamsoft-capture-vision-bundle/dist",
+                "output": "assets/dynamsoft-capture-vision-bundle"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/dynamsoft-capture-vision-data",
+                "output": "assets/dynamsoft-capture-vision-data"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/dynamsoft-document-viewer/dist",
+                "output": "assets/dynamsoft-document-viewer"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/dwt/dist",
+                "output": "assets/dynamic-web-twain"
               }
             ],
             "styles": [
