@@ -1,0 +1,55 @@
+{
+  "name": "dynamsoft-capture-vision-data",
+  "version": "1.0.1",
+  "description": "This package encompasses machine learning models, such as the Convolutional Neural Networks (CNN) model used for text recognition, empowering various foundational products under DCV architecture.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "echo \"No need to build.\"",
+    "update:readme": "updateReadme --package=dynamsoft-capture-vision-data --version=latest --no-html",
+    "update:prod": "updatePackage --package=dynamsoft-capture-vision-data --version=auto --env=production --tag=latest",
+    "update:beta": "updatePackage --package=dynamsoft-capture-vision-data --version=auto --env=beta --tag=beta",
+    "update:iv": "updatePackage --package=dynamsoft-capture-vision-data --version=auto --env=internalVersion --tag=iv",
+    "update:dev": "updatePackage --package=dynamsoft-capture-vision-data --version=auto --env=development --tag=latest",
+    "updateLink:npm": "updateLink --source=npm",
+    "updateLink:zip": "updateLink --source=zip",
+    "updateLink:github": "updateLink --source=github",
+    "easyPublish": "npm run update:dev && npm publish"
+  },
+  "sideEffects": false,
+  "keywords": [
+    "dynamsoft",
+    "dynamsoft-capture-vision",
+    "sdk",
+    "javascript",
+    "typescript",
+    "Convolutional-Neural-Networks",
+    "CNN"
+  ],
+  "files": [
+    "/models",
+    "/parser-resources",
+    "/templates",
+    "/ui",
+    "/char-resources",
+    "/LEGAL.txt"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "tag": "latest"
+  },
+  "author": {
+    "name": "Dynamsoft",
+    "url": "https://www.dynamsoft.com"
+  },
+  "maintainers": [
+    {
+      "name": "Dynamsoft",
+      "email": "support@dynamsoft.com"
+    }
+  ],
+  "license": "SEE LICENSE IN LICENSE",
+  "devDependencies": {
+    "@dynamsoft/rd2-scripts": "^0.1.39"
+  }
+}
