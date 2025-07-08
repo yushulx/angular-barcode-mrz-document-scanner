@@ -139,35 +139,7 @@ export class DocumentViewerComponent implements OnInit {
       uiConfig: this.isMobile() ? this.mobileEditViewerUiConfig : this.pcEditViewerUiConfig
     });
     this.editViewer.displayMode = "single";
-
-    // Load the dropdown menu
-    let button: HTMLElement | null;
-    if (this.isMobile()) {
-      button = document.querySelector("#edit-viewer > div > div.ddv-layout.ddv-edit-viewer-footer-mobile > div.ddv-button.ddv-button.ddv-load-image");
-    }
-    else {
-      button = document.querySelector("#edit-viewer > div > div.ddv-layout.ddv-edit-viewer-header-desktop > div:nth-child(1) > div.ddv-button.ddv-button.ddv-load-image");
-    }
-
-    if (button) {
-      button.addEventListener("click", (event) => {
-        event.stopPropagation();
-
-        // Create dropdown if not exists
-        if (!this.dropdown) {
-          this.dropdown = this.createDropdownMenu();
-          this.dropdown.style.position = "absolute";
-        }
-
-        // Toggle visibility
-        this.dropdown.style.display = this.dropdown.style.display === "block" ? "none" : "block";
-
-        // Position the dropdown below the button
-        const rect = button!.getBoundingClientRect();
-        this.dropdown.style.left = `${rect.left}px`;
-        this.dropdown.style.top = `${rect.bottom + 5}px`;
-      });
-    }
+    this.editViewer.on("toggleDropdown", this.toggleDropdown);
 
     Dynamsoft.DWT.CreateDWTObjectEx({ "WebTwainId": "container" }, (obj) => {
       this.dwtObject = obj;
@@ -225,6 +197,20 @@ export class DocumentViewerComponent implements OnInit {
       }
     }, 0);
 
+  }
+
+  toggleDropdown = (e: any) => {
+    e[0].stopPropagation();
+    if (!this.dropdown) {
+      this.dropdown = this.createDropdownMenu();
+      this.dropdown.style.position = "absolute";
+    }
+
+    // Toggle visibility
+    this.dropdown.style.display = this.dropdown.style.display === "block" ? "none" : "block";
+    const rect = e[0].target.getBoundingClientRect();
+    this.dropdown.style.left = `${rect.left}px`;
+    this.dropdown.style.top = `${rect.bottom + 5}px`;
   }
 
   async convertToBlobAsync(dwtObject: any, indices: number[], imageType: any): Promise<Blob> {

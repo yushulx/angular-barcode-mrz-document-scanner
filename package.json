@@ -21,7 +21,7 @@
     "angular-barcode-mrz-document-scanner": "file:",
     "dwt": "^19.1.0",
     "dynamsoft-capture-vision-bundle": "^3.0.3001",
-    "dynamsoft-document-viewer": "^2.1.0",
+    "dynamsoft-document-viewer": "^3.0.0",
     "dynamsoft-capture-vision-data": "^1.0.1",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
