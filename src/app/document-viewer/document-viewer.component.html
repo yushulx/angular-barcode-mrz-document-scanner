@@ -1,1 +1,30 @@
-<div id="document_container"></div>
+<div class="document-viewer">
+    <div id="edit-viewer"></div>
+</div>
+
+<div id="pop-scanner" class="overlay">
+    <div class="popup">
+        <div class="form-group">
+            <label for="sources">Scanner Source:</label>
+            <select id="sources">
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="ADF">Auto Feeder:</label>
+            <input type="checkbox" id="ADF" checked="checked">
+        </div>
+        <div class="form-group">
+            <label for="Resolution">Resolution:</label>
+            <select id="Resolution">
+                <option value="100">100</option>
+                <option value="150">150</option>
+                <option value="200">200</option>
+                <option value="300">300</option>
+            </select>
+        </div>
+        <div class="button-group">
+            <button class="button" id="acquireDocument">OK</button>
+            <button class="button" id="cancelCapture">Cancel</button>
+        </div>
+    </div>
+</div>
