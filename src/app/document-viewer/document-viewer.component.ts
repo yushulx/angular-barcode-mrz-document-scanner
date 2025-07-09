@@ -117,7 +117,13 @@ export class DocumentViewerComponent implements OnInit {
       if (this.dropdown) this.dropdown.style.display = "none";
     });
   }
-
+  ngOnDestroy() {
+    // Unload Dynamic Web TWAIN
+    if (this.dwtObject) {
+      Dynamsoft.DWT.DeleteDWTObject(this.dwtObject._id);
+      this.dwtObject = null;
+    }
+  }
   ngOnInit() {
     // Initialize Dynamic Web TWAIN
     const mytooltips = DDV.Elements.getTooltip();
