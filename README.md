@@ -18,6 +18,10 @@ This project demonstrates how to utilize the Dynamsoft Capture Vision SDK for de
 
     https://github.com/user-attachments/assets/d1e0c7ef-2e33-4f96-85e6-f48ceef438c2
 
+- **Scan and annotate documents**
+
+    https://github.com/user-attachments/assets/217aae6e-532f-44ae-af73-c0da3cd82639
+
 
    
 ## Prerequisites
