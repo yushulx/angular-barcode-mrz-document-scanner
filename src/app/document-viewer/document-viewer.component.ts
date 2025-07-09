@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import Dynamsoft from 'dwt';
+import { WebTwain } from 'dwt/dist/types/WebTwain';
+import { Device } from 'dwt/dist/types/WebTwain.Acquire';
 import { DDV, EditViewer, IDocument, UiConfig } from 'dynamsoft-document-viewer';
 
 @Component({
@@ -10,8 +12,8 @@ import { DDV, EditViewer, IDocument, UiConfig } from 'dynamsoft-document-viewer'
 export class DocumentViewerComponent implements OnInit {
   editViewer?: EditViewer;
   dropdown?: HTMLElement;
-  dwtObject?: any = null;
-  sourceList = [];
+  dwtObject?: WebTwain;
+  sourceList?: Device[];
   acquireDocumentButton: HTMLElement | null = null;
   cancelCaptureButton: HTMLElement | null = null;
   currentDoc?: IDocument;
@@ -120,8 +122,13 @@ export class DocumentViewerComponent implements OnInit {
   ngOnDestroy() {
     // Unload Dynamic Web TWAIN
     if (this.dwtObject) {
-      Dynamsoft.DWT.DeleteDWTObject(this.dwtObject._id);
-      this.dwtObject = null;
+      Dynamsoft.DWT.Unload();
+      this.dwtObject = undefined;
+    }
+
+    if (this.editViewer) {
+      this.editViewer.destroy();
+      this.editViewer = undefined;
     }
   }
   ngOnInit() {
@@ -146,16 +153,21 @@ export class DocumentViewerComponent implements OnInit {
     });
     this.editViewer.displayMode = "single";
     this.editViewer.on("toggleDropdown", this.toggleDropdown);
+    Dynamsoft.DWT.AutoLoad = false;
+    Dynamsoft.DWT.Containers = [{ WebTwainId: "dwtObj" }]
+    Dynamsoft.DWT.Load();
+    Dynamsoft.DWT.RegisterEvent("OnWebTwainReady", () => {
+      this.dwtObject = Dynamsoft.DWT.GetWebTwain("dwtObj") as WebTwain;
+    })
+    // Dynamsoft.DWT.CreateDWTObjectEx({ "WebTwainId": "container" }, (obj) => {
+    //   this.dwtObject = obj;
 
-    Dynamsoft.DWT.CreateDWTObjectEx({ "WebTwainId": "container" }, (obj) => {
-      this.dwtObject = obj;
-
-      this.dwtObject.Viewer.bind(document.createElement("div"));
-      this.dwtObject.Viewer.width = 640;
-      this.dwtObject.Viewer.height = 640;
-    }, (errorString) => {
-      console.log(errorString);
-    });
+    //   this.dwtObject.Viewer.bind(document.createElement("div"));
+    //   this.dwtObject.Viewer.width = 640;
+    //   this.dwtObject.Viewer.height = 640;
+    // }, (errorString) => {
+    //   console.log(errorString);
+    // });
 
     // Bind scan popup buttons after DOM is ready
     setTimeout(() => {
@@ -181,7 +193,7 @@ export class DocumentViewerComponent implements OnInit {
           }
           const resolutionSelect = document.getElementById('Resolution') as HTMLSelectElement;
           const adfCheck = document.getElementById('ADF') as HTMLInputElement;
-          if (!this.dwtObject) return;
+          if (!this.dwtObject || !this.sourceList) return;
           this.dwtObject.IfShowUI = false;
           await this.dwtObject.SelectDeviceAsync(this.sourceList[select.selectedIndex]);
           await this.dwtObject.OpenSourceAsync();
