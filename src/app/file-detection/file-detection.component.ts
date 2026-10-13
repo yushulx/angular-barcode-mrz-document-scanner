@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { OverlayManager } from '../overlay';
 import { CapturedResult, CaptureVisionRouter, DetectedQuadResultItem, EnhancedImageResultItem, EnumCapturedResultItemType, EnumImageColourMode, SimplifiedCaptureVisionSettings } from 'dynamsoft-capture-vision-bundle';
+import { SdkService } from '../sdk.service';
 
 @Component({
   selector: 'app-file-detection',
@@ -16,7 +17,11 @@ export class FileDetectionComponent implements OnInit {
   points: any[] = [];
   currentFile: File | undefined;
 
-  constructor() {
+  /* Lazily created router: a file chosen before the SDK finished activating
+     must not be silently dropped — the upload waits for the router instead. */
+  private cvrReady: Promise<CaptureVisionRouter> | null = null;
+
+  constructor(private sdk: SdkService) {
     this.overlayManager = new OverlayManager();
   }
 
@@ -28,14 +33,23 @@ export class FileDetectionComponent implements OnInit {
 
   ngOnInit(): void {
     this.overlayManager.initOverlay(document.getElementById('overlay') as HTMLCanvasElement);
-    (async () => {
-      this.cvr = await CaptureVisionRouter.createInstance();
-      this.isLoaded = true;
-    })();
+    this.getCvr();
   }
 
-  onRadioChange(event: Event) {
-    if (!this.cvr) {
+  private getCvr(): Promise<CaptureVisionRouter> {
+    if (!this.cvrReady) {
+      this.cvrReady = (async () => {
+        await this.sdk.whenReady();
+        this.cvr = await CaptureVisionRouter.createInstance();
+        this.isLoaded = true;
+        return this.cvr;
+      })();
+    }
+    return this.cvrReady;
+  }
+
+  async onRadioChange(event: Event) {
+    if (!this.currentFile) {
       return;
     }
 
@@ -49,36 +63,33 @@ export class FileDetectionComponent implements OnInit {
       colorMode = EnumImageColourMode.ICM_COLOUR;
     }
 
-    let cvr = this.cvr;
-    (async () => {
-      let settings: SimplifiedCaptureVisionSettings = await cvr.getSimplifiedSettings('NormalizeDocument_Default');
-      settings.documentSettings.colourMode = colorMode;
-      await this.cvr!.updateSettings('NormalizeDocument_Default', settings);
-      this.normalize(this.currentFile!, this.points);
-    })();
+    const cvr = await this.getCvr();
+    let settings: SimplifiedCaptureVisionSettings = await cvr.getSimplifiedSettings('NormalizeDocument_Default');
+    settings.documentSettings.colourMode = colorMode;
+    await cvr.updateSettings('NormalizeDocument_Default', settings);
+    this.normalize(this.currentFile, this.points);
   }
 
   async normalize(file: File, points: any) {
-    if (this.cvr) {
-      let settings: SimplifiedCaptureVisionSettings = await this.cvr.getSimplifiedSettings('NormalizeDocument_Default');
-      settings.roi.points = points;
-      settings.roiMeasuredInPercentage = false;
-      await this.cvr!.updateSettings('NormalizeDocument_Default', settings);
+    const cvr = await this.getCvr();
+    let settings: SimplifiedCaptureVisionSettings = await cvr.getSimplifiedSettings('NormalizeDocument_Default');
+    settings.roi.points = points;
+    settings.roiMeasuredInPercentage = false;
+    await cvr.updateSettings('NormalizeDocument_Default', settings);
 
-      this.cvr.capture(file, 'NormalizeDocument_Default').then((normalizedImagesResult: CapturedResult) => {
-        if (normalizedImagesResult.items.length === 0) { return; }
-        for (let item of normalizedImagesResult.items) {
-          if (item.type !== EnumCapturedResultItemType.CRIT_ENHANCED_IMAGE) {
-            continue;
-          }
-
-          let result = item as EnhancedImageResultItem;
-          let image = document.getElementById('normalizedImage') as HTMLImageElement;
-          image.src = result.toImage("image/jpeg").src;
+    cvr.capture(file, 'NormalizeDocument_Default').then((normalizedImagesResult: CapturedResult) => {
+      if (normalizedImagesResult.items.length === 0) { return; }
+      for (let item of normalizedImagesResult.items) {
+        if (item.type !== EnumCapturedResultItemType.CRIT_ENHANCED_IMAGE) {
+          continue;
         }
 
-      });
-    }
+        let result = item as EnhancedImageResultItem;
+        let image = document.getElementById('normalizedImage') as HTMLImageElement;
+        image.src = result.toImage("image/jpeg").src;
+      }
+
+    });
   }
 
   onChange(event: Event) {
@@ -97,13 +108,16 @@ export class FileDetectionComponent implements OnInit {
 
             img.onload = async (event: any) => {
               this.overlayManager.updateOverlay(img.width, img.height);
-              if (this.cvr) {
-                let capturedResult: CapturedResult = await this.cvr.capture(file, 'DetectDocumentBoundaries_Default');
+              try {
+                const cvr = await this.getCvr();
+                let capturedResult: CapturedResult = await cvr.capture(file, 'DetectDocumentBoundaries_Default');
                 if (capturedResult.items.length > 0) {
                   let result = capturedResult.items[0] as DetectedQuadResultItem;
                   this.points = result.location.points;
                   this.overlayManager.setPoints(this.points);
                 }
+              } catch (e) {
+                console.error(e);
               }
             };
             img.src = event.target.result;
@@ -115,7 +129,10 @@ export class FileDetectionComponent implements OnInit {
   }
 
   async rectify() {
-    await this.normalize(this.currentFile!, this.points);
+    if (!this.currentFile) {
+      return;
+    }
+    await this.normalize(this.currentFile, this.points);
   }
 
   async save() {

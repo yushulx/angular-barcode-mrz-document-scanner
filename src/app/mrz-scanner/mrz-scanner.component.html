@@ -1,21 +1,16 @@
-<div id="loading-indicator" class="loading-indicator" *ngIf="!isLoaded">
-    <div class="spinner"></div>
+<div *ngIf="!isLoaded" id="loading-indicator" class="loading-indicator">
+  <div class="spinner"></div>
 </div>
 
-<div class="select">
-    <label for="videoSource">Video source: </label>
+<div class="card">
+  <h2>MRZ Scanner (Camera)</h2>
+  <div class="control-row">
+    <label for="videoSource">Video source</label>
     <select id="videoSource" (change)="openCamera()"></select>
-</div>
-
-<div class="container">
-    <div id="videoview">
-        <div class="dce-video-container" id="videoContainer"></div>
-        <canvas id="overlay"></canvas>
-    </div>
-
-</div>
-
-
-<div>
-    <textarea id="result"></textarea>
+  </div>
+  <div id="videoview">
+    <div class="dce-video-container" id="videoContainer"></div>
+    <canvas id="overlay" class="overlay"></canvas>
+  </div>
+  <textarea id="result" placeholder="The recognized MRZ lines and the parsed fields will appear here..."></textarea>
 </div>

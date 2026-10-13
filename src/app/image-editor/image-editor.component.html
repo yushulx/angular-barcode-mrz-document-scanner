@@ -1,35 +1,42 @@
-<select id="sources"></select><br />
-<div class="row">
-    <button (click)="acquireImage()">Scan</button>
+<div class="card">
+  <h2>Image Editor (TWAIN/SANE/ICA Scanner)</h2>
+  <p class="card-note">
+    Scan or load images, then rotate, mirror, flip and reorder them with the built-in editor. Requires a
+    desktop browser with the Dynamic Web TWAIN local service installed.
+  </p>
+  <div class="control-row">
+    <select id="sources" aria-label="Scanner source"></select>
+    <button class="btn-primary" (click)="acquireImage()">Scan</button>
     <button (click)="openImage()">Load</button>
-</div>
-
-<div class="row">
+  </div>
+  <div class="detect-row">
     <div id="dwtcontrolContainer"></div>
     <div id="dwtcontrolContainerLargeViewer"></div>
-</div>
-
-<div style="width: 800px;">
-    <input style="font-size: x-large;" type="button" value=" |< " (click)="firstImage()"/>
-    <input style="font-size: x-large;" type="button" value=" < " (click)="preImage()"/>
-    <input style="font-size: x-large;" type="text" size="2" id="DW_CurrentImage" readonly="readonly" value="0" /> /
-    <input style="font-size: x-large;" type="text" size="2" id="DW_TotalImage" readonly="readonly" value="0" />
-    <input style="font-size: x-large;" type="button" value=" > " (click)="nextImage()"/>
-    <input style="font-size: x-large;" type="button" value=" >| " (click)="lastImage()"/> Preview Mode:
-    <select style="font-size: x-large;" size="1" id="DW_PreviewMode" (change)="setMode()">
-        <option value="0">1X1</option>
-        <option value="1">2X2</option>
-        <option value="2">3X3</option>
-        <option value="3">4X4</option>
-        <option value="4">5X5</option>
+  </div>
+  <div class="dwt-pager">
+    <button type="button" (click)="firstImage()">|&lt;</button>
+    <button type="button" (click)="preImage()">&lt;</button>
+    <input type="text" size="2" id="DW_CurrentImage" readonly="readonly" value="0" aria-label="Current image" />
+    <span>/</span>
+    <input type="text" size="2" id="DW_TotalImage" readonly="readonly" value="0" aria-label="Total images" />
+    <button type="button" (click)="nextImage()">&gt;</button>
+    <button type="button" (click)="lastImage()">&gt;|</button>
+    <span>Preview Mode:</span>
+    <select id="DW_PreviewMode" (change)="setMode()" aria-label="Preview mode">
+      <option value="0">1X1</option>
+      <option value="1">2X2</option>
+      <option value="2">3X3</option>
+      <option value="3">4X4</option>
+      <option value="4">5X5</option>
     </select>
-</div>
-<div class="row">
-    <button (click)="removeSelected()">Remove Selected</button>
-    <button (click)="removeAll()">Remove All</button>
-    <button (click)="rotateLeft()">Rotate Left</button>
-    <button (click)="rotateRight()">Rotate Right</button>
-    <button (click)="mirror()">Mirror</button>
-    <button (click)="flip()">Flip</button>
-    <button (click)="showImageEditor()" id="imageEditor">Hide Editor</button>
+  </div>
+  <div class="control-row">
+    <button type="button" (click)="removeSelected()">Remove Selected</button>
+    <button type="button" (click)="removeAll()">Remove All</button>
+    <button type="button" (click)="rotateLeft()">Rotate Left</button>
+    <button type="button" (click)="rotateRight()">Rotate Right</button>
+    <button type="button" (click)="mirror()">Mirror</button>
+    <button type="button" (click)="flip()">Flip</button>
+    <button type="button" (click)="showImageEditor()" id="imageEditor">Hide Editor</button>
+  </div>
 </div>

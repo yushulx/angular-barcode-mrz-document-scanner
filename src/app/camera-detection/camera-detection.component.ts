@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { BarcodeResultItem, CameraEnhancer, CameraView, CapturedResult, CaptureVisionRouter, DSImageData, EnhancedImageResultItem, EnumCapturedResultItemType, OriginalImageResultItem, Resolution, SimplifiedCaptureVisionSettings } from 'dynamsoft-capture-vision-bundle';
 import { OverlayManager } from '../overlay';
 import { DetectedQuadResultItem, EnumImageColourMode } from 'dynamsoft-capture-vision-bundle';
+import { SdkService } from '../sdk.service';
 
 const componentDestroyedErrorMsg = 'VideoCapture Component Destroyed';
 
@@ -30,7 +31,7 @@ export class CameraDetectionComponent implements OnInit {
   isDetecting = false;
   cameraView?: CameraView;
 
-  constructor() {
+  constructor(private sdk: SdkService) {
     this.overlayManager = new OverlayManager();
   }
 
@@ -46,7 +47,11 @@ export class CameraDetectionComponent implements OnInit {
     this.videoSelect = document.querySelector('select#videoSource') as HTMLSelectElement;
     this.overlayManager.initOverlay(document.getElementById('overlay') as HTMLCanvasElement);
     (async () => {
+      // The SDK may still be activating when this page is opened directly.
+      await this.sdk.whenReady();
       this.cameraView = await CameraView.createInstance();
+      // Fill the viewfinder with the camera stream instead of letterboxing it.
+      this.cameraView.setVideoFit('cover');
 
       this.cameraEnhancer = await CameraEnhancer.createInstance(this.cameraView);
 

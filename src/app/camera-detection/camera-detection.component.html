@@ -1,36 +1,25 @@
-<div id="document-scanner">
-    <span id="loading-status" style="font-size:x-large" [hidden]="isLoaded">Loading Library...</span>
-    <br />
-    <div class="row">
-
-        <label for="binary"> <input type="radio" name="templates" value="binary"
-                (change)="onRadioChange($event)" />Black &
-            White </label>
-
-
-        <label for="grayscale"><input type="radio" name="templates" value="grayscale"
-                (change)="onRadioChange($event)" />
-            Grayscale </label>
-
-        <label for="color"><input type="radio" name="templates" value="color" [checked]="true"
-                (change)="onRadioChange($event)" /> Color </label>
-    </div>
-
-    <div>
-        <label for="videoSource">Video Source:
-            <select id="videoSource" (change)="openCamera()"></select></label>
-        <button id="detectButton" (click)="toggleDetection()">Start Detection</button>
-        <button id="captureButton" (click)="captureDocument()">Capture Document</button>
-    </div>
-
-    <div id="videoview">
-        <div class="dce-video-container" id="videoContainer"></div>
-        <canvas id="overlay"></canvas>
-    </div>
-
-    <div class="container">
-        <div id="resultview">
-            <canvas id="normalizedImage"></canvas>
-        </div>
-    </div>
+<div class="card">
+  <h2>Document Scanner (Camera)</h2>
+  <div class="radio-row">
+    <label><input type="radio" name="templates" value="binary" (change)="onRadioChange($event)" />Black &amp;
+      White</label>
+    <label><input type="radio" name="templates" value="grayscale"
+        (change)="onRadioChange($event)" />Grayscale</label>
+    <label><input type="radio" name="templates" value="color" [checked]="true"
+        (change)="onRadioChange($event)" />Color</label>
+  </div>
+  <div class="control-row">
+    <label for="videoSource">Video source</label>
+    <select id="videoSource" (change)="openCamera()"></select>
+    <button id="detectButton" (click)="toggleDetection()">Start Detection</button>
+    <button id="captureButton" class="btn-primary" (click)="captureDocument()">Capture Document</button>
+  </div>
+  <span id="loading-status" class="card-note" [hidden]="isLoaded">Loading Library&hellip;</span>
+  <div id="videoview">
+    <div class="dce-video-container" id="videoContainer"></div>
+    <canvas id="overlay" class="overlay"></canvas>
+  </div>
+  <div id="resultview" class="imageview">
+    <canvas id="normalizedImage"></canvas>
+  </div>
 </div>

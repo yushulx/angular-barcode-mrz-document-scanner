@@ -1,11 +1,10 @@
-.row {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: left;
-}
+/* Layout and theming live in src/styles.css (app-wide brand theme).
+   Component-specific rules only. */
 
-select {
-    border-radius: 10px;
-    height: 30px;
+/* Dynamic Web TWAIN mounts its viewer at the fixed pixel size given in the
+   component; on narrow screens let the container scroll instead of overflowing
+   the card. */
+#dwtcontrolContainer,
+#dwtcontrolContainerLargeViewer {
+  overflow-x: auto;
 }

@@ -1,34 +1,35 @@
-<div class="row">
-    <label for="BW">
-        <input type="radio" value="0" name="PixelType">B&amp;W </label>
-    <label for="Gray">
-        <input type="radio" value="1" name="PixelType">Gray</label>
-    <label for="RGB">
-        <input type="radio" value="2" name="PixelType" checked="checked">Color</label>
-
-    <label>
-        <input type="checkbox" id="ADF" checked="checked">Auto Feeder</label>
-    <div>&nbsp;&nbsp;</div>
-    <select id="Resolution">
-        <option value="100">100</option>
-        <option value="150">150</option>
-        <option value="200">200</option>
-        <option value="300">300</option>
+<div class="card">
+  <h2>Acquire Image (TWAIN/SANE/ICA Scanner)</h2>
+  <p class="card-note">
+    This example talks to a physical scanner through the
+    <a href="https://www.dynamsoft.com/web-twain/overview/" target="_blank" rel="noopener">Dynamic Web TWAIN</a>
+    local service, so it needs a desktop browser with the service installed. Images are loaded into the
+    viewer below; nothing leaves your device.
+  </p>
+  <div class="radio-row">
+    <label><input type="radio" value="0" name="PixelType">B&amp;W</label>
+    <label><input type="radio" value="1" name="PixelType">Gray</label>
+    <label><input type="radio" value="2" name="PixelType" [checked]="true">Color</label>
+    <label><input type="checkbox" id="ADF" [checked]="true">Auto Feeder</label>
+    <select id="Resolution" aria-label="Resolution">
+      <option value="100">100 dpi</option>
+      <option value="150">150 dpi</option>
+      <option value="200">200 dpi</option>
+      <option value="300">300 dpi</option>
     </select>
+  </div>
+  <div class="control-row">
+    <select id="sources" aria-label="Scanner source"></select>
+    <button class="btn-primary" (click)="acquireImage()">Scan Documents</button>
+    <button (click)="openImage()">Load Documents</button>
+  </div>
+  <div id="dwtcontrolContainer"></div>
+  <div class="radio-row">
+    <label><input type="radio" value="jpg" name="ImageType" id="imgTypejpeg" />JPEG</label>
+    <label><input type="radio" value="tif" name="ImageType" id="imgTypetiff" />TIFF</label>
+    <label><input type="radio" value="pdf" name="ImageType" id="imgTypepdf" [checked]="true" />PDF</label>
+  </div>
+  <div class="control-row">
+    <button class="btn-primary" (click)="downloadDocument()">Download Documents</button>
+  </div>
 </div>
-
-<select id="sources"></select><br />
-<button (click)="acquireImage()">Scan Documents</button>
-<button (click)="openImage()">Load Documents</button>
-
-<div id="dwtcontrolContainer"></div>
-
-<div class="row">
-    <label style="font-size: x-large;">
-        <input type="radio" value="jpg" name="ImageType" id="imgTypejpeg" />JPEG</label>
-    <label style="font-size: x-large;">
-        <input type="radio" value="tif" name="ImageType" id="imgTypetiff" />TIFF</label>
-    <label style="font-size: x-large;">
-        <input type="radio" value="pdf" name="ImageType" id="imgTypepdf" checked="checked" />PDF</label>
-</div>
-<button (click)="downloadDocument()">Download Documents</button>

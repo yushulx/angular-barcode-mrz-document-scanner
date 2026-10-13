@@ -1,37 +1,10 @@
-#videoview {
-    position: absolute;
-    width: 40vw;
-    height: 40vh;
-}
+/* Layout and theming live in src/styles.css (app-wide brand theme).
+   Component-specific rules only. */
 
-#videoContainer {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-}
-
-#overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 2;
-    object-fit: contain;
-}
-
-/* #document-scanner {
-    text-align: center;
-} */
-
+/* The normalized document is drawn into a canvas whose backing store is set
+   from the result image size; let it scale down on narrow screens. */
 #normalizedImage {
-    width: 20vw;
-    top: 60%;
-    position: absolute;
-    z-index: 2;
-}
-
-button {
-    margin: 4px;
+  display: block;
+  width: 100%;
+  height: auto;
 }

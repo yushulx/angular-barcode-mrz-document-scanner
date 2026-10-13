@@ -1,30 +1,25 @@
-<span id="loading-status" style="font-size:x-large" [hidden]="isLoaded">Loading Library...</span>
-<br />
-
-<div class="row">
-
-    <label for="binary"> <input type="radio" name="templates" value="binary" (change)="onRadioChange($event)" />Black &
-        White </label>
-
-
-    <label for="grayscale"><input type="radio" name="templates" value="grayscale" (change)="onRadioChange($event)" />
-        Grayscale </label>
-
-    <label for="color"><input type="radio" name="templates" value="color" [checked]="true"
-            (change)="onRadioChange($event)" /> Color </label>
-</div>
-
-<input type="file" title="file" id="file" accept="image/*" (change)="onChange($event)" />
-<button (click)="rectify()">Rectify</button>
-<button (click)="save()">Save</button>
-<div class="container">
-    <div id="imageview">
-        <img id="image" alt="" />
-        <canvas id="overlay" class="overlay"></canvas>
+<div class="card">
+  <h2>Document Detector (File)</h2>
+  <div class="radio-row">
+    <label><input type="radio" name="templates" value="binary" (change)="onRadioChange($event)" />Black &amp;
+      White</label>
+    <label><input type="radio" name="templates" value="grayscale"
+        (change)="onRadioChange($event)" />Grayscale</label>
+    <label><input type="radio" name="templates" value="color" [checked]="true"
+        (change)="onRadioChange($event)" />Color</label>
+  </div>
+  <div class="control-row">
+    <input type="file" id="file" accept="image/*" (change)="onChange($event)" />
+    <button class="btn-primary" (click)="rectify()">Rectify</button>
+    <button (click)="save()">Save</button>
+  </div>
+  <div class="detect-row">
+    <div id="imageview" class="imageview">
+      <img id="image" alt="" />
+      <canvas id="overlay" class="overlay"></canvas>
     </div>
-
     <div id="resultview" class="imageview">
-        <img id="normalizedImage" alt="" />
+      <img id="normalizedImage" alt="" />
     </div>
-
+  </div>
 </div>

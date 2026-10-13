@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:demo": "ng build --configuration demo && node scripts/fix-demo-index.js",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
@@ -19,10 +20,10 @@
     "@angular/platform-browser-dynamic": "~13.3.0",
     "@angular/router": "~13.3.0",
     "angular-barcode-mrz-document-scanner": "file:",
-    "dwt": "^19.1.0",
-    "dynamsoft-capture-vision-bundle": "^3.0.3001",
-    "dynamsoft-document-viewer": "^3.0.0",
-    "dynamsoft-capture-vision-data": "^1.0.1",
+    "dwt": "^19.4.4",
+    "dynamsoft-capture-vision-bundle": "^3.6.3200",
+    "dynamsoft-document-viewer": "^5.0.1",
+    "dynamsoft-capture-vision-data": "^1.2.2",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { OverlayManager } from '../overlay';
 import { BarcodeResultItem, CameraEnhancer, CameraView, CapturedResult, CaptureVisionRouter, EnumCapturedResultItemType, MultiFrameResultCrossFilter, Resolution } from 'dynamsoft-capture-vision-bundle';
+import { SdkService } from '../sdk.service';
 
 const componentDestroyedErrorMsg = 'VideoCapture Component Destroyed';
 
@@ -20,7 +21,7 @@ export class BarcodeScannerComponent implements OnInit {
   cameraEnhancer?: CameraEnhancer;
   isDestroyed = false;
 
-  constructor() {
+  constructor(private sdk: SdkService) {
     this.overlayManager = new OverlayManager();
   }
 
@@ -28,6 +29,8 @@ export class BarcodeScannerComponent implements OnInit {
     this.videoSelect = document.querySelector('select#videoSource') as HTMLSelectElement;
     this.overlayManager.initOverlay(document.getElementById('overlay') as HTMLCanvasElement);
     (async () => {
+      // The SDK may still be activating when this page is opened directly.
+      await this.sdk.whenReady();
       await this.initBarcodeScanner();
     })();
   }
@@ -49,6 +52,10 @@ export class BarcodeScannerComponent implements OnInit {
 
   async initBarcodeScanner(): Promise<void> {
     const cameraView: CameraView = await CameraView.createInstance();
+    // DCE defaults to objectFit "contain", which renders a portrait phone
+    // stream as a narrow pillar inside a wide viewfinder. "cover" fills the
+    // stage; the viewfinder's own aspect ratio does the cropping.
+    cameraView.setVideoFit('cover');
 
     this.cameraEnhancer = await CameraEnhancer.createInstance(cameraView);
 

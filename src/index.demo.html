@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <!--
+    Hosted Codepool demo page (built with `ng build --configuration demo`).
+
+    This file wraps the Angular app in the site's demo chrome: Dynamsoft header
+    lockup, All Demos / Blog nav, GTM, shared analytics, JSON-LD and the footer
+    with the trial CTA. The app itself is bundled by the Angular CLI, which
+    injects the generated <script>/<link> tags into this file at build time.
+
+    The base href is absolute on purpose: the demo is mounted under
+    /codepool/demos/<slug>/ on a static host, and the app uses hash routing so
+    every example is reachable by URL.
+  -->
+  <base href="/codepool/demos/angular-barcode-mrz-document-scanner/">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Free Online Angular Barcode, MRZ and Document Scanner | Dynamsoft Codepool Demo</title>
+  <meta name="description"
+    content="Free online Angular scanner built with Dynamsoft Capture Vision. Decode barcodes, parse passport and ID card MRZ strings, detect or rectify document boundaries from an uploaded image or a live camera, and view or edit scans with Dynamic Web TWAIN.">
+  <link rel="canonical" href="https://www.dynamsoft.com/codepool/demos/angular-barcode-mrz-document-scanner/">
+  <meta name="robots" content="index, follow">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Free Online Angular Barcode, MRZ and Document Scanner | Dynamsoft Codepool Demo">
+  <meta property="og:description"
+    content="Free online Angular scanner built with Dynamsoft Capture Vision — decode barcodes, parse passport and ID card MRZ strings, and detect or rectify document boundaries from an uploaded image or a live camera.">
+  <meta property="og:url" content="https://www.dynamsoft.com/codepool/demos/angular-barcode-mrz-document-scanner/">
+  <meta property="og:image"
+    content="https://www.dynamsoft.com/codepool/demos/angular-barcode-mrz-document-scanner/thumbnail.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Google Tag Manager -->
+  <script>(function (w, d, s, l, i) {
+      w[l] = w[l] || []; w[l].push({
+        'gtm.start':
+          new Date().getTime(), event: 'gtm.js'
+      }); var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+          'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-538F83');</script>
+  <!-- End Google Tag Manager -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Oswald:wght@300;400;500&display=swap">
+  <!-- Dynamsoft Document Viewer ships its own stylesheet; the demo build loads
+       it from the CDN (the standalone build links the local copy). -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dynamsoft-document-viewer@5.0.1/dist/ddv.css">
+  <script src="../shared/analytics.js?v=20261012b"></script>
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Free Online Angular Barcode, MRZ and Document Scanner",
+      "url": "https://www.dynamsoft.com/codepool/demos/angular-barcode-mrz-document-scanner/",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any (web browser)",
+      "browserRequirements": "Requires a secure context (HTTPS) and camera permission for live capture; the TWAIN/SANE/ICA examples need a desktop browser and the Dynamic Web TWAIN local service",
+      "description": "Browser-side Angular scanner built with Dynamsoft Capture Vision that decodes barcodes, parses passport and ID card MRZ strings, and detects or rectifies document boundaries from an image or a live camera.",
+      "featureList": [
+        "Barcode decoding from images and live camera",
+        "MRZ parsing for passports, ID cards and visas",
+        "Document boundary detection and perspective rectification",
+        "Document viewing, annotation and PDF export with Dynamsoft Document Viewer",
+        "Image acquisition and editing from TWAIN/SANE/ICA scanners via Dynamic Web TWAIN"
+      ],
+      "isAccessibleForFree": true,
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+        "description": "Free to use on dynamsoft.com/codepool — the hosted demo carries a domain-bound license, so no account, no key and no installation are needed. Self-hosting the code requires your own Dynamsoft license. Nothing you scan leaves your device."
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Dynamsoft",
+        "url": "https://www.dynamsoft.com/"
+      }
+    }
+  </script>
+
+  <style>
+    /* Demo chrome: header lockup, nav and footer. The app's own stylesheet
+       (injected below by the CLI) provides the dark page surface; these rules
+       only dress the site furniture around it. */
+    .demo-header {
+      max-width: 1200px;
+      margin: 0 auto 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+      padding-left: 2px;
+    }
+
+    .demo-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      max-width: 100%;
+    }
+
+    .brand-logo {
+      display: block;
+      height: 22px;
+      width: auto;
+      flex: 0 0 auto;
+    }
+
+    .brand-divider {
+      width: 1px;
+      height: 20px;
+      background: rgba(255, 255, 255, 0.14);
+      flex: 0 0 auto;
+    }
+
+    .demo-header h1 {
+      font-family: 'Oswald', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      font-size: clamp(1.3rem, 3vw, 1.9rem);
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      color: #ffffff;
+      line-height: 1.2;
+    }
+
+    .brand-tag {
+      display: inline-block;
+      margin-right: 10px;
+      padding: 1px 8px 3px;
+      border: 1px solid rgba(254, 142, 20, 0.55);
+      border-radius: 4px;
+      background: rgba(254, 142, 20, 0.15);
+      color: #fe8e14;
+      font-family: 'Oswald', 'Segoe UI', sans-serif;
+      font-size: 0.5em;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      vertical-align: 0.18em;
+    }
+
+    .demo-nav {
+      display: flex;
+      gap: 18px;
+      margin-top: 8px;
+      font-size: 0.85rem;
+    }
+
+    .demo-nav a {
+      color: rgba(255, 255, 255, 0.72);
+      text-decoration: none;
+    }
+
+    .demo-nav a:hover {
+      color: #fe8e14;
+    }
+
+    .demo-header .subtitle {
+      font-size: clamp(0.88rem, 2vw, 1.05rem);
+      color: rgba(255, 255, 255, 0.72);
+      font-weight: 300;
+    }
+
+    .demo-footer {
+      max-width: 1200px;
+      margin: 28px auto 0;
+      text-align: center;
+      color: #cccccc;
+      font-size: 0.88rem;
+      line-height: 1.8;
+    }
+
+    .demo-footer p {
+      color: #cccccc;
+      font-size: 0.88rem;
+    }
+
+    .demo-footer a {
+      color: #dddddd;
+      text-decoration: none;
+    }
+
+    .demo-footer a:hover {
+      text-decoration: underline;
+    }
+
+    .demo-footer .demo-footer-cta {
+      display: inline-block;
+      margin-left: 6px;
+      padding: 8px 16px;
+      border-radius: 6px;
+      background: #fe8e14;
+      color: #fff;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .demo-footer .demo-footer-cta:hover {
+      background: #e07d0b;
+    }
+
+    @media (max-width: 640px) {
+      .demo-footer {
+        font-size: 0.8rem;
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+
+      .demo-footer .demo-footer-cta {
+        margin: 6px 0 0;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .brand-tag {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-538F83" height="0" width="0"
+      style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <header class="demo-header">
+    <div class="demo-brand">
+      <img class="brand-logo" src="dynamsoft-logo-white.svg" width="202" height="50" alt="Dynamsoft">
+      <span class="brand-divider" aria-hidden="true"></span>
+      <h1><span class="brand-tag">Free</span>Angular Barcode, MRZ and Document Scanner</h1>
+    </div>
+    <nav class="demo-nav" aria-label="Codepool">
+      <a href="https://www.dynamsoft.com/codepool/demos/">All Demos</a>
+      <a href="https://www.dynamsoft.com/codepool/">Blog</a>
+    </nav>
+    <p class="subtitle">A free online Angular demo running on dynamsoft.com — read barcodes and MRZ from files or the
+      camera, detect and rectify documents, and view or edit scans</p>
+  </header>
+
+  <app-root></app-root>
+
+  <footer class="demo-footer">
+    <p>
+      Built with <a href="https://www.dynamsoft.com/capture-vision/" data-demo-cta="capture-vision">Dynamsoft
+        Capture Vision</a>. This page is free because it activates a Codepool license bound to dynamsoft.com; the
+      sample code on GitHub is a separate thing and needs your own license to run.
+      <a href="https://www.dynamsoft.com/codepool/angular-barcode-qr-code-scanner.html"
+        data-demo-cta="tutorial">Read the tutorial</a>
+      <a class="demo-footer-cta"
+        href="https://www.dynamsoft.com/customer/license/trialLicense/?product=dcv&amp;package=cross-platform"
+        data-demo-cta="trial">Get a 30-day free trial license</a>
+    </p>
+  </footer>
+</body>
+
+</html>

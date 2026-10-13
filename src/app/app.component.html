@@ -1,4 +1,5 @@
-<app-top-bar></app-top-bar>
+<app-top-bar *ngIf="!demoMode"></app-top-bar>
+<a class="back-link" *ngIf="demoMode && !isHome" [routerLink]="['/']">&larr; All examples</a>
 <div class="container">
   <router-outlet></router-outlet>
 </div>

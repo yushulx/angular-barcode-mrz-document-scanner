@@ -73,7 +73,40 @@
               ],
               "outputHashing": "all"
             },
-            "development": {
+            "demo": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "10mb",
+                  "maximumError": "10mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              // The Dynamsoft SDK bundles use native class private fields; the
+              // CLI's minifier (terser/build-optimizer) rewrites them in a way
+              // that breaks class inheritance at runtime ("Must call super
+              // constructor in derived class..."). The demo build therefore
+              // ships unminified — the bundle is a few MB larger, which is
+              // irrelevant for a demo page.
+              "index": "src/index.demo.html",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.demo.ts"
+                }
+              ],
+              "outputHashing": "all",
+              "assets": [
+                "src/favicon.ico",
+                "src/assets"
+              ],
+              "optimization": false,
+              "buildOptimizer": false
+            },            "development": {
               "buildOptimizer": false,
               "optimization": false,
               "vendorChunk": true,

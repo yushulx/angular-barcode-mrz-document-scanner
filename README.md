@@ -1,6 +1,11 @@
 # Angular Capture Vision Examples
 This project demonstrates how to utilize the Dynamsoft Capture Vision SDK for detecting **1D/2D barcodes**, **documents**, **MRZ (Machine Readable Zone)**, and more in Angular applications.
 
+## Online Demo
+[Try the Demo](https://www.dynamsoft.com/codepool/demos/angular-barcode-mrz-document-scanner/)
+
+The hosted demo on dynamsoft.com activates a domain-bound license automatically — no key or sign-up needed. Cloning and running the project yourself requires your own [Dynamsoft Capture Vision trial license](https://www.dynamsoft.com/customer/license/trialLicense/?product=dcv&package=cross-platform).
+
 ## Features
 - **Barcode Scanner**
 
@@ -36,10 +41,6 @@ This project demonstrates how to utilize the Dynamsoft Capture Vision SDK for de
 
   ![Dynamsoft Capture Vision Trial License](https://www.dynamsoft.com/codepool/img/2024/07/capture-vision-suite-license.png)
 
-## Online Demo
-[Try the Demo](https://yushulx.me/angular-barcode-mrz-document-scanner/)
-
-
 ## Usage    
 1. **Install dependencies**:
     
@@ -56,6 +57,23 @@ This project demonstrates how to utilize the Dynamsoft Capture Vision SDK for de
 ## Build
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+
+### Hosted demo build (`npm run build:demo`)
+
+`ng build --configuration demo` produces the variant deployed to
+[dynamsoft.com/codepool/demos/angular-barcode-mrz-document-scanner/](https://www.dynamsoft.com/codepool/demos/angular-barcode-mrz-document-scanner/):
+
+- No license input box — the SDK activates on page load with a hostname-resolved
+  license (Codepool key on dynamsoft.com, SDK trial key anywhere else).
+- Engine resources (wasm, models, Document Viewer engine, Web TWAIN resources)
+  load from the jsDelivr CDN instead of the local `assets/` copies.
+- Hash routing (`#/barcode-reader`, …) so every example is reachable on a
+  static host, wrapped in the Codepool demo chrome (`src/index.demo.html`).
+- The bundle ships unminified: the CLI's minifier rewrites the SDK's native
+  class private fields in a way that breaks class inheritance at runtime.
+
+`node scripts/fix-demo-index.js` (run automatically by `npm run build:demo`)
+renames the generated `index.demo.html` to `index.html`.
 
 
 ## Blog

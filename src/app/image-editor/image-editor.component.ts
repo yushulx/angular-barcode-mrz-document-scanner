@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { WebTwain } from 'dwt/dist/types/WebTwain';
 import Dynamsoft from 'dwt';
+import { SdkService } from '../sdk.service';
 
 @Component({
   selector: 'app-image-editor',
@@ -12,22 +13,27 @@ export class ImageEditorComponent implements OnInit {
   selectSources: HTMLSelectElement | undefined;
   containerId = 'dwtcontrolContainer';
   width = '600px';
-  height = '800px';
+  height = '600px';
   imageEditor: any;
   isHidden = false;
   sourceList: any[] = [];
 
-  constructor() { }
+  constructor(private sdk: SdkService) { }
 
   ngOnDestroy() {
     Dynamsoft.DWT.Unload();
   }
 
   ngOnInit(): void {
-    Dynamsoft.DWT.Containers = [{ ContainerId: this.containerId, Width: this.width, Height: this.height }];
-    Dynamsoft.DWT.Load();
+    // Dynamic Web TWAIN is configured (product key, resource path) by
+    // SdkService during activation; wait for it so deep links work too.
+    (async () => {
+      await this.sdk.whenReady();
+      Dynamsoft.DWT.Containers = [{ ContainerId: this.containerId, Width: this.width, Height: this.height }];
+      Dynamsoft.DWT.Load();
 
-    Dynamsoft.DWT.RegisterEvent('OnWebTwainReady', () => { this.onReady(); });
+      Dynamsoft.DWT.RegisterEvent('OnWebTwainReady', () => { this.onReady(); });
+    })();
   }
 
   onReady(): void {
@@ -52,40 +58,47 @@ export class ImageEditorComponent implements OnInit {
   }
 
   acquireImage(): void {
-    if (!this.dwtObject)
+    if (!this.dwtObject) {
       return;
-
-    else if (this.dwtObject.SourceCount > 0 && this.selectSources && this.dwtObject.SelectSourceByIndex(this.selectSources.selectedIndex)) {
-      let dwtObject = this.dwtObject;
-      dwtObject.SelectDeviceAsync(this.sourceList[this.selectSources.selectedIndex]).then(() => {
-
-        return dwtObject.OpenSourceAsync()
-
-      }).then(() => {
-
-        return dwtObject.AcquireImageAsync({
-        })
-
-      }).then(() => {
-
-        if (dwtObject) {
-
-          dwtObject.CloseSource();
-
-        }
-
-      }).catch(
-
-        (e) => {
-
-          console.error(e)
-
-        }
-
-      );
-    } else {
-      alert("No Source Available!");
     }
+
+    // Judge availability by the enumerated device list, not by the legacy
+    // SourceCount property — the source manager may report 0 while
+    // GetDevicesAsync (which drives the dropdown) lists devices fine.
+    const index = this.selectSources ? this.selectSources.selectedIndex : -1;
+    const device = this.sourceList[index];
+    if (!device) {
+      alert("No Source Available!");
+      return;
+    }
+
+    const dwtObject = this.dwtObject;
+    dwtObject.SelectDeviceAsync(device).then(() => {
+
+      return dwtObject.OpenSourceAsync()
+
+    }).then(() => {
+
+      return dwtObject.AcquireImageAsync({
+      })
+
+    }).then(() => {
+
+      if (dwtObject) {
+
+        dwtObject.CloseSource();
+
+      }
+
+    }).catch(
+
+      (e) => {
+
+        console.error(e)
+
+      }
+
+    );
   }
 
   createImageEditor() {

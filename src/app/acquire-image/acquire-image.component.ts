@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { WebTwain } from 'dwt/dist/types/WebTwain';
 import Dynamsoft from 'dwt';
+import { SdkService } from '../sdk.service';
 
 @Component({
   selector: 'app-acquire-image',
@@ -16,7 +17,7 @@ export class AcquireImageComponent implements OnInit {
   width = '600px';
   height = '600px';
 
-  constructor() {
+  constructor(private sdk: SdkService) {
   }
 
   ngOnDestroy() {
@@ -24,10 +25,15 @@ export class AcquireImageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    Dynamsoft.DWT.Containers = [{ ContainerId: this.containerId, Width: this.width, Height: this.height }];
-    Dynamsoft.DWT.Load();
+    // Dynamic Web TWAIN is configured (product key, resource path) by
+    // SdkService during activation; wait for it so deep links work too.
+    (async () => {
+      await this.sdk.whenReady();
+      Dynamsoft.DWT.Containers = [{ ContainerId: this.containerId, Width: this.width, Height: this.height }];
+      Dynamsoft.DWT.Load();
 
-    Dynamsoft.DWT.RegisterEvent('OnWebTwainReady', () => { this.onReady(); });
+      Dynamsoft.DWT.RegisterEvent('OnWebTwainReady', () => { this.onReady(); });
+    })();
   }
 
   onReady(): void {
@@ -46,53 +52,60 @@ export class AcquireImageComponent implements OnInit {
   }
 
   acquireImage(): void {
-    if (!this.dwtObject)
+    if (!this.dwtObject) {
       return;
+    }
 
-    else if (this.dwtObject.SourceCount > 0 && this.selectSources && this.dwtObject.SelectSourceByIndex(this.selectSources.selectedIndex)) {
-      let dwtObject = this.dwtObject;
-      let pixelType = '2';
-      var pixelTypeInputs = document.getElementsByName("PixelType");
-      for (var i = 0; i < pixelTypeInputs.length; i++) {
-        if ((<HTMLInputElement>pixelTypeInputs[i]).checked) {
-          pixelType = (<HTMLSelectElement>pixelTypeInputs[i]).value;
-          break;
-        }
+    // Judge availability by the enumerated device list, not by the legacy
+    // SourceCount property — the source manager may report 0 while
+    // GetDevicesAsync (which drives the dropdown) lists devices fine.
+    const index = this.selectSources ? this.selectSources.selectedIndex : -1;
+    const device = this.sourceList[index];
+    if (!device) {
+      alert("No Source Available!");
+      return;
+    }
+
+    let pixelType = 2; // 0 = B&W, 1 = Gray, 2 = Color
+    const pixelTypeInputs = document.getElementsByName("PixelType");
+    for (let i = 0; i < pixelTypeInputs.length; i++) {
+      if ((<HTMLInputElement>pixelTypeInputs[i]).checked) {
+        pixelType = parseInt((<HTMLInputElement>pixelTypeInputs[i]).value);
+        break;
+      }
+    }
+
+    const dwtObject = this.dwtObject;
+    dwtObject.SelectDeviceAsync(device).then(() => {
+
+      return dwtObject.OpenSourceAsync()
+
+    }).then(() => {
+
+      return dwtObject.AcquireImageAsync({
+        IfFeederEnabled: (<HTMLInputElement>document.getElementById("ADF"))!.checked,
+        PixelType: pixelType,
+        Resolution: parseInt((<HTMLSelectElement>document.getElementById("Resolution"))!.value),
+        IfDisableSourceAfterAcquire: true
+      })
+
+    }).then(() => {
+
+      if (dwtObject) {
+
+        dwtObject.CloseSource();
+
       }
 
-      dwtObject.SelectDeviceAsync(this.sourceList[this.selectSources.selectedIndex]).then(() => {
+    }).catch(
 
-        return dwtObject.OpenSourceAsync()
+      (e) => {
 
-      }).then(() => {
+        console.error(e)
 
-        return dwtObject.AcquireImageAsync({
-          IfFeederEnabled: (<HTMLInputElement>document.getElementById("ADF"))!.checked,
-          PixelType: pixelType,
-          Resolution: parseInt((<HTMLSelectElement>document.getElementById("Resolution"))!.value),
-          IfDisableSourceAfterAcquire: true
-        })
+      }
 
-      }).then(() => {
-
-        if (dwtObject) {
-
-          dwtObject.CloseSource();
-
-        }
-
-      }).catch(
-
-        (e) => {
-
-          console.error(e)
-
-        }
-
-      );
-    } else {
-      alert("No Source Available!");
-    }
+    );
   }
 
   openImage(): void {

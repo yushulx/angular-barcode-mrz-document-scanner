@@ -3,6 +3,7 @@ import Dynamsoft from 'dwt';
 import { WebTwain } from 'dwt/dist/types/WebTwain';
 import { Device } from 'dwt/dist/types/WebTwain.Acquire';
 import { DDV, EditViewer, IDocument, UiConfig } from 'dynamsoft-document-viewer';
+import { SdkService } from '../sdk.service';
 
 @Component({
   selector: 'app-document-viewer',
@@ -101,7 +102,7 @@ export class DocumentViewerComponent implements OnInit {
     ],
   };
 
-  constructor() {
+  constructor(private sdk: SdkService) {
     // Type declaration for window extension
     (window as any).handleDropdownSelect = (btn: HTMLElement) => {
       document.querySelectorAll(".dropdown-menu button").forEach(el => el.classList.remove("selected"));
@@ -132,8 +133,13 @@ export class DocumentViewerComponent implements OnInit {
     }
   }
   ngOnInit() {
-    // Initialize Dynamic Web TWAIN
-    const mytooltips = DDV.Elements.getTooltip();
+    // The Document Viewer engine is initialized by SdkService on page load;
+    // wait for it before creating the viewer so deep links work too.
+    (async () => {
+      await this.sdk.whenReady();
+
+      // Initialize Dynamic Web TWAIN
+      const mytooltips = DDV.Elements.getTooltip();
     mytooltips.DisplayMode = "Display Mode";
     mytooltips.AnnotationSet = "Add Annotation";
     DDV.Elements.setTooltip(mytooltips);
@@ -215,6 +221,7 @@ export class DocumentViewerComponent implements OnInit {
       }
     }, 0);
 
+    })();
   }
 
   toggleDropdown = (e: any) => {

@@ -3,6 +3,7 @@ import { OverlayManager } from '../overlay';
 import { CameraEnhancer, CameraView, CapturedResult, CaptureVisionRouter, EnumCapturedResultItemType, Resolution, TextLineResultItem } from 'dynamsoft-capture-vision-bundle';
 import { CodeParser, CodeParserModule } from 'dynamsoft-capture-vision-bundle';
 import { handleMrzParseResult } from '../utils';
+import { SdkService } from '../sdk.service';
 
 const componentDestroyedErrorMsg = 'VideoCapture Component Destroyed';
 
@@ -23,12 +24,14 @@ export class MrzScannerComponent implements OnInit {
   parser?: CodeParser;
   isDestroyed = false;
 
-  constructor() { this.overlayManager = new OverlayManager(); }
+  constructor(private sdk: SdkService) { this.overlayManager = new OverlayManager(); }
 
   ngOnInit(): void {
     this.videoSelect = document.querySelector('select#videoSource') as HTMLSelectElement;
     this.overlayManager.initOverlay(document.getElementById('overlay') as HTMLCanvasElement);
     (async () => {
+      // The SDK may still be activating when this page is opened directly.
+      await this.sdk.whenReady();
       await CodeParserModule.loadSpec("MRTD_TD1_ID");
       await CodeParserModule.loadSpec("MRTD_TD2_FRENCH_ID");
       await CodeParserModule.loadSpec("MRTD_TD2_ID");
@@ -36,8 +39,8 @@ export class MrzScannerComponent implements OnInit {
       await CodeParserModule.loadSpec("MRTD_TD3_PASSPORT");
       await CodeParserModule.loadSpec("MRTD_TD3_VISA");
 
-      await CaptureVisionRouter.appendModelBuffer("MRZCharRecognition");
-      await CaptureVisionRouter.appendModelBuffer("MRZTextLineRecognition");
+      await CaptureVisionRouter.appendDLModelBuffer("MRZCharRecognition");
+      await CaptureVisionRouter.appendDLModelBuffer("MRZTextLineRecognition");
       this.cvr = await CaptureVisionRouter.createInstance();
       this.parser = await CodeParser.createInstance();
       let ret = await this.cvr.initSettings('assets/template.json');
@@ -63,6 +66,8 @@ export class MrzScannerComponent implements OnInit {
 
   async initBarcodeScanner(): Promise<void> {
     const cameraView: CameraView = await CameraView.createInstance();
+    // Fill the viewfinder with the camera stream instead of letterboxing it.
+    cameraView.setVideoFit('cover');
 
     this.cameraEnhancer = await CameraEnhancer.createInstance(cameraView);
 

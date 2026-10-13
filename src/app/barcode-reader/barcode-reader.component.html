@@ -1,14 +1,9 @@
-<!-- <span id="loading-status" style="font-size:x-large" [hidden]="isLoaded"
-  >Loading Library...</span
->
-<br /> -->
-
-<input type="file" id="file" accept="image/*" (change)="onChange($event)" />
-<div>
+<div class="card">
+  <h2>Barcode &amp; QR Code Reader (File)</h2>
+  <input type="file" id="file" accept="image/*" (change)="onChange($event)" />
   <a id="result"></a>
-</div>
-
-<div id="imageview">
-  <img id="image" />
-  <canvas id="overlay"></canvas>
+  <div id="imageview" class="imageview">
+    <img id="image" alt="" />
+    <canvas id="overlay" class="overlay"></canvas>
+  </div>
 </div>
