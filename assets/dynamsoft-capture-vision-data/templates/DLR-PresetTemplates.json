@@ -1,4 +1,7 @@
 {
+  "GlobalParameter": {
+    "IntraOpNumThreads": 2
+  },
   "CaptureVisionTemplates": [
     {
       "Name": "RecognizeLetters",

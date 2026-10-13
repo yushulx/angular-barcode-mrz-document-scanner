@@ -1,6 +1,6 @@
 {
   "name": "dynamsoft-capture-vision-data",
-  "version": "1.0.1",
+  "version": "1.2.2",
   "description": "This package encompasses machine learning models, such as the Convolutional Neural Networks (CNN) model used for text recognition, empowering various foundational products under DCV architecture.",
   "main": "index.js",
   "scripts": {
@@ -50,6 +50,6 @@
   ],
   "license": "SEE LICENSE IN LICENSE",
   "devDependencies": {
-    "@dynamsoft/rd2-scripts": "^0.1.39"
+    "@dynamsoft/rd2-scripts": "^0.0.4"
   }
 }

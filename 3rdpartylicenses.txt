@@ -19,9 +19,6 @@ SEE LICENSE IN LICENSE.txt
 dynamsoft-capture-vision-bundle
 SEE LICENSE IN LICENSE
 
-dynamsoft-core
-SEE LICENSE IN LICENSE
-
 dynamsoft-document-viewer
 SEE LICENSE IN LICENSE.txt
 

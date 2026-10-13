@@ -1,6 +1,7 @@
 import { DynamsoftEnumsDWT } from "./Dynamsoft.Enum";
 import { WebTwainEdit } from "./WebTwain.Edit";
 import { WebTwain } from "./WebTwain";
+import { OutputInfo } from "./WebTwain.Util";
 
 export interface WebTwainAcquire extends WebTwainEdit {
     /**
@@ -355,6 +356,10 @@ export interface WebTwainAcquire extends WebTwainEdit {
      * Return the value of the top edge of the current image frame (in Unit).
      */
     readonly ImageLayoutFrameTop: number;
+    /**
+     * Return the frame number of the current image.
+     */
+    readonly ImageLayoutFrameNumber: number;
     /**
      * Return the document number of the current image.
      */
@@ -1025,7 +1030,8 @@ export interface Status {
     bScanCompleted?: boolean;
     event?: string;
     result?: {
-        currentPageNum?: number
+        currentPageNum?: number;
+        outputInfo?: OutputInfo;   
     };
 }
 export interface TiffTag {
