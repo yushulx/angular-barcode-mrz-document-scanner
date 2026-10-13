@@ -56,8 +56,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "5mb",
-                  "maximumError": "5mb"
+                  "maximumWarning": "10mb",
+                  "maximumError": "10mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -65,12 +65,20 @@
                   "maximumError": "4kb"
                 }
               ],
+              // The Dynamsoft SDK bundles use native class private fields; the
+              // CLI's minifier (terser/build-optimizer) rewrites them in a way
+              // that breaks class inheritance at runtime ("Must call super
+              // constructor in derived class..."). All builds therefore ship
+              // unminified JS — the SDK dominates the bundle anyway, and it
+              // compresses well in transit.
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
+              "optimization": false,
+              "buildOptimizer": false,
               "outputHashing": "all"
             },
             "demo": {
