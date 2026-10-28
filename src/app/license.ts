@@ -35,7 +35,7 @@ const CDN = 'https://cdn.jsdelivr.net/npm/';
 const DCV_BUNDLE_VERSION = '3.6.3200';
 const DCV_DATA_VERSION = '1.2.2';
 const DDV_VERSION = '5.0.1';
-const DWT_VERSION = '19.4.4';
+const DWT_VERSION = '19.5.0';
 
 /* Analytics shim: the hosted page loads demos/shared/analytics.js, but the
    shared helpers must never be a hard dependency — if the file is missing

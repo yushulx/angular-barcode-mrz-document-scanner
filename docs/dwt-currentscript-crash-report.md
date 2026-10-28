@@ -5,7 +5,7 @@
 | 项目 | 内容 |
 |---|---|
 | 产品 | `dwt`（Dynamic Web TWAIN）npm 包 |
-| 版本 | **19.4.4**（npm 最新版；缺陷存在，暂无已修复的新版本可升级） |
+| 版本 | **19.4.4**（报告撰写时的 npm 最新版）。2026-10-27 发布的 19.5.0 仍保留同一段 `document.currentScript` 嗅探与"最后一个 `<script>`"回退，缺陷未修复 |
 | 涉及文件 | `dist/dynamsoft.webtwain.min.mjs`（ESM 构建）<br>`dist/dynamsoft.webtwain.min.js`（UMD 构建，存在同类代码） |
 | 严重程度 | **高** —— 整个宿主 bundle 求值中断，应用完全无法启动（整页白屏）；表现为间歇性、极难排查 |
 | 发现场景 | `angular-barcode-mrz-document-scanner`（<https://www.dynamsoft.com/codepool/demos/angular-barcode-mrz-document-scanner/>） |
@@ -166,4 +166,4 @@ var vf = function () {
 
 ---
 
-*本报告基于 `dwt@19.4.4`（npm 最新版）。复现与验证均可按 §4 独立完成，无需宿主业务代码。*
+*本报告基于 `dwt@19.4.4`；19.5.0 的 `dist/dynamsoft.webtwain.min.js` 仍包含相同的嗅探逻辑。复现与验证均可按 §4 独立完成，无需宿主业务代码。*
