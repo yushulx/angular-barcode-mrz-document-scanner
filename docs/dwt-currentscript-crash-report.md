@@ -5,7 +5,7 @@
 | 项目 | 内容 |
 |---|---|
 | 产品 | `dwt`（Dynamic Web TWAIN）npm 包 |
-| 版本 | **19.4.4**（报告撰写时的 npm 最新版）。2026-10-27 发布的 19.5.0 仍保留同一段 `document.currentScript` 嗅探与"最后一个 `<script>`"回退，缺陷未修复 |
+| 版本 | **19.4.4**（报告撰写时的 npm 最新版）。**已在 19.5.0（2026-10-27 发布）修复**，见 §9 |
 | 涉及文件 | `dist/dynamsoft.webtwain.min.mjs`（ESM 构建）<br>`dist/dynamsoft.webtwain.min.js`（UMD 构建，存在同类代码） |
 | 严重程度 | **高** —— 整个宿主 bundle 求值中断，应用完全无法启动（整页白屏）；表现为间歇性、极难排查 |
 | 发现场景 | `angular-barcode-mrz-document-scanner`（<https://www.dynamsoft.com/codepool/demos/angular-barcode-mrz-document-scanner/>） |
@@ -166,4 +166,30 @@ var vf = function () {
 
 ---
 
-*本报告基于 `dwt@19.4.4`；19.5.0 的 `dist/dynamsoft.webtwain.min.js` 仍包含相同的嗅探逻辑。复现与验证均可按 §4 独立完成，无需宿主业务代码。*
+*本报告基于 `dwt@19.4.4`。19.5.0 已修复，见 §9；复现与验证均可按 §4 独立完成，无需宿主业务代码。*
+
+## 9. 修复验证（2026-10-28）
+
+19.5.0 对嗅探函数加了空值接管：`getAttribute("src")` 取到空值时直接 `return ""`，不再对 `null` 调 `indexOf`。
+
+```js
+// 19.4.4 —— 最后一个 <script> 无 src 时抛错
+var r = e.getAttribute("src");
+return r.indexOf("?") > -1 && ... , r;          // TypeError: Cannot read properties of null
+
+// 19.5.0 —— 空 src 安全返回
+var t = e.getAttribute("src");
+if (t) { ... return n; }
+return "";
+```
+
+对照实验（同一页面，ESM 构建以 `type="module"` 加载，末尾追加一个无 `src` 的内联 `<script>`，无头 Edge）：
+
+| 版本 | 结果 |
+| --- | --- |
+| `dwt@19.4.4/dist/dynamsoft.webtwain.min.mjs` | `Uncaught TypeError: Cannot read properties of null (reading 'indexOf')` |
+| `dwt@19.5.0/dist/dynamsoft.webtwain.min.mjs` | 无错误，`window.Dynamsoft` 正常建立 |
+
+Angular 宿主侧也做了端到端验证：`angular-barcode-mrz-document-scanner` 取消 `build:demo` 的 module→defer 改写、直接用 `ng build` 的默认 `type="module"` 输出对接 19.5.0，无头 Edge 冷加载后 `<app-root>` 正常挂载（`app-topbar` / 路由内容均渲染），无 `indexOf` 报错。
+
+因此 §7 的宿主侧改写已非必需；仓库里仍保留 `scripts/fix-demo-index.js`（classic defer 的执行顺序与 module 等价），用于兼容仍被旧版本钉住的部署，不再作为 19.5+ 的必需步骤。
