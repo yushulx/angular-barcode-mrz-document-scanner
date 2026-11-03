@@ -1490,13 +1490,13 @@ declare class CaptureVisionRouter {
     static _defaultTemplate: string;
     /**
      * The maximum length of the longer side of the image to be processed. The default value is 2048 pixels in mobile devices and 4096 pixels in desktop browser.
-     */
+    */
     maxImageSideLength: number;
     /**
-    * An event that fires during the loading of a recognition data file (.data).
-    * @param filePath The path of the recognition data file.
-    * @param tag Indicates the ongoing status of the file download ("starting", "in progress", "completed").
-    * @param progress An object indicating the progress of the download, with `loaded` and `total` bytes.
+     * An event that fires during the loading of a recognition data file (.data).
+     * @param filePath The path of the recognition data file.
+     * @param tag Indicates the ongoing status of the file download ("starting", "in progress", "completed").
+     * @param progress An object indicating the progress of the download, with `loaded` and `total` bytes.
     */
     static onDataLoadProgressChanged: (filePath: string, tag: "starting" | "in progress" | "completed", progress: {
         loaded: number;
@@ -1505,10 +1505,11 @@ declare class CaptureVisionRouter {
     /**
      * An event that fires when an error occurs from the start of capturing process.
      * @param error The error object that contains the error code and error string.
-     */
+    */
     onCaptureError: (error: Error) => void;
     provideDsImage: DSImageData;
     _instanceID: number;
+    private static _finalizationRegistry;
     private _loopReadVideoTimeoutId;
     private _isOutputOriginalImage;
     private _isOpenDetectVerify;
@@ -1516,9 +1517,6 @@ declare class CaptureVisionRouter {
     private _isOpenBarcodeVerify;
     private _isOpenLabelVerify;
     private _minImageCaptureInterval;
-    private _averageProcessintTimeArray;
-    private _averageFetchImageTimeArray;
-    private _averageTime;
     private _dynamsoft;
     private _enhancedFeaturesIrr;
     private _templateName;
@@ -1728,8 +1726,7 @@ declare class CaptureVisionRouter {
         models: string[];
         specss: string[];
     }>;
-    static disposeCvrWasm(instanceID: number): void;
-    static _fr4DisposeCvrWasm: FinalizationRegistry<number>;
+    static autoDispose(instanceID: number): void;
     /**
      * Releases all resources used by the `CaptureVisionRouter` instance.
      *
@@ -2359,6 +2356,7 @@ interface ParsedResultItem extends CapturedResultItem {
 }
 
 declare class CodeParser {
+    private static _finalizationRegistry;
     private _instanceID;
     /**
      * Initializes a new instance of the `CodeParser` class.
@@ -2366,6 +2364,7 @@ declare class CodeParser {
      * @returns A promise that resolves with the initialized `CodeParser` instance.
      */
     static createInstance(): Promise<CodeParser>;
+    static autoDispose(instanceID: number): void;
     /**
      * Releases all resources used by the `CodeParser` instance.
      *
@@ -3521,6 +3520,7 @@ declare class Camera {
         width?: ConstrainULong;
         height?: ConstrainULong;
         aspectRatio?: ConstrainDouble;
+        resizeMode?: string;
     }): Promise<void>;
     requestResolution(notRequired: null): Promise<void>;
     requestResolution(resetToDefault: undefined): Promise<void>;
@@ -3910,7 +3910,7 @@ declare namespace Camera {
             ok: boolean;
             message?: string;
         }>;
-        let defaultUIElementURL: string;
+        let defaultUIElementURL: string | null;
         let onWarning: any;
     }
     interface Camera {
@@ -4185,7 +4185,7 @@ declare namespace Camera {
         _dceMNIsBeepBarcode: boolean;
         _dceMNIsVibrateBarcode: boolean;
         getUIElement(): HTMLElement;
-        setUIElement(ui: HTMLDivElement | string): Promise<void>;
+        setUIElement(ui: HTMLDivElement | string | null): Promise<void>;
         getVideoElement(): HTMLVideoElement;
         setVideoFit(fit: 'contain' | 'cover' | 'fill'): void;
         getVideoFit(): 'contain' | 'cover' | 'fill';
