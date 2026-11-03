@@ -21,7 +21,7 @@
     "@angular/router": "~13.3.0",
     "angular-barcode-mrz-document-scanner": "file:",
     "dwt": "^19.5.0",
-    "dynamsoft-capture-vision-bundle": "^3.6.3200",
+    "dynamsoft-capture-vision-bundle": "^3.6.5000",
     "dynamsoft-document-viewer": "^5.0.1",
     "dynamsoft-capture-vision-data": "^1.2.2",
     "rxjs": "~7.5.0",

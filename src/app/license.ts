@@ -32,7 +32,7 @@ const TRIAL_LICENSE_KEY = 'DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTE2NDk4Mjk3OTI2M
 /* Versions of the engine resources served from the CDN. Keep in sync with
    package.json. */
 const CDN = 'https://cdn.jsdelivr.net/npm/';
-const DCV_BUNDLE_VERSION = '3.6.3200';
+const DCV_BUNDLE_VERSION = '3.6.5000';
 const DCV_DATA_VERSION = '1.2.2';
 const DDV_VERSION = '5.0.1';
 const DWT_VERSION = '19.5.0';
